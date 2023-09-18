@@ -1,0 +1,21 @@
+{
+  "site": {
+    "title": "Oscar Barajas Tavares | GNDX",
+    "base_url": "https://gndx.dev",
+    "base_path": "/",
+    "favicon": "/favicon.png",
+    "logo": "https://s3.amazonaws.com/gndx.dev/gndx.png",
+    "lang": "es",
+    "description": "Learning Engineer at @platzi - Microsoft MVP - Lead at Developer Circles from Meta, #JavaScript #React #Web3 #BTC #ETH - #Twitch Partner 🇲🇽 🇨🇴"
+  },
+  "metadata": {
+    "meta_author": "Theme EV0 - BlogFolio",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Learning Engineer at @platzi - Microsoft MVP - Lead at Developer Circles from Meta, #JavaScript #React #Web3 #BTC #ETH - #Twitch Partner 🇲🇽 🇨🇴"
+  },
+  "autor": {
+    "name": "Oscar Barajas Tavares",
+    "avatar": "https://s3.amazonaws.com/gndx.dev/gndx-512.jpeg",
+    "bio": "Learning Engineer at @platzi - Microsoft MVP - Lead at Developer Circles from Meta, #JavaScript #React #Web3 #BTC #ETH - #Twitch Partner 🇲🇽 🇨🇴"
+  }
+}
