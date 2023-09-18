@@ -5,9 +5,12 @@ export const manifest: Partial<ManifestOptions> = {
   name: config.site.title,
   short_name: config.site.title,
   description: config.site.description,
-  theme_color: "#30E130",
-  background_color: "#ffffff",
+  theme_color: "#ffffff",
+  background_color: "#0e0d0d",
   display: "minimal-ui",
+  start_url: "/",
+  scope: "/",
+  lang: "ES",
   icons: [
     {
       src: "/favicons/favicon-192x192.png",
@@ -26,4 +29,5 @@ export const manifest: Partial<ManifestOptions> = {
       purpose: "any maskable",
     },
   ],
+  categories: ["blog"],
 };

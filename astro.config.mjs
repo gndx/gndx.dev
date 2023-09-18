@@ -11,6 +11,9 @@ import { manifest } from "./src/utils/manifest"
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://gndx.dev',
+	image: {
+		remotePatterns: [{ protocol: "https" }],
+	},
 	markdown: {
 		drafts: true,
 		shikiConfig: {

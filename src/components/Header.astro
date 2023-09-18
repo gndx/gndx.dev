@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import menu from "@config/menu.json";
 import HamburgerIcon from "@icons/HamburgerIcon.astro";
 import CloseIcon from "@icons/CloseIcon.astro";
@@ -17,7 +18,7 @@ const { main }: { main: NavigationLink[] } = menu;
     <div class="flex items-start md:items-center justify-between sm:gap-4">
       <a href="/" class="logo flex items-center" aria-current="page">
         <figure>
-          <img
+          <Image
             src="https://s3.amazonaws.com/gndx.dev/gndx.png"
             alt="Oscar Barajas Tavares @gndx"
             class="w-16 rounded mr-8"
