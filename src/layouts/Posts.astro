@@ -47,14 +47,14 @@ type PostType = {
           {post.data.categories.slice(0, 2).map((item) => (
             <a
               href={`/categories/${item}`}
-              class="capitalize relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+              class="capitalize text-md relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
             >
               {item}
             </a>
           ))}
         </div>
         <div class="relative">
-          <h2 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+          <h2 class="mt-3 text-xl font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
             <a href={`/blog/${post.slug}/`}>
               <span class="absolute inset-0" />
               {post.data.title}
