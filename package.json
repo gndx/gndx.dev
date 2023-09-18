@@ -46,6 +46,9 @@
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/typography": "0.5.10",
-    "googleapis": "126.0.1"
+    "astro-compress": "2.0.15",
+    "astro-robots-txt": "^1.0.0",
+    "googleapis": "126.0.1",
+    "vite-plugin-pwa": "^0.16.5"
   }
 }
