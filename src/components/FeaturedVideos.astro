@@ -4,7 +4,7 @@ import youtube from "@config/youtube.json";
 
 <section class="max-w-screen-lg px-4 mx-auto pb-12 sm:px-6 lg:px-8">
   <h3
-    class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 mb-4"
+    class="mt-3 text-lg md:text-2xl font-semibold leading-6 text-gray-900 group-hover:text-gray-600 mb-4"
   >
     Últimos videos en YouTube:
   </h3>
@@ -19,11 +19,15 @@ import youtube from "@config/youtube.json";
             target="_blank"
             class="relative top-0 block overflow-hidden rounded-2xl"
           >
-            <img
-              alt={item.title}
-              src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
-              class="h-44 w-full object-cover"
-            />
+            <figure>
+              <img
+                alt={item.title}
+                src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
+                class="h-44 w-full object-cover"
+                width="auto"
+                height="auto"
+              />
+            </figure>
             <div class="bg-gray-900 p-4">
               <span class="text-sm">{item.channelTitle}</span>
               <p class="mt-1 text-xs text-gray-400 h-8">{item.title}</p>

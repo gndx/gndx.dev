@@ -17,20 +17,20 @@ const { title, description, pubDate, heroImage, categories, tags } =
     <div class="rounded-lg block overflow-hidden mb-8">
       {
         heroImage && (
-          <img
-            class="w-[960px] h-[480px] object-cover transition duration-300 ease-in-out hover:scale-110 cursor-progress"
-            src={heroImage}
-            alt={title}
-          />
+          <figure class="w-auto h-auto md:h-[480px] object-cover">
+            <img
+              class="transition duration-300 ease-in-out hover:scale-110 cursor-progress"
+              src={heroImage}
+              alt={title}
+            />
+          </figure>
         )
       }
     </div>
     <div class="md:col-10 text-center mb-12">
-      <h1 class="text-4xl font-bold">{title}</h1>
-      <div
-        class="mt-4 flex flex-wrap items-center justify-center text-text mb-8"
-      >
-        <div class="flex items-center hover:text-primary font-medium">
+      <h1 class="text-2xl md:text-4xl font-bold">{title}</h1>
+      <div class="mt-4 flex flex-wrap items-center justify-center text-text">
+        <div class="mx-3 flex items-center flex-wrap font-medium mt-2">
           <figure>
             <img
               alt={config.autor.name}
@@ -44,11 +44,11 @@ const { title, description, pubDate, heroImage, categories, tags } =
           </figure>
           <span>{config.autor.name}</span>
         </div>
-        <div class="mx-3 flex items-center flex-wrap font-medium">
+        <div class="mx-3 flex items-center flex-wrap font-medium mt-2">
           <CalendarIcon />
           <FormattedDate date={pubDate} />
         </div>
-        <div class="mx-3 flex items-center flex-wrap">
+        <div class="mx-3 flex items-center flex-wrap font-medium mt-2">
           <CategoryIcon />
           {
             categories?.slice(0, 1).map((category) => (
@@ -71,7 +71,7 @@ const { title, description, pubDate, heroImage, categories, tags } =
         tags?.map((tag) => (
           <a
             href={`/tags/${tag}`}
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            class="capitalize inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           >
             #{tag}
           </a>
