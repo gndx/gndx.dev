@@ -20,8 +20,7 @@ export interface Props {
   blogpost?: boolean;
 }
 
-const { title, meta_title, description, noindex, canonical, blogpost } =
-  Astro.props;
+const { title, meta_title, description, noindex, blogpost } = Astro.props;
 
 const ogImage = createOgImage({
   title: meta_title ? meta_title : title ? title : config.site.title,
@@ -55,17 +54,18 @@ const ogImage = createOgImage({
       name="title"
       content={meta_title ? meta_title : title ? title : config.site.title}
     />
-    <meta name="description" content={description} />
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    <link
+      rel="canonical"
+      href={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
+      item-prop="url"
+    />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <meta
       name="description"
       content={description ? description : config.metadata.meta_description}
     />
-
     <!-- author from config.json -->
     <meta name="author" content={config.metadata.meta_author} />
-
     <!-- og-title -->
     <meta
       property="og:title"

@@ -64,7 +64,7 @@ const { main }: { main: NavigationLink[] } = menu;
           </ul>
         </div>
       </div>
-      <div class="ml-auto hidden md:flex items-center gap-6 lg:flex">
+      <ul class="ml-auto hidden md:flex items-center gap-6 lg:flex">
         {
           main?.map((menu) => (
             <li class="block rounded-lg px-2 py-2 text-md text-gray-500 hover:text-gray-800">
@@ -74,7 +74,7 @@ const { main }: { main: NavigationLink[] } = menu;
             </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </div>
 </header>
