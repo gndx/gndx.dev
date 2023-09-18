@@ -25,8 +25,10 @@ import youtube from "@config/youtube.json";
                 alt={item.title}
                 src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
                 class="h-44 w-full object-cover"
-                width="309"
-                height="176"
+                width={309}
+                height={176}
+                decoding="async"
+                loading="lazy"
               />
             </figure>
             <div class="bg-gray-900 p-4">

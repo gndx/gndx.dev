@@ -34,8 +34,10 @@ type PostType = {
                 class="transition duration-300 ease-in-out hover:scale-110 cursor-progress"
                 src={post.data.heroImage}
                 alt={post.data.title}
-                width="960"
-                height="480"
+                width={960}
+                height={480}
+                decoding="async"
+                loading="lazy"
               />
             </figure>
           )}
@@ -45,7 +47,7 @@ type PostType = {
           {post.data.categories.slice(0, 2).map((item) => (
             <a
               href={`/categories/${item}`}
-              class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+              class="capitalize relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
             >
               {item}
             </a>

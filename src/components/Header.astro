@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import menu from "@config/menu.json";
+import config from "@config/config.json";
 import HamburgerIcon from "@icons/HamburgerIcon.astro";
 import CloseIcon from "@icons/CloseIcon.astro";
 import HomeIcon from "@icons/HomeIcon.astro";
@@ -19,11 +20,13 @@ const { main }: { main: NavigationLink[] } = menu;
       <a href="/" class="logo flex items-center" aria-current="page">
         <figure>
           <Image
-            src="https://s3.amazonaws.com/gndx.dev/gndx.png"
-            alt="Oscar Barajas Tavares @gndx"
+            src={config.site.logo}
+            alt={config.site.title}
             class="w-16 rounded mr-8"
-            width="64"
-            height="64"
+            width={64}
+            height={64}
+            decoding="async"
+            loading="lazy"
           />
         </figure>
       </a>

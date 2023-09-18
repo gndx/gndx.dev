@@ -44,10 +44,12 @@ const socialItems = social.networks;
         <figure class="right-0">
           <Image
             class="rounded-lg w-24 md:w-32"
-            width="512"
-            height="512"
+            width={512}
+            height={512}
             src={config.autor.avatar}
             alt={config.autor.name}
+            decoding="async"
+            loading="lazy"
           />
         </figure>
       </div>
