@@ -42,6 +42,6 @@ Uno de los aspectos más destacados de **EV0 Astro Theme** es su excepcional cal
 
 Mi objetivo al crear **EV0 Astro Theme** es proporcionarte una plantilla versátil y de alto rendimiento que puedas utilizar, mejorar y adaptar según tus necesidades. La comunidad es fundamental, así que te animo a que aproveches esta plantilla, la personalices y contribuyas a su desarrollo continuo. Espero que te entusiasme tanto como a mí y que la compartas con otros apasionados de la creación en la web.
 
-Descargar "[Evo Astro Theme](https://github.com/gndx/ev0-astro-themehttps:/)"
+Descargar "[Evo Astro Theme](https://github.com/gndx/ev0-astro-theme)"
 
 **EV0 Astro Theme** es el inicio de un viaje emocionante hacia la construcción de blogs y portafolios excepcionales. ¡Aprovecha esta oportunidad y comienza a crear hoy mismo!
