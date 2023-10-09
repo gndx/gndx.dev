@@ -6,15 +6,15 @@
     "favicon": "/favicon.png",
     "logo": "https://s3.amazonaws.com/gndx.dev/gndx-logo.png",
     "lang": "es",
-    "description": "Learning Engineer at @platzi - Microsoft MVP - #JavaScript #React #Web3 #WithAstro #Twitch Partner - 🇲🇽 🇨🇴"
+    "description": "Desarrollador Front-end, creando mi primera página web en el 2001, Actualmente Learning Engineer en Platzi, Microsoft MVP - #JavaScript #React #Web3 #WithAstro - 🇲🇽 🇨🇴"
   },
   "metadata": {
     "meta_author": "Oscar Barajas @gndx",
-    "meta_description": "Learning Engineer at @platzi - Microsoft MVP - #JavaScript #React #Web3 #WithAstro #Twitch Partner - 🇲🇽 🇨🇴"
+    "meta_description": "Desarrollador Front-end, creando mi primera página web en el 2001, Actualmente Learning Engineer en Platzi, Microsoft MVP - #JavaScript #React #Web3 #WithAstro - 🇲🇽 🇨🇴"
   },
   "author": {
     "name": "Oscar Barajas Tavares",
     "avatar": "https://s3.amazonaws.com/gndx.dev/gndx-512.jpeg",
-    "bio": "Learning Engineer at @platzi - Microsoft MVP - #JavaScript #React #Web3 #WithAstro #Twitch Partner - 🇲🇽 🇨🇴"
+    "bio": "Desarrollador Front-end, creando mi primera página web en el 2001, Actualmente Learning Engineer en Platzi, Microsoft MVP - #JavaScript #React #Web3 #WithAstro - 🇲🇽 🇨🇴"
   }
 }
