@@ -1,9 +1,8 @@
 ---
 title: "Instalar Phython en MacOS Sonoma"
-description:
+description: "Aprender a instalar Python con Pyenv usando Brew en macOS Sonoma. Sigue estos pasos para potenciar tu flujo de trabajo de desarrollo."
 pubDate: "2023-11-12T22:43:17.223Z"
 heroImage: "https://s3.amazonaws.com/gndx.dev/instalar-python-macos-sonoma.png"
-heroImage: "/blog-placeholder.jpg"
 categories: ["python"]
 authors: ["gndx"]
 tags: ["python", "pyenv", "homebrew"]
