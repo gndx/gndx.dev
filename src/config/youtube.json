@@ -1,5 +1,30 @@
 [
   {
+    "title": "TRANSCRIBIR Audio a Texto con Whisper",
+    "description": "Usando Whisper, la IA gratuita y libre de OpenAI para transcribir el audio de cualquier video de YouTube desde un script en ...",
+    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
+    "channelTitle": "Oscar Barajas @gndx",
+    "videoId": "-MxoDp2CTUU",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "publishedAt": "2023-11-22T16:15:00Z"
+  },
+  {
     "title": "¡Mis extensiones favoritas de Visual Studio Code! #vscode",
     "description": "Mentoría Personalizada: https://gndx.dev/mentoria Ahorra en tu suscripción a Platzi: https://gndx.dev/platzi Mis Redes ...",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
@@ -98,30 +123,5 @@
       }
     },
     "publishedAt": "2023-10-10T17:30:09Z"
-  },
-  {
-    "title": "NO aprendas a Programar #shorts #programacion",
-    "description": "No aprendas a programar, una reflexion para ti. Mentoría Personalizada: https://gndx.dev/mentoria Ahorra en tu suscripción ...",
-    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
-    "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "Y5hcDc6xIDE",
-    "thumbnails": {
-      "default": {
-        "url": "https://i.ytimg.com/vi/Y5hcDc6xIDE/default.jpg",
-        "width": 120,
-        "height": 90
-      },
-      "medium": {
-        "url": "https://i.ytimg.com/vi/Y5hcDc6xIDE/mqdefault.jpg",
-        "width": 320,
-        "height": 180
-      },
-      "high": {
-        "url": "https://i.ytimg.com/vi/Y5hcDc6xIDE/hqdefault.jpg",
-        "width": 480,
-        "height": 360
-      }
-    },
-    "publishedAt": "2023-10-09T18:30:22Z"
   }
 ]

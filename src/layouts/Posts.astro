@@ -30,17 +30,19 @@ type PostType = {
       <article class="flex w-full flex-col items-start justify-between">
         <div class="rounded-lg block overflow-hidden mb-4">
           {post.data.heroImage && (
-            <figure class="w-auto h-auto md:h-[150px] object-cover">
-              <Image
-                class="transition duration-300 ease-in-out hover:scale-110 cursor-progress"
-                src={post.data.heroImage}
-                alt={post.data.title}
-                width={960}
-                height={480}
-                decoding="async"
-                loading="lazy"
-              />
-            </figure>
+            <a href={`/blog/${post.slug}/`}>
+              <figure class="w-auto h-auto md:h-[150px] object-cover">
+                <Image
+                  class="transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                  src={post.data.heroImage}
+                  alt={post.data.title}
+                  width={960}
+                  height={480}
+                  decoding="async"
+                  loading="lazy"
+                />
+              </figure>
+            </a>
           )}
         </div>
         <div class="flex items-center gap-x-4 text-xs">
