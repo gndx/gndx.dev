@@ -1,5 +1,30 @@
 [
   {
+    "title": "Haz tus mensajes de GIT Commit con ESTILO 😎",
+    "description": "Crea los mejores mensajes para \"GIT Commit\" y ponle estilo e intención, utiliza gitmoji como un estándar para tus mensajes.",
+    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
+    "channelTitle": "Oscar Barajas @gndx",
+    "videoId": "P-M7ZGa22sI",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "publishedAt": "2023-11-27T00:15:00Z"
+  },
+  {
     "title": "TRANSCRIBIR Audio a Texto con Whisper",
     "description": "Usando Whisper, la IA gratuita y libre de OpenAI para transcribir el audio de cualquier video de YouTube desde un script en ...",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
@@ -98,30 +123,5 @@
       }
     },
     "publishedAt": "2023-10-11T16:30:04Z"
-  },
-  {
-    "title": "Lo BUENO de aprender a Programar #shorts #programacion",
-    "description": "Qué es lo bueno de aprender a Programar? Mentoría Personalizada: https://gndx.dev/mentoria Ahorra en tu suscripción a ...",
-    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
-    "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "ywvEau-wyCg",
-    "thumbnails": {
-      "default": {
-        "url": "https://i.ytimg.com/vi/ywvEau-wyCg/default.jpg",
-        "width": 120,
-        "height": 90
-      },
-      "medium": {
-        "url": "https://i.ytimg.com/vi/ywvEau-wyCg/mqdefault.jpg",
-        "width": 320,
-        "height": 180
-      },
-      "high": {
-        "url": "https://i.ytimg.com/vi/ywvEau-wyCg/hqdefault.jpg",
-        "width": 480,
-        "height": 360
-      }
-    },
-    "publishedAt": "2023-10-10T17:30:09Z"
   }
 ]
