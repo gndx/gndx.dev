@@ -9,6 +9,10 @@
       "url": "/about"
     },
     {
+      "name": "Stack",
+      "url": "/stack"
+    },
+    {
       "name": "Cursos",
       "url": "/cursos"
     },
