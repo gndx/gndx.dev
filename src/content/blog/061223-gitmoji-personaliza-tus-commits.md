@@ -2,7 +2,7 @@
 title: "Haz tus mensajes de GIT Commit con GitMoji"
 description: "Crea los mejores mensajes para GIT Commit y ponle estilo e intención, utiliza gitmoji como un estándar para tus mensajes."
 pubDate: "2023-12-06T17:51:59.193Z"
-heroImage: "https://s3.amazonaws.com/gndx.dev/instalar-python-macos-sonoma.png"
+heroImage: "https://s3.amazonaws.com/gndx.dev/commits-con-estilo-gitmoji.png"
 categories: ["git"]
 authors: ["gndx"]
 tags: ["github", "git", "gitmoji"]
