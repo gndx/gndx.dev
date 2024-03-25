@@ -10,13 +10,13 @@ tags: ["javascript", "palindromo", "programacion"]
 
 Palíndromos y cómo resolver este problema con JavaScript puede ser parte de las pruebas técnicas más comunes que suelen hacer para un profesional en el desarrollo de Software en JavaScript. Este artículo explora un método para identificar los patrones que componen un palíndromo.
 
-¿Qué es un palíndromo?
+### ¿Qué es un palíndromo?
 Un palíndromo es una palabra, frase, número u otras secuencias de caracteres que se leen igual hacia adelante y hacia atrás. Esta sección cubre las estrategias para determinar si una entrada determinada es un palíndromo, mostrando su capacidad para trabajar con cadenas y lógica.
 
-¿Cómo determinar si una cadena es un palíndromo en JavaScript?
+### ¿Cómo determinar si una cadena es un palíndromo en JavaScript?
 Crearemos un algiritmo para determinar si una entrada determinada es un palíndromo, trabajando la capacidad para trabajar con cadenas y lógica.
 
-¿Cómo resolver un Palindromo en JavaScript?
+### ¿Cómo resolver un Palindromo en JavaScript?
 
 ```js
 function isPalindrome(string) {
