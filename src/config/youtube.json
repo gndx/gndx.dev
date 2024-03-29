@@ -1,5 +1,30 @@
 [
   {
+    "title": "MI NUEVO SETUP 2024",
+    "description": "Mi nuevo setup 2024, pasar de 3 pantallas a solo una, les cuento mi experiencia con mi nuevo setup y las características que ...",
+    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
+    "channelTitle": "Oscar Barajas @gndx",
+    "videoId": "go4IqU-IcNA",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      }
+    },
+    "publishedAt": "2024-03-28T18:15:04Z"
+  },
+  {
     "title": "Haz tus mensajes de GIT Commit con ESTILO 😎",
     "description": "Crea los mejores mensajes para \"GIT Commit\" y ponle estilo e intención, utiliza gitmoji como un estándar para tus mensajes.",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
