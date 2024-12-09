@@ -2,7 +2,7 @@
 title: "Personaliza tu terminal de 0 a PRO 😎 Warp + Oh My Zsh"
 description: "La personalización de la terminal puede transformar por completo tu experiencia como desarrollador, pasando de una interfaz básica y poco atractiva a una herramienta potente y visualmente impresionante. Con Warp, una terminal inteligente que incorpora IA, junto con algunas configuraciones específicas, podrás crear un entorno de desarrollo más eficiente y agradable."
 pubDate: "2024-12-09T02:28:42.232Z"
-heroImage: "[https://s3.amazonaws.com/gndx.dev/subtitulos-de-videos-de-youtube.png](https://s3.us-east-1.amazonaws.com/gndx.dev/personaliza-tu-terminal-warpdotdev.png)"
+heroImage: "https://s3.us-east-1.amazonaws.com/gndx.dev/personaliza-tu-terminal-warpdotdev.png"
 categories: ["youtube"]
 authors: ["gndx"]
 tags: ["warp", "terminal", "ohmyzsh"]
