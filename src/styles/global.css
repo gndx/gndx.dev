@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @layer base {
   body {
@@ -14,9 +13,6 @@
   h3,
   h4,
   h5,
-  h6 {
-    @apply text-zinc-800 !important;
-  }
   p {
     @apply text-zinc-700;
   }
