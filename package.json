@@ -50,6 +50,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "4.0.15",
-    "astro-md-generator": "1.0.0"
+    "astro-md-generator": "^1.0.0"
   }
 }
