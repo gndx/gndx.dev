@@ -52,7 +52,7 @@ Una de las principales **características** que incluye HostGator es un **CDN** 
 
 ## ¿Vale la pena tener un correo profesional?
 
-Seamos honestos, cuando recibes un correo de “[hola.negocio@gmail.com](mailto:hola.negocio@gmail.com)” versus “[hola@tunegocio.com](mailto:hola@tunegocio.com)”, ¿cuál te da más confianza?
+Seamos honestos, cuando recibes un correo de “hola.negocio@gmail.com” versus “hola@tunegocio.com”, ¿cuál te da más confianza?
 
 El correo profesional es ese pequeño detalle que le da seriedad a tu proyecto. Y sí, lo puedes configurar fácil desde Hostgator. Nada de configuraciones imposibles ni tutoriales de 1 hora. Solo sigue los pasos y estará listo tu correo, para conectarlo con las principales aplicaciones de correo electrónico y poder conectar con el mundo.
 
