@@ -1,0 +1,54 @@
+---
+import Base from '@layouts/Base.astro';
+---
+
+<Base meta_title="Buscar">
+  <section class="max-w-screen-lg mx-auto px-4 py-8">
+    <h1 class="text-2xl md:text-3xl font-bold mb-4">Buscar blogposts</h1>
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Buscar..."
+      class="w-full border border-gray-300 rounded p-2 mb-6"
+    />
+    <ul id="results" class="grid gap-6"></ul>
+  </section>
+  <script type="module">
+    const input = document.getElementById('search-input');
+    const results = document.getElementById('results');
+    let posts = [];
+
+    async function fetchPosts() {
+      try {
+        const res = await fetch('/api/posts.json');
+        posts = await res.json();
+        render(posts);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function render(list) {
+      results.innerHTML = '';
+      list.forEach((post) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="/blog/${post.slug}/" class="block p-4 border rounded hover:bg-gray-50">
+          <h2 class="font-semibold">${post.title}</h2>
+          <p class="text-sm text-gray-600 mt-2">${post.description}</p>
+        </a>`;
+        results.appendChild(li);
+      });
+    }
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase();
+      const filtered = posts.filter((p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q)
+      );
+      render(filtered);
+    });
+
+    fetchPosts();
+  </script>
+</Base>
