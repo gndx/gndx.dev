@@ -73,7 +73,7 @@ pubDate: '${postData.date}'
 heroImage: '/blog-placeholder.jpg'
 categories: [""]
 tags: [""]
-author: '["${postData.author}"]'
+authors: ["${postData.author}"]
 ---`);
     console.info(`\nSuccess!!: content/blog/${postData.fileName} was created`);
   }
