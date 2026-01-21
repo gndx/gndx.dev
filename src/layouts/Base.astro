@@ -1,14 +1,14 @@
 ---
-import Header from "@components/Header.astro";
-import Hero from "@components/Hero.astro";
-import FeaturedVideos from "@components/FeaturedVideos.astro";
-import Footer from "@components/Footer.astro";
-import config from "@config/config.json";
-import { createOgImage } from "@utils/createOgImage";
+import Header from '@components/Header.astro';
+import Hero from '@components/Hero.astro';
+import FeaturedVideos from '@components/FeaturedVideos.astro';
+import Footer from '@components/Footer.astro';
+import config from '@config/config.json';
+import { createOgImage } from '@utils/createOgImage';
 
-import "@styles/global.css";
+import '@styles/global.css';
 
-import { ViewTransitions } from "astro:transitions";
+import { ViewTransitions } from 'astro:transitions';
 
 export interface Props {
   title?: string;
@@ -20,109 +20,101 @@ export interface Props {
   blogpost?: boolean;
 }
 
-const { title, meta_title, description, noindex, blogpost } = Astro.props;
+const { title, meta_title, description, image, noindex, blogpost } = Astro.props;
 
-const ogImage = createOgImage({
-  title: meta_title ? meta_title : title ? title : config.site.title,
-  meta: [config.site.title, config.site.base_url].join(" · "),
-});
+const ogImage =
+  image ||
+  createOgImage({
+    title: meta_title ? meta_title : title ? title : config.site.title,
+    meta: [config.site.title, config.site.base_url].join(' · '),
+  });
 ---
 
 <!doctype html>
 <html lang={config.site.lang}>
   <head>
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
+    <link rel='shortcut icon' href={config.site.favicon} />
     <!-- theme meta -->
-    <meta name="theme-name" content="bookworm-light-astro" />
-    <meta name="msapplication-TileColor" content="#000000" />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#fff"
-    />
-    <meta name="generator" content={Astro.generator} />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name='theme-name' content='bookworm-light-astro' />
+    <meta name='msapplication-TileColor' content='#000000' />
+    <meta name='theme-color' media='(prefers-color-scheme: light)' content='#fff' />
+    <meta name='generator' content={Astro.generator} />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <!-- responsive meta -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=5"
-    />
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5' />
 
     <title>{meta_title ? meta_title : title ? title : config.site.title}</title>
-    <meta
-      name="title"
-      content={meta_title ? meta_title : title ? title : config.site.title}
-    />
+    <meta name='title' content={meta_title ? meta_title : title ? title : config.site.title} />
     <link
-      rel="canonical"
-      href={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
-      item-prop="url"
+      rel='canonical'
+      href={`${config.site.base_url}/${Astro.url.pathname.replace('/', '')}`}
+      item-prop='url'
     />
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    {noindex && <meta name='robots' content='noindex,nofollow' />}
     <meta
-      name="description"
+      name='description'
       content={description ? description : config.metadata.meta_description}
     />
     <!-- author from config.json -->
-    <meta name="author" content={config.metadata.meta_author} />
+    <meta name='author' content={config.metadata.meta_author} />
     <!-- og-title -->
     <meta
-      property="og:title"
+      property='og:title'
       content={meta_title ? meta_title : title ? title : config.site.title}
     />
     <!-- og-description -->
     <meta
-      property="og:description"
+      property='og:description'
       content={description ? description : config.metadata.meta_description}
     />
-    <meta property="og:type" content="website" />
+    <meta property='og:type' content='website' />
     <meta
-      property="og:url"
-      content={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
+      property='og:url'
+      content={`${config.site.base_url}/${Astro.url.pathname.replace('/', '')}`}
     />
 
     <!-- twitter-title -->
     <meta
-      name="twitter:title"
+      name='twitter:title'
       content={meta_title ? meta_title : title ? title : config.site.title}
     />
     <!-- twitter-description -->
     <meta
-      name="twitter:description"
+      name='twitter:description'
       content={description ? description : config.metadata.meta_description}
     />
     <!-- og-image -->
-    <meta property="og:image" content={ogImage} />
+    <meta property='og:image' content={ogImage} />
     <!-- twitter-image -->
-    <meta name="twitter:image" content={ogImage} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name='twitter:image' content={ogImage} />
+    <meta name='twitter:card' content='summary_large_image' />
 
-    <script is:inline src="/registerSW.js"></script>
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <script is:inline src='/registerSW.js'></script>
+    <link rel='manifest' href='/manifest.webmanifest' />
     <ViewTransitions />
     <script
       defer
-      src="https://us.umami.is/script.js"
-      data-website-id="db3f0d8a-7fde-495b-9d0f-d45267e61cff"></script>
+      src='https://us.umami.is/script.js'
+      data-website-id='db3f0d8a-7fde-495b-9d0f-d45267e61cff'></script>
     <script
       async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6020915585588826"
-      crossorigin="anonymous"></script>
+      src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6020915585588826'
+      crossorigin='anonymous'></script>
   </head>
   <body>
-    <div class="bg-green-600 px-4 py-4 text-white">
-      <p class="text-center text-md font-medium text-green-100">
-        <a href="https://gndx.dev/mentoria/?banner=20OFF">
-          🚀 ¿Cómo Aprovechar al Máximo una Mentoría? <span
-            class="font-bold ml-1">20% de descuento</span
+    <div class='bg-green-600 px-4 py-4 text-white'>
+      <p class='text-center text-md font-medium text-green-100'>
+        <a href='https://gndx.dev/mentoria/?banner=20OFF'>
+          🚀 ¿Cómo Aprovechar al Máximo una Mentoría? <span class='font-bold ml-1'
+            >20% de descuento</span
           >.
         </a>
       </p>
     </div>
     <Header />
     {!blogpost && <Hero />}
-    <main class="mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <main class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
       <slot />
     </main>
     {!blogpost && <FeaturedVideos />}

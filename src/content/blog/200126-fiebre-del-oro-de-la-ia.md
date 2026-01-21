@@ -2,7 +2,7 @@
 title: 'Fiebre del Oro de la IA'
 description: 'La llamada “Fiebre del Oro de la IA” promete dinero fácil, resultados rápidos y cero esfuerzo.'
 pubDate: '2026-01-20T16:03:23.100Z'
-heroImage: 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_fiebre-ai.png'
+  heroImage: 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_fiebre-ai.png'
 categories: ['IA', 'robot', 'inteligencia artificial']
 authors: ['gndx']
 tags: ['IA', 'robot', 'inteligencia artificial']
