@@ -19,6 +19,14 @@
     {
       "name": "Mentoría",
       "url": "/mentoria"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    },
+    {
+      "name": "Buscar",
+      "url": "/buscar"
     }
   ]
 }
