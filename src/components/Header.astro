@@ -5,6 +5,7 @@ import config from "@config/config.json";
 import HamburgerIcon from "@icons/HamburgerIcon.astro";
 import CloseIcon from "@icons/CloseIcon.astro";
 import HomeIcon from "@icons/HomeIcon.astro";
+import SearchIcon from "@icons/SearchIcon.astro";
 
 export interface NavigationLink {
   name: string;
@@ -30,7 +31,36 @@ const { main }: { main: NavigationLink[] } = menu;
           />
         </figure>
       </a>
-      <div class="flex relative">
+      <div class="flex relative items-center gap-3">
+        <div class="relative">
+          <input id="search-toggle" type="checkbox" class="peer hidden" />
+          <label
+            for="search-toggle"
+            class="flex cursor-pointer items-center text-gray-700 hover:text-gray-900"
+          >
+            <SearchIcon />
+            <span class="sr-only">Buscar en el blog</span>
+          </label>
+          <div
+            data-search-panel
+            class="absolute right-0 top-8 z-20 hidden w-72 rounded-lg border border-gray-100 bg-white shadow-lg peer-checked:block"
+          >
+            <div class="p-3">
+              <input
+                data-search-input
+                type="search"
+                placeholder="Buscar en el blog..."
+                class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 focus:border-gray-400 focus:outline-none"
+              />
+              <div class="mt-3">
+                <p data-search-empty class="text-xs text-gray-500">
+                  Escribe al menos 2 caracteres para buscar.
+                </p>
+                <ul data-search-results class="space-y-2 text-sm text-gray-700"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- navbar toggler -->
         <input id="nav-toggle" type="checkbox" class="hidden" />
         <label
@@ -82,3 +112,144 @@ const { main }: { main: NavigationLink[] } = menu;
     </div>
   </div>
 </header>
+
+<script>
+  const searchToggle = document.getElementById("search-toggle");
+  const searchInput = document.querySelector("[data-search-input]");
+  const searchResults = document.querySelector("[data-search-results]");
+  const searchEmpty = document.querySelector("[data-search-empty]");
+  const searchPanel = document.querySelector("[data-search-panel]");
+  const searchLabel = document.querySelector('label[for="search-toggle"]');
+
+  const MIN_QUERY_LENGTH = 2;
+  let index = null;
+  let indexPromise = null;
+
+  const normalize = (value) => {
+    if (!value) return "";
+    return value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const loadIndex = async () => {
+    if (index) return index;
+    if (!indexPromise) {
+      indexPromise = fetch("/search.json").then((response) => response.json());
+    }
+    index = await indexPromise;
+    return index;
+  };
+
+  const clearResults = () => {
+    if (!searchResults) return;
+    searchResults.innerHTML = "";
+  };
+
+  const showEmpty = (message) => {
+    if (!searchEmpty) return;
+    searchEmpty.textContent = message;
+    searchEmpty.classList.remove("hidden");
+  };
+
+  const hideEmpty = () => {
+    if (!searchEmpty) return;
+    searchEmpty.classList.add("hidden");
+  };
+
+  const renderResults = (items) => {
+    if (!searchResults) return;
+    clearResults();
+
+    if (!items.length) {
+      showEmpty("No encontramos artículos con ese término.");
+      return;
+    }
+
+    hideEmpty();
+
+    items.forEach((item) => {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      const description = document.createElement("p");
+
+      link.href = item.url;
+      link.className =
+        "block rounded-md px-3 py-2 hover:bg-gray-50 transition-colors";
+
+      link.textContent = item.title;
+      description.textContent = item.description;
+      description.className = "mt-1 text-xs text-gray-500";
+
+      link.appendChild(description);
+      li.appendChild(link);
+      searchResults.appendChild(li);
+    });
+  };
+
+  const resetSearch = () => {
+    if (searchInput) {
+      searchInput.value = "";
+    }
+    clearResults();
+    showEmpty("Escribe al menos 2 caracteres para buscar.");
+  };
+
+  const handleSearch = async (event) => {
+    const query = normalize(event.target.value);
+
+    if (!query || query.length < MIN_QUERY_LENGTH) {
+      clearResults();
+      showEmpty("Escribe al menos 2 caracteres para buscar.");
+      return;
+    }
+
+    const items = await loadIndex();
+    const matches = items.filter((item) => {
+      const haystack = normalize(
+        [
+          item.title,
+          item.description,
+          ...(item.tags || []),
+          ...(item.categories || []),
+        ].join(" ")
+      );
+      return haystack.includes(query);
+    });
+
+    renderResults(matches.slice(0, 6));
+  };
+
+  if (searchToggle && searchInput) {
+    searchToggle.addEventListener("change", () => {
+      if (searchToggle.checked) {
+        searchInput.focus();
+      } else {
+        resetSearch();
+      }
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", handleSearch);
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && searchToggle) {
+      searchToggle.checked = false;
+      resetSearch();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!searchToggle || !searchPanel || !searchLabel) return;
+    const target = event.target;
+    const isInside =
+      searchPanel.contains(target) || searchLabel.contains(target);
+    if (searchToggle.checked && !isInside) {
+      searchToggle.checked = false;
+      resetSearch();
+    }
+  });
+</script>
