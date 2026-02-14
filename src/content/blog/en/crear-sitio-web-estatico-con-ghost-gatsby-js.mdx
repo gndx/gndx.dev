@@ -1,0 +1,176 @@
+---
+title: 'Create static website with Ghost + Gatsby.js'
+description: 'Create your blog with a completely custom frontend, created with Ghost and with all the power of Gatsby.js.'
+pubDate: 2020-01-12T00:00:00.000Z
+heroImage: '/blog-placeholder.jpg'
+tags:
+  - 'javascript'
+  - 'tutorials'
+  - 'gatsby'
+---
+
+
+Create your blog with a completely custom frontend, created with Ghost and with all the power of Gatsby.js.
+![gatsby on heroku](https://s3.amazonaws.com/arepadev/2020/01/gatsby-heroku.png)
+By implementing the Content API we can leverage Ghost to manage content, allowing developers to create and customize the frontend with modern technologies like Gatsby.js.
+
+Previously in this blog we learned how to install "[Ghost on Heroku](https://arepa.dev/instalar-ghost-en-heroku/)" which allows us to have a blog running with Ghost and will allow us to use it as "The Backend" of our blog.
+
+You will learn:
+
+1. What is Gatsby.js?
+2. Install Gatsby.js
+3. Create Blog with Gastby.js
+4. Configure Ghost + Gastby.js
+5. Local development server
+6. Customize blog
+7. Deploy with Netlify
+
+### What is Gatsby?
+
+**Gatsby** is a static website generator, it uses React and implements JAMStack in its core, which allows us to create fast and secure websites, which are delivered through pre-prepared files and served directly from a CDN, eliminating the requirements of managing or running complex web servers.
+
+Gatsby.js uses the latest technology implementing ReactJS, Webpack, GraphQl, CSS and modern Javascript. Keeping this in mind, Gastby.js takes full advantage of the benefits of React, Progressive Web Apps and PRPLPattern (Push, Render, Pre-cache, Lazy-Load).
+
+This is why Gatsby.js has many advantages, among which are speed, ease, stability, and ease of hosting.
+
+### Install Gatsby.js
+
+To install gatsby and be able to quickly create static sites we must install it as a global dependency.
+
+    npm install -g gatsby-cli
+
+Global packages must be installed with administrator permissions.
+
+### Create Blog with Gastby.js
+
+Using _gatsby-cli_ we are going to install a new instance of Gatsby prepared to work with ghost.
+
+Run the following command in your workspace, where you can identify the folder since we will need to configure our blog with a code editor.
+
+    gatsby new BLOG_NAME https://github.com/TryGhost/gatsby-starter-ghost.git
+
+Replace BLOG_NAME with the name of your blog or project folder.
+
+When the installation finishes you must install the project dependencies.
+
+    npm install
+
+### Configure Ghost + Gastby.js
+
+It is important that at this point you must have a blog running with Ghost.
+
+#### Use Ghost API.
+
+In the administrator of your site created in Ghost in the "Integrations" section we will create a new integration.
+![](https://s3.amazonaws.com/arepadev/2020/01/integations-ghost-api.png)
+We must have the "ContentAPIKey" and "API URL" data as they will be necessary to configure our website.
+
+#### Connect Ghost API to Gatsby.js
+
+We must open the project folder that we just installed to customize our website.
+
+In the root of the site you will find the "ghost.json" file where we will add the API we generated.
+
+```json
+{
+  "development": {
+    "apiUrl": "https://sitebuild.herokuapp.com",
+    "contentApiKey": "J4325d9e8d2385ba3547119e1d06",
+    "version": "v2"
+  },
+  "production": {
+    "apiUrl": "https://sitebuild.herokuapp.com",
+    "contentApiKey": "J4325d9e8d2385ba3547119e1d06",
+    "version": "v2"
+  }
+}
+```
+
+We are working with version 3.x of Ghost so we must add _version: "v2"_ to the json.
+
+### Set up site
+
+To configure the domain name, number of posts per page, SEO, among other settings, it is necessary to edit the siteConfig.js file.
+
+```js
+module.exports = {
+  siteUrl: `https://gatsby.ghost.org`,
+  postsPerPage: 12,
+  siteTitleMeta: `Ghost Gatsby Starter`,
+  siteDescriptionMeta: `Ghost and Gatsby`,
+  shareImageWidth: 1000,
+  shareImageHeight: 523,
+  shortTitle: `Ghost`,
+  siteIcon: `favicon.png`,
+  backgroundColor: `#e9e9e9`,
+  themeColor: `#15171A`,
+};
+```
+
+### Local development server
+
+Once we add the necessary configuration we can deploy a local development server where we can customize our website to our liking.
+
+    npm run dev
+
+Now you have a static site with the resources of your blog created in Ghost.
+![](https://s3.amazonaws.com/arepadev/2020/01/blog-ghost-gatsby.jpg)
+
+### Customize blog
+
+At this moment we can customize the frontend of your blog, Gatsby.js is built in react and inside the "src/" folder you can find the structure of the site which you can customize to your liking.
+
+I leave you the repository of this blog where you can review the customizations that I have made.
+
+[Arepa.dev on Github](https://github.com/gndx/arepa.dev).
+
+#### Customize with Plugins.
+
+Gatsby.js has a large number of plugins that I know how to incorporate into your website, some plugins that this blog uses.
+
+1. [gatsby-plugin-sentry](https://www.gatsbyjs.org/packages/gatsby-plugin-sentry/)
+2. [gatsby-plugin-google-analytics](https://www.gatsbyjs.org/packages/gatsby-plugin-google-analytics/)
+3. [gatsby-remark-prismjs](https://www.gatsbyjs.org/packages/gatsby-remark-prismjs/?=prims)
+
+[Gatsby Plugins Directory](https://www.gatsbyjs.org/plugins/).
+
+### Deploy to Netlify
+
+Netlify is a static website hosting service, very similar to GithubPages or Firebase Hosting. The main advantage of Netlify is its simplicity in deploying sites, it only requires connecting to a cloud repository to create continuous integration and continuous deployment.
+
+**NOTE:** It is necessary to upload your project to a repository in order to create the integration with Netlify.
+
+1. [Create a Netlify account](https://app.netlify.com/signup)
+2. [Connect a repository](https://app.netlify.com/start)
+3. Configure deployment
+
+Learn more about Netlify in the [official documentation](https://docs.netlify.com/).
+
+#### Create webhook to connect Ghost + Netlify
+
+For each change we make to our blog created in Ghost, we must create an integration to execute a new deployment of our site in Netlify.
+
+#### Get Netlify API
+
+In the Netlify dashboard we select the site and go to the "Deploys" > "Deploy Settings" section and within this section we look for the "Build Hooks" section.
+
+We add a new configuration which will give us a URL which we will add to our site with ghost.
+![](https://s3.amazonaws.com/arepadev/2020/01/netlify-webhook-crear.png)
+In the administrator of your Ghost site in "Integrations" we must create a new integration.
+
+In the "Webhooks" section we will add a new integration with the following data:
+![](https://s3.amazonaws.com/arepadev/2020/01/webhook-heroku-netlify.png)
+Ready! We already have the complete integration, every time we create a new page, blogpost, tag, link, etc. etc A new build will automatically run in Netlify.
+
+### Performance
+
+Analyze your site with the [Google PageSpeed ​​Insights](https://developers.google.com/speed/pagespeed/insights/) tool so you can check the optimization of your new site.
+![](https://s3.amazonaws.com/arepadev/2020/01/performace-ghost-gatsby.png)
+
+### Conclusions
+
+You learned how to create a static website using Gatsby.js using ghost as a content manager and taking advantage of all the advantages that gatsby.js provides us, you created an account in Netlify and configured the necessary hooks to continuously deploy your website.
+
+Now that you have your static website with Gatsby.js, leave a comment with the url of your static website.
+

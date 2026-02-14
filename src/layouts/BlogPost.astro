@@ -7,13 +7,22 @@ import CategoryIcon from '@icons/CategoryIcon.astro';
 import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
+import { type Locale, withLocalePath } from '@i18n/config';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Props extends CollectionEntry<'blogEs'>['data'] {
+  locale?: Locale;
+}
 
-const { title, description, pubDate, heroImage, categories, tags } = Astro.props;
+const { title, description, pubDate, heroImage, categories, tags, locale = 'es' } =
+  Astro.props as Props;
+const dateLocaleMap: Record<Locale, string> = {
+  es: 'es-ES',
+  en: 'en-US',
+  pt: 'pt-BR'
+};
 ---
 
-<Base meta_title={title} description={description} image={heroImage} blogpost>
+<Base meta_title={title} description={description} image={heroImage} blogpost locale={locale}>
   <article>
     <div class='rounded-lg block overflow-hidden mb-8'>
       {
@@ -51,14 +60,14 @@ const { title, description, pubDate, heroImage, categories, tags } = Astro.props
         </div>
         <div class='mx-3 flex items-center flex-wrap font-medium mt-2'>
           <CalendarIcon />
-          <FormattedDate date={pubDate} />
+          <FormattedDate date={pubDate} locale={dateLocaleMap[locale]} />
         </div>
         <div class='mx-3 flex items-center flex-wrap font-medium mt-2'>
           <CategoryIcon />
           {
             categories?.slice(0, 1).map((category) => (
               <a
-                href={`/categories/${slugify(category)}`}
+                href={withLocalePath(locale, `/categories/${slugify(category)}`)}
                 class='mr-2 hover:text-primary font-medium capitalize'
               >
                 {category}
@@ -75,7 +84,7 @@ const { title, description, pubDate, heroImage, categories, tags } = Astro.props
       {
         tags?.map((tag) => (
           <a
-            href={`/tags/${slugify(tag)}`}
+            href={withLocalePath(locale, `/tags/${slugify(tag)}`)}
             class='capitalize inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'
           >
             #{tag}

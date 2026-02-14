@@ -11,6 +11,13 @@ import { manifest } from './src/utils/manifest';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://gndx.dev',
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en', 'pt'],
+    routing: {
+      prefixDefaultLocale: true
+    }
+  },
   image: {
     remotePatterns: [{ protocol: 'https' }]
   },

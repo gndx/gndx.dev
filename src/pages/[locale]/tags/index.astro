@@ -1,0 +1,48 @@
+---
+import Base from '@layouts/Base.astro';
+import { getTaxonomyByLocale } from '@utils/i18nContent';
+import { locales, isLocale, withLocalePath } from '@i18n/config';
+import { getUi } from '@i18n/ui';
+
+export async function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/es/');
+
+const copy = getUi(locale);
+const tags = await getTaxonomyByLocale(locale, 'tags');
+const textClasses = [
+  'text-3xl text-cyan-400 capitalize',
+  'text-xl text-teal-400 capitalize',
+  'text-md text-red-400 capitalize',
+  'text-lg text-green-400 capitalize',
+  'text-sm text-orange-400 capitalize',
+  'text-lg text-gray-400 capitalize',
+  'text-4xl text-red-400 capitalize',
+  'text-xs text-cyan-400 capitalize'
+];
+const getRandomClass = (classList) => classList[Math.floor(Math.random() * classList.length)];
+---
+
+<Base locale={locale} meta_title={copy.labels.tags}>
+  <section class='grid grid-cols-1'>
+    <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.tags}:</h1>
+    <ul class='flex justify-center flex-wrap align-center gap-3'>
+      {
+        tags.map((tag) => (
+          <li>
+            <a
+              class={getRandomClass(textClasses)}
+              href={withLocalePath(locale, `/tags/${tag.slug}`)}
+              title={`${copy.labels.postsWithTag}: ${tag.name}`}
+            >
+              {tag.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

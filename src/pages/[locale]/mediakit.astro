@@ -1,0 +1,24 @@
+---
+import Base from '@layouts/Base.astro';
+import Page from '@layouts/Page.astro';
+import { locales, isLocale } from '@i18n/config';
+
+export async function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/es/');
+
+const content = {
+  es: { title: 'Media Kit', body: 'Informacion publica para colaboraciones y patrocinios de contenido.' },
+  en: { title: 'Media Kit', body: 'Public information for collaborations and sponsored content.' },
+  pt: { title: 'Media Kit', body: 'Informacoes publicas para colaboracoes e conteudo patrocinado.' }
+}[locale];
+---
+
+<Base locale={locale} meta_title={content.title}>
+  <Page title={content.title}>
+    <p>{content.body}</p>
+  </Page>
+</Base>

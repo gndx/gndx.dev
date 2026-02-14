@@ -1,0 +1,249 @@
+---
+title: 'Hello world in React + Babel + Webpack'
+description: 'In this resource we are going to learn how to create a project from scratch by configuring all the necessary elements for the construction of a “Hello World” going through all the necessary elements.'
+pubDate: 2019-12-29T00:00:00.000Z
+tags:
+  - 'react'
+  - 'javascript'
+  - 'tutorials'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+In this resource we are going to learn how to create a project from scratch by configuring all the necessary elements for the construction of a “Hello World” going through all the necessary elements.
+
+We will learn:
+
+1. Set up a project
+2. Install React
+3. Create a Hello World in React
+4. Install and configure Babel
+5. Install and configure Webpack
+6. Compile our project
+
+Let's start with the fun...
+
+### Set up project
+
+The first thing we need is to create and initialize our project from the console or terminal.
+
+```
+mkdir hello-world && cd hello-world
+```
+
+Initialize project in git (I always recommend it regardless of whether it will be shared).
+
+```
+git init
+```
+
+Initialize project with npm to install the necessary dependencies.
+
+```
+npm init -y
+```
+
+### Install React
+
+Once our project is initialized, we are going to proceed to install **React** and create the necessary structure to work with react.
+
+**Install React**
+
+```
+npm i react react-dom --save-dev
+```
+
+Project organizational structure:
+
+- **src/** - Folder where we will place all the project code.
+- **src/components/** - Folder where we will store the components.
+- **index.html** - HTML file where we will insert the construction of the project.
+- **index.js** - Main application document.
+
+If you want to read more about how to structure your projects, I recommend this reading: "[File Structure - React](https://reactjs.org/docs/faq-structure.html)".
+
+### Hello World in React
+
+Now that we have React installed and understand how we will structure the project, we are going to create our first lines of code.
+
+We create the necessary folders for the project structure:
+
+```
+mkdir src && mkdir src/components
+```
+
+We create the HelloWorld component:
+
+```
+touch src/components/HelloWorld.jsx
+```
+
+We add the following code:
+
+```js
+import React from "react"; // Importamos React
+
+// Creamos un componente presentacional que recibe la propiedad "text"
+const HelloWorld = ({ text }) => <h1>{text}</h1>;
+
+export default HelloWorld;
+```
+
+Now we create the main entrance where the application will live in React.
+
+```
+touch index.js
+```
+
+We add the following code:
+
+```js
+import React from "react"; // Importamos React
+import ReactDOM from "react-dom"; // Importamos ReactDOM
+import HelloWorld from "./components/HelloWorld"; // Importamos nuestro primer componente
+
+// insertamos nuestro componente en nuestro documento HTML utilizando ReactDOM
+ReactDOM.render(
+  <HelloWorld text="Hola Mundo Cruel" />,
+  document.getElementById("app")
+);
+```
+
+We create the HTML document for the application.
+
+```
+touch index.html
+```
+
+We add the following code:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>React Base</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+```
+
+Up to this point we already have the base code of an application in React, but we must compile the code and create a routine that allows us to optimize the process.
+
+### Install and configure Babel
+
+Babel is a tool that allows us to transform our ES6 Javascript code into JavaScript that any browser supports. Which allows us to have the new Javascript functionality in the construction of our projects.
+
+Install the necessary dependencies:
+
+```
+npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+```
+
+We create the document "**.babelrc**" where we will add the Babel configuration.
+
+```
+touch .babelrc
+```
+
+We add the following configuration:
+
+```js
+    {
+      "presets": [
+        "@babel/preset-env",   // Compila ES5 y ES6
+        "@babel/preset-react"  // Compila JSX y sintaxis de React
+      ]
+    }
+```
+
+### Install and configure Webpack
+
+Webpack is a compilation tool that allows us to add in a file all the dependencies to the elements that are part of your development project: such as the code of our React application, HTML, CSS, images among other resources. It allows us to have a scheduled task to optimize the construction and agile launch of our projects.
+
+Installing Webpack
+
+```
+npm i webpack webpack-cli html-webpack-plugin html-loader --save-dev
+```
+
+We create webpack.config.js
+
+```
+touch webpack.config.js
+```
+
+We add the necessary configuration:
+
+```js
+const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  entry: "./src/index.js", // Elegimos nuestro punto de entrada
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  }, // Añadimos nuestro punto de salida
+  resolve: {
+    extensions: [".js", ".jsx"], // Añadimos el soporte para la extencion de JSX
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/, // Ignora la carpeta de node_modules
+        use: {
+          loader: "babel-loader", // Utiliza la configuracion de Babel
+        },
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    // utilizamos este plugin para añadir el compilado al documento HTML
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html",
+    }),
+  ],
+};
+```
+
+### Compile our project
+
+In order for our project to work and be ready to be run in a browser or sent to production we have to add the following configuration to "package.json".
+
+```js
+    "scripts": {
+      "build": "webpack --mode production"
+    }
+```
+
+Now we can use the "build" command to build the project.
+
+```
+npm run build
+```
+
+Which will build a project in the "dist/" folder where we will find an index.html and bundle.js file, we execute the index.html document in your preferred browser to see our application working.
+
+### Good practices
+
+Finally, I recommend adding the .gitignore file to the root of your project and ignoring /node_modules/ as well as the /dist/ folder where the compiled project is stored. And finally save the changes in **Git**.
+
+I share the Github repository: [React Base](https://github.com/gndx/react-base).
+
+### In conclusion
+
+We learned how to create a project using the minimum configuration for React, we learned about Babel and its configurations as well as using WebPack to prepare our project.
+

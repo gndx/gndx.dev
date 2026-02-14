@@ -1,0 +1,35 @@
+---
+import { locales, type Locale, withLocalePath } from '@i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const labels: Record<Locale, string> = { es: 'ES', en: 'EN', pt: 'PT' };
+const currentPath = Astro.url.pathname;
+---
+
+<div class='ml-4 flex gap-2 text-xs font-semibold text-gray-500'>
+  {
+    locales.map((lang) => (
+      <a
+        href={withLocalePath(lang, currentPath)}
+        data-lang={lang}
+        class={`rounded border px-2 py-1 hover:text-gray-800 ${lang === locale ? 'border-gray-700 text-gray-900' : 'border-gray-300'}`}
+      >
+        {labels[lang]}
+      </a>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll('[data-lang]').forEach((item) => {
+    item.addEventListener('click', () => {
+      const lang = item.getAttribute('data-lang');
+      if (!lang) return;
+      document.cookie = `lang=${lang}; Max-Age=31536000; Path=/; SameSite=Lax`;
+    });
+  });
+</script>

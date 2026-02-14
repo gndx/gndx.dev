@@ -1,17 +1,31 @@
 ---
 import { Image } from 'astro:assets';
-import menu from '@config/menu.json';
 import config from '@config/config.json';
 import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
+import LanguageSwitcher from '@components/LanguageSwitcher.astro';
+import { type Locale, withLocalePath } from '@i18n/config';
+import { getUi } from '@i18n/ui';
 
 export interface NavigationLink {
   name: string;
   url: string;
 }
 
-const { main }: { main: NavigationLink[] } = menu;
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'es' } = Astro.props;
+const copy = getUi(locale);
+const main: NavigationLink[] = [
+  { name: copy.nav.home, url: withLocalePath(locale, '/') },
+  { name: copy.nav.about, url: withLocalePath(locale, '/about') },
+  { name: copy.nav.stack, url: withLocalePath(locale, '/stack') },
+  { name: copy.nav.courses, url: withLocalePath(locale, '/cursos') },
+  { name: copy.nav.mentoring, url: 'https://mentor.gndx.dev/' }
+];
 ---
 
 <header class='bg-gray-50'>
@@ -73,12 +87,13 @@ const { main }: { main: NavigationLink[] } = menu;
           main?.map((menu) => (
             <li class='block rounded-lg px-2 py-2 text-md text-gray-500 hover:text-gray-800'>
               <a href={menu?.url} class='flex items-center relative'>
-                {menu?.name === 'Home' ? <HomeIcon /> : menu?.name}
+                {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
               </a>
             </li>
           ))
         }
       </ul>
+      <LanguageSwitcher locale={locale} />
     </div>
   </div>
 </header>

@@ -1,16 +1,30 @@
 ---
-import HomePagination from "@components/HomePagination.astro";
-import Base from "@layouts/Base.astro";
-import Posts from "@layouts/Posts.astro";
-
-import { getCollection } from "astro:content";
-
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import { defaultLocale } from '@i18n/config';
 ---
 
-<Base>
-  <Posts posts={posts} />
-  <HomePagination />
-</Base>
+<!doctype html>
+<html lang='es'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='refresh' content={`0;url=/${defaultLocale}/`} />
+    <title>Redirecting...</title>
+    <script is:inline>
+      const cookieLocale = document.cookie
+        .split('; ')
+        .find((item) => item.startsWith('lang='))
+        ?.split('=')[1];
+
+      const browserLocale = navigator.language.toLowerCase();
+      const resolved = cookieLocale || (browserLocale.startsWith('en')
+        ? 'en'
+        : browserLocale.startsWith('pt')
+        ? 'pt'
+        : 'es');
+
+      window.location.replace(`/${resolved}/`);
+    </script>
+  </head>
+  <body>
+    <a href={`/${defaultLocale}/`}>Continue</a>
+  </body>
+</html>

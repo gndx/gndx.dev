@@ -4,6 +4,7 @@ import Hero from '@components/Hero.astro';
 import FeaturedVideos from '@components/FeaturedVideos.astro';
 import Footer from '@components/Footer.astro';
 import config from '@config/config.json';
+import { locales, type Locale, stripLocaleFromPath, withLocalePath } from '@i18n/config';
 
 import '@styles/global.css';
 
@@ -17,15 +18,19 @@ export interface Props {
   noindex?: boolean;
   canonical?: string;
   blogpost?: boolean;
+  locale?: Locale;
 }
 
-const { title, meta_title, description, image, noindex, blogpost } = Astro.props;
+const { title, meta_title, description, image, noindex, blogpost, canonical, locale = 'es' } =
+  Astro.props;
 
 const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jpg';
+const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
+const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
 ---
 
 <!doctype html>
-<html lang={config.site.lang}>
+<html lang={locale}>
   <head>
     <!-- favicon -->
     <link rel='shortcut icon' href={config.site.favicon} />
@@ -40,10 +45,20 @@ const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jp
 
     <title>{meta_title ? meta_title : title ? title : config.site.title}</title>
     <meta name='title' content={meta_title ? meta_title : title ? title : config.site.title} />
+    <link rel='canonical' href={canonicalUrl} item-prop='url' />
+    {
+      locales.map((lang) => (
+        <link
+          rel='alternate'
+          hreflang={lang}
+          href={new URL(withLocalePath(lang, pathWithoutLocale), config.site.base_url).toString()}
+        />
+      ))
+    }
     <link
-      rel='canonical'
-      href={`${config.site.base_url}/${Astro.url.pathname.replace('/', '')}`}
-      item-prop='url'
+      rel='alternate'
+      hreflang='x-default'
+      href={new URL(withLocalePath('es', pathWithoutLocale), config.site.base_url).toString()}
     />
     {noindex && <meta name='robots' content='noindex,nofollow' />}
     <meta
@@ -65,7 +80,7 @@ const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jp
     <meta property='og:type' content='website' />
     <meta
       property='og:url'
-      content={`${config.site.base_url}/${Astro.url.pathname.replace('/', '')}`}
+      content={canonicalUrl}
     />
 
     <!-- twitter-title -->
@@ -104,7 +119,7 @@ const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jp
         </a>
       </p>
     </div>
-    <Header />
+    <Header locale={locale} />
     {!blogpost && <Hero />}
     <main class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
       <slot />

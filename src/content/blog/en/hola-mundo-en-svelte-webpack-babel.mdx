@@ -1,0 +1,234 @@
+---
+title: 'Hello World in Svelte + Webpack + Babel'
+description: 'Svelte is a new JavaScript framework with which we can create user interfaces.'
+pubDate: 2020-01-03T00:00:00.000Z
+tags:
+  - 'svelte'
+  - 'javascript'
+  - 'tutorials'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+**Svelte** is a new **JavaScript** framework with which we can create user interfaces. Svelte has changed the way popular frameworks or libraries of the moment work, Svelte runs at compile time converting its components into highly efficient imperative code.
+
+Another point to consider about Svelte is that it does not use a Virtual DOM, it writes code that painstakingly updates the DOM when it is necessary to update the state of the application.
+
+In this resource we will learn how to install, configure and leave a functional project to start with Svelte, configuring every detail you need step by step.
+
+We will learn:
+
+1. Configure Project
+2. Install Svelte
+3. Configure Babel
+4. Configure Webpack
+5. Create Application with Svelte
+6. Compile project
+
+Now it's time for fun...
+
+## Set up project
+
+The first thing we have to create and Initialize the project that we are going to use.
+
+```
+mkdir svelte-base && cd svelte-base
+```
+
+Initialize the git repository
+
+```
+git init
+```
+
+Initialize project with npm for dependencies and configurations.
+
+```
+npm init -y
+```
+
+### install Svelte
+
+Since we have the project Initialized with git and npm, we are going to install Svelte and create the necessary structure to work with the project.
+
+#### Install Svelte
+
+```
+npm install svelte --save
+```
+
+Project structure
+
+- src/ : Folder where the project code lives
+- src/components/ : Folder where we will store the components
+- public/index.html : Base HTML file for building the project
+- src/index.js Main application document
+
+### Configure Babel
+
+To work with all the benefits of Svelte and modern JavaScript we are going to use Babel to transpile our project.
+
+```
+    npm install @babel/core @babel/preset-env @babel/polyfill babel-loader svelte-loader --save-dev
+```
+
+Later I will explain in detail and its implementation in the project when we configure Webpack.
+
+Create Babel configuration file in the root of the project and name it ".babelrc"
+
+```js
+     {
+          "presets": [
+            "@babel/preset-env"
+         ],
+     }
+```
+
+### Configure Webpack
+
+Webpack allows us to add the necessary configuration to compile the project and all the necessary resources.
+
+```
+npm install webpack webpack-cli html-webpack-plugin --save-dev
+```
+
+We create the file "webpack.config.js" where we are going to add the necessary configuration.
+
+```js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+module.exports = {
+  entry: "./src/index.js", // Elegimos nuestro punto de entrada
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  }, // Añadimos nuestro punto de salida
+  resolve: {
+    extensions: ["*", ".mjs", ".js", ".svelte"],
+  }, // Añadimos el soporte para las extensiones que utiliza svelte
+  module: {
+    rules: [
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      }, // Creamos la regla para nuestros archivos JS
+      {
+        test: /\.svelte$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "svelte-loader",
+        },
+      }, // Utilizamos svelte-loader para trabajar con los archivos .svelte
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: "./public/index.html",
+      filename: "./index.html",
+    }),
+  ], // utilizamos este plugin para añadir el recurso compilado al documento HTML
+};
+```
+
+### Create Application with Svelte
+
+With the previous configuration we have all the necessary resources to create a project with Svelte.
+
+In our "index.js" file we create the necessary configuration.
+
+```js
+import App from "./components/App.svelte"; // importamos el componente App
+
+// Creamos una app que extiende del App compoenente que creamos con la lógica de nuestra aplicación.
+const app = new App({
+  target: document.querySelector("main"), // punto de entrada
+  props: {
+    name: "Svelte",
+  }, // props de la aplicación
+});
+
+// Exportamos por defecto app.
+```
+
+Inside the "components" folder we create the App.svelte file and add the necessary resources for our application.
+
+```js
+    // Asignamos la logica de nuestra aplicación
+    <script>
+      export let name; // Hacemos referenccia al Prop Name
+    </script>
+
+    // Creamos los estilos de la aplicación.
+    <style>
+      :global(body) {
+        background-color: #676778;
+        color: white;
+      }
+      .main {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+
+    // Llamamos el HTML de nuestro sitio.
+    <div class="main">
+      <h1>Hello {name}!</h1>
+    </div>
+```
+
+Finally, inside the "public/" folder we are going to create the "index.html" file to create the entry point of our application.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Svelte Base</title>
+  </head>
+
+  <body>
+    <main></main>
+  </body>
+</html>
+```
+
+Now that we have the necessary resources for our project, we are going to compile our project to see it working in our browser.
+
+In "package.json" in the "scripts" section we create the "build" script with the necessary configuration to compile the project.
+
+```js
+    "scripts": {
+         "build": "webpack --mode production",
+     },
+```
+
+Now we can run our script to compile in the terminal.
+
+```
+npm run build
+```
+
+A "dist/" folder has been created in which we will find the "index.html" and "bundle.js" files with our application.
+![](https://s3.amazonaws.com/arepadev/2020/01/svelte-build.png)
+Now we execute the "index.html" file in our browser and we can view the created application.
+![](https://s3.amazonaws.com/arepadev/2020/01/svelte-production.png)
+
+### Repository
+
+In this GitHub repository you can find the complete project "[Svelte Base](https://github.com/gndx/svelte-base)".
+
+### In conclusion
+
+You learned how to create the structure for a project, configure Webpack and implement Babel to transpile Svelte and create the files necessary to create a simple application with Svalte.
+
+Now you can share this project by configuring in detail each of the points necessary to implement a site with Svelte.
+
+If you want to learn more about Svelte, I invite you to the official site where you will find all the information, documentation and examples. Visit: [Svelte.dev](https://svelte.dev/)
+
+I have created a group on Facebook: "[Svelte JS Español](https://www.facebook.com/groups/636500396887174/)" with the purpose of sharing more resources and uniting all Spanish-speaking developers.
+

@@ -1,0 +1,24 @@
+---
+import Base from '@layouts/Base.astro';
+import Page from '@layouts/Page.astro';
+import { locales, isLocale } from '@i18n/config';
+
+export async function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/es/');
+
+const content = {
+  es: { title: 'Stack 2024', body: 'Setup principal de trabajo, herramientas y dispositivos usados diariamente.' },
+  en: { title: 'Stack 2024', body: 'Main workspace setup, tools, and daily devices.' },
+  pt: { title: 'Stack 2024', body: 'Setup principal de trabalho, ferramentas e dispositivos usados diariamente.' }
+}[locale];
+---
+
+<Base locale={locale} meta_title={content.title}>
+  <Page title={content.title}>
+    <p>{content.body}</p>
+  </Page>
+</Base>

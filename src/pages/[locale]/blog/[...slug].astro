@@ -1,0 +1,31 @@
+---
+import { getPostsByLocale } from '@utils/i18nContent';
+import { locales, isLocale } from '@i18n/config';
+import type { Locale } from '@i18n/config';
+
+import BlogPost from '@layouts/BlogPost.astro';
+import Code from '@components/mdx/Code.astro';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const locale of locales) {
+    const posts = await getPostsByLocale(locale);
+    paths.push(
+      ...posts.map((post) => ({
+        params: { locale, slug: post.slug },
+        props: { post, locale }
+      }))
+    );
+  }
+  return paths;
+}
+
+const { locale, post } = Astro.props;
+if (!isLocale(locale)) return Astro.redirect('/es/');
+
+const { Content } = await post.render();
+---
+
+<BlogPost {...post.data} locale={locale as Locale}>
+  <Content components={{ pre: Code }} />
+</BlogPost>

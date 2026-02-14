@@ -8,7 +8,7 @@ import { taxonomyFilter } from "@utils/getAllTags";
 import { deslugify } from "@utils/slug";
 
 export async function getStaticPaths() {
-  const tags = await getTaxonomy("blog", "tags");
+  const tags = await getTaxonomy("blogEs", "tags");
 
   return tags.map((tag) => {
     return {
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 
-const posts = await getSinglePage("blog");
+const posts = await getSinglePage("blogEs");
 const filterByTags = taxonomyFilter(posts, "tags", tag);
 ---
 

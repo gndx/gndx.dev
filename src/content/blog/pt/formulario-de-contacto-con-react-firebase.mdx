@@ -1,0 +1,39 @@
+---
+title: 'Formulário de contato com React + Firebase'
+description: 'Vamos criar um formulário de contato feito em ReactJS e armazenar as solicitações de contato no Firebase Database.'
+pubDate: 2017-12-08T00:00:00.000Z
+tags:
+  - 'base de fogo'
+  - 'reagirJS'
+  - 'recursos'
+  - 'javasscriptpt'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+Vamos criar um formulário de contato feito em ReactJS e armazenar as solicitações de contato no Firebase Database.
+
+**O que é o Firebase Realtime Database?**
+
+É um serviço que armazena e sincroniza dados com nosso banco de dados NoSQL hospedado na nuvem. Os dados são sincronizados com todos os clientes em tempo real e permanecem disponíveis quando seu aplicativo está offline.
+
+Uma das grandes qualidades do [Firebase RealTime Database](https://firebase.google.com/products/database/?hl=es-419) é que ele funciona offline, o Firebase RealTime Database SDK armazena os dados em disco e quando a conexão é restabelecida o cliente recebe os dados faltantes e sincroniza com o estado atual do servidor. (Recurso que adoro).
+
+Nosso projeto de exemplo é construído com "[create-React-app](https://github.com/facebookincubator/create-react-app)", então vamos pular toda a configuração inicial e focar em trabalhar no arquivo "App.js" onde criaremos o formulário.
+
+**Configure o Firebase em nosso projeto React**
+
+Para usar _Firebase RealTime Database_ em nossa aplicação React devemos importar a biblioteca "_Firebase_" que instalaremos em nosso projeto a partir do npm com o seguinte comando:
+
+    npm install --save firebase
+
+Vamos ao nosso "_[Firebase Console](https://console.firebase.google.com)_" escolhemos ou criamos um projeto e na opção "Adicionar Firebase à sua aplicação web" copiamos a configuração que inclui apiKey, authDomain, projectId, databaseURL, storageBucket necessários para conectar com o serviço.
+
+Criamos um arquivo dentro de "src/" e o chamaremos de "Firebase.js" onde adicionaremos nossa configuração da seguinte forma:
+
+Criando nosso formulário de contato dentro de nosso arquivo App.js
+
+Deixo-vos o repositório com o projeto: [react-form-firebase](https://github.com/gndx/react-form-firebase)
+
+Demonstração do formulário: [https://gndx-projects.firebaseapp.com/](https://gndx-projects.firebaseapp.com/)
+
