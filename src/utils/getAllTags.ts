@@ -42,7 +42,10 @@ export const getSinglePage = async (collection: any) => {
   const allPage = await getCollection(collection);
   const removeIndex = allPage.filter((data) => data.id.match(/^(?!-)/));
   const removeDrafts = removeIndex.filter((data) => !data.data.draft);
-  return removeDrafts;
+  return removeDrafts.map((data) => ({
+    ...data,
+    slug: data.slug || data.id.replace(/\.(md|mdx)$/i, '')
+  }));
 };
 
 export const taxonomyFilter = (posts: any[], name: string, key: any) =>

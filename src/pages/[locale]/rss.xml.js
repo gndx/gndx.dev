@@ -1,10 +1,10 @@
 import rss from '@astrojs/rss';
 import config from '@config/config.json';
-import { locales } from '@i18n/config';
+import { prefixedLocales } from '@i18n/config';
 import { getPostsByLocale } from '@utils/i18nContent';
 
 export async function getStaticPaths() {
-  return locales.map((locale) => ({ params: { locale } }));
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
 }
 
 export async function GET(context) {

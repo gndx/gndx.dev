@@ -15,6 +15,7 @@ const dateLocaleMap: Record<Locale, string> = {
   en: 'en-US',
   pt: 'pt-BR'
 };
+const getPostSlug = (post: PostType) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
 
 type PostType = {
   id: string;
@@ -41,7 +42,7 @@ type PostType = {
       <article class="flex w-full flex-col items-start justify-between">
         <div class="rounded-lg block overflow-hidden mb-4">
           {post.data.heroImage && (
-            <a href={withLocalePath(locale, `/blog/${post.slug}`)}>
+            <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)}>
               <figure class="w-auto h-auto md:h-[150px] object-cover">
                 <Image
                   class="transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
@@ -69,7 +70,7 @@ type PostType = {
         </div>
         <div class="relative">
           <h2 class="mt-3 text-xl font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-            <a href={withLocalePath(locale, `/blog/${post.slug}`)}>
+            <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)}>
               <span class="absolute inset-0" />
               {post.data.title}
             </a>

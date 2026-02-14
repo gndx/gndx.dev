@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 
 import BlogPost from "@layouts/BlogPost.astro";
 import Code from "@components/mdx/Code.astro";
@@ -7,14 +7,18 @@ import Code from "@components/mdx/Code.astro";
 export async function getStaticPaths() {
   const posts = await getCollection("blogEs");
   return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
+    params: { slug: post.slug || post.id.replace(/\.(md|mdx)$/i, '') },
   }));
 }
 type Props = CollectionEntry<"blogEs">;
 
-const post = Astro.props;
-const { Content } = await post.render();
+const { slug } = Astro.params;
+const posts = await getCollection("blogEs");
+const post = posts.find((item) => (item.slug || item.id.replace(/\.(md|mdx)$/i, '')) === slug) as Props | undefined;
+if (!post) {
+  return Astro.redirect('/blog/');
+}
+const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data}>

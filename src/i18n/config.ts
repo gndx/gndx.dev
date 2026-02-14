@@ -4,6 +4,7 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'es';
 export const localeCookieName = 'lang';
+export const prefixedLocales = locales.filter((locale) => locale !== defaultLocale);
 
 const localeSet = new Set(locales);
 
@@ -20,6 +21,9 @@ export const stripLocaleFromPath = (pathname: string): string => {
 
 export const withLocalePath = (locale: Locale, pathname = '/'): string => {
   const barePath = stripLocaleFromPath(pathname).replace(/^\//, '').replace(/\/$/, '');
+  if (locale === defaultLocale) {
+    return barePath ? `/${barePath}/` : '/';
+  }
   return barePath ? `/${locale}/${barePath}/` : `/${locale}/`;
 };
 

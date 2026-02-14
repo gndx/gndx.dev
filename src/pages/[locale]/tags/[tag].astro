@@ -2,13 +2,13 @@
 import Base from '@layouts/Base.astro';
 import CategoryIcon from '@icons/CategoryIcon.astro';
 import { getPostsByLocale, filterByTaxonomy } from '@utils/i18nContent';
-import { locales, isLocale, withLocalePath } from '@i18n/config';
+import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
 import { deslugify } from '@utils/slug';
 import { getUi } from '@i18n/ui';
 
 export async function getStaticPaths() {
   const paths = [];
-  for (const locale of locales) {
+  for (const locale of prefixedLocales) {
     const posts = await getPostsByLocale(locale);
     const tags = new Set(posts.flatMap((post) => post.data.tags.map((item) => item.toLowerCase())));
     for (const tag of tags) {
@@ -19,11 +19,12 @@ export async function getStaticPaths() {
 }
 
 const { locale, tag } = Astro.params;
-if (!isLocale(locale)) return Astro.redirect('/es/');
+if (!isLocale(locale)) return Astro.redirect('/');
 
 const posts = await getPostsByLocale(locale);
 const filterByTags = filterByTaxonomy(posts, 'tags', tag as string);
 const copy = getUi(locale);
+const getPostSlug = (post) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
 ---
 
 <Base locale={locale}>
@@ -33,7 +34,7 @@ const copy = getUi(locale);
       filterByTags.map((post) => (
         <li class='flex items-center space-x-1'>
           <CategoryIcon />
-          <a href={withLocalePath(locale, `/blog/${post.slug}`)} class='text-gray-500 hover:text-gray-800'>
+          <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)} class='text-gray-500 hover:text-gray-800'>
             {post.data.title}
           </a>
         </li>

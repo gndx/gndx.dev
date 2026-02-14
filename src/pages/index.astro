@@ -6,7 +6,7 @@ import { defaultLocale } from '@i18n/config';
 <html lang='es'>
   <head>
     <meta charset='UTF-8' />
-    <meta http-equiv='refresh' content={`0;url=/${defaultLocale}/`} />
+    <meta http-equiv='refresh' content='0;url=/' />
     <title>Redirecting...</title>
     <script is:inline>
       const cookieLocale = document.cookie
@@ -21,10 +21,10 @@ import { defaultLocale } from '@i18n/config';
         ? 'pt'
         : 'es');
 
-      window.location.replace(`/${resolved}/`);
+      window.location.replace(resolved === 'es' ? '/' : `/${resolved}/`);
     </script>
   </head>
   <body>
-    <a href={`/${defaultLocale}/`}>Continue</a>
+    <a href={defaultLocale === 'es' ? '/' : `/${defaultLocale}/`}>Continue</a>
   </body>
 </html>

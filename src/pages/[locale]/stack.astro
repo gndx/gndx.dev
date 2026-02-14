@@ -1,14 +1,14 @@
 ---
 import Base from '@layouts/Base.astro';
 import Page from '@layouts/Page.astro';
-import { locales, isLocale } from '@i18n/config';
+import { prefixedLocales, isLocale } from '@i18n/config';
 
 export async function getStaticPaths() {
-  return locales.map((locale) => ({ params: { locale } }));
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params;
-if (!isLocale(locale)) return Astro.redirect('/es/');
+if (!isLocale(locale)) return Astro.redirect('/');
 
 const content = {
   es: { title: 'Stack 2024', body: 'Setup principal de trabajo, herramientas y dispositivos usados diariamente.' },

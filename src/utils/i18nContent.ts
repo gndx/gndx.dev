@@ -10,8 +10,14 @@ export const collectionByLocale: Record<Locale, BlogCollection> = {
   pt: 'blogPt'
 };
 
+const getEntrySlug = (post: { slug?: string; id: string }) =>
+  post.slug || post.id.replace(/\.(md|mdx)$/i, '');
+
 export const getPostsByLocale = async (locale: Locale) => {
   const posts = await getCollection(collectionByLocale[locale]);
+  for (const post of posts as Array<{ id: string; slug?: string }>) {
+    if (!post.slug) post.slug = getEntrySlug(post);
+  }
   return posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 };
 

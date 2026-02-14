@@ -2,15 +2,15 @@
 import Base from '@layouts/Base.astro';
 import CategoryIcon from '@icons/CategoryIcon.astro';
 import { getTaxonomyByLocale } from '@utils/i18nContent';
-import { locales, isLocale, withLocalePath } from '@i18n/config';
+import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
 import { getUi } from '@i18n/ui';
 
 export async function getStaticPaths() {
-  return locales.map((locale) => ({ params: { locale } }));
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
 }
 
 const { locale } = Astro.params;
-if (!isLocale(locale)) return Astro.redirect('/es/');
+if (!isLocale(locale)) return Astro.redirect('/');
 
 const copy = getUi(locale);
 const categories = await getTaxonomyByLocale(locale, 'categories');

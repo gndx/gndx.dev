@@ -2,13 +2,13 @@
 import Base from '@layouts/Base.astro';
 import Posts from '@layouts/Posts.astro';
 import Pagination from '@components/Pagination.astro';
-import { locales, isLocale } from '@i18n/config';
+import { prefixedLocales, isLocale } from '@i18n/config';
 import { getPostsByLocale } from '@utils/i18nContent';
 import { getUi } from '@i18n/ui';
 
 export async function getStaticPaths({ paginate }) {
   const pages = [];
-  for (const locale of locales) {
+  for (const locale of prefixedLocales) {
     const posts = await getPostsByLocale(locale);
     pages.push(
       ...paginate(posts, {
@@ -22,7 +22,7 @@ export async function getStaticPaths({ paginate }) {
 
 const { page } = Astro.props;
 const { locale } = Astro.params;
-if (!isLocale(locale)) return Astro.redirect('/es/');
+if (!isLocale(locale)) return Astro.redirect('/');
 const copy = getUi(locale);
 ---
 
