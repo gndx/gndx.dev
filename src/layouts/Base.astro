@@ -100,6 +100,17 @@ const isDev = import.meta.env.DEV;
     <meta name='twitter:image' content={ogImage} />
     <meta name='twitter:card' content='summary_large_image' />
 
+    {
+      isDev && (
+        <script is:inline>
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+              registrations.forEach((registration) => registration.unregister());
+            });
+          }
+        </script>
+      )
+    }
     {!isDev && <script is:inline src='/registerSW.js'></script>}
     {!isDev && <link rel='manifest' href='/manifest.webmanifest' />}
     <ViewTransitions />
