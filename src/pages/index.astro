@@ -1,46 +1,14 @@
 ---
-import { defaultLocale } from '@i18n/config';
-const isDev = import.meta.env.DEV;
+import HomePagination from '@components/HomePagination.astro';
+import Base from '@layouts/Base.astro';
+import Posts from '@layouts/Posts.astro';
+import { getPostsByLocale } from '@utils/i18nContent';
+
+const locale = 'es';
+const posts = await getPostsByLocale(locale);
 ---
 
-<!doctype html>
-<html lang='es'>
-  <head>
-    <meta charset='UTF-8' />
-    <title>Redirecting...</title>
-    <script is:inline define:vars={{ isDev }}>
-      if ('serviceWorker' in navigator && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
-        });
-      }
-
-      const supportedLocales = ['es', 'en', 'pt'];
-      const cookieLocale = document.cookie
-        .split('; ')
-        .find((item) => item.startsWith('lang='))
-        ?.split('=')[1]
-        ?.toLowerCase();
-
-      const normalizedCookieLocale = supportedLocales.includes(cookieLocale) ? cookieLocale : undefined;
-      if (cookieLocale && !normalizedCookieLocale) {
-        document.cookie = 'lang=es; Max-Age=31536000; Path=/; SameSite=Lax';
-      }
-
-      const browserLocale = navigator.language.toLowerCase();
-      const resolved = normalizedCookieLocale || (browserLocale.startsWith('en')
-        ? 'en'
-        : browserLocale.startsWith('pt')
-        ? 'pt'
-        : 'es');
-
-      const target = resolved === 'es' ? '/' : `/${resolved}/`;
-      if (!isDev && target !== window.location.pathname) {
-        window.location.replace(target);
-      }
-    </script>
-  </head>
-  <body>
-    <a href={defaultLocale === 'es' ? '/' : `/${defaultLocale}/`}>Continue</a>
-  </body>
-</html>
+<Base locale={locale}>
+  <Posts posts={posts} locale={locale} />
+  <HomePagination locale={locale} />
+</Base>
