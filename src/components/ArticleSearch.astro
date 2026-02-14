@@ -1,0 +1,134 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .map((post) => ({
+    title: post.data.title,
+    description: post.data.description,
+    url: `/blog/${post.id}/`,
+  }))
+  .sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
+
+const postsJson = JSON.stringify(posts);
+---
+
+<div data-article-search data-posts={postsJson} class='w-full'>
+  <form role='search' aria-label='Buscar artículos del blog' class='relative'>
+    <label for='article-search-input' class='sr-only'>Buscar artículos</label>
+    <input
+      id='article-search-input'
+      name='q'
+      type='search'
+      inputmode='search'
+      autocomplete='off'
+      spellcheck='false'
+      placeholder='Buscar artículos'
+      class='w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none transition focus:border-gray-500 focus:ring-2 focus:ring-gray-300'
+      aria-describedby='article-search-help article-search-status'
+    />
+    <p id='article-search-help' class='mt-2 text-xs text-gray-500'>
+      Escribe para filtrar por título o descripción.
+    </p>
+    <p id='article-search-status' class='sr-only' aria-live='polite'></p>
+  </form>
+
+  <ul
+    id='article-search-results'
+    class='mt-3 hidden max-h-80 overflow-auto rounded-md border border-gray-200 bg-white'
+    aria-label='Resultados de búsqueda'
+  ></ul>
+</div>
+
+<script>
+  const roots = document.querySelectorAll('[data-article-search]');
+
+  for (const root of roots) {
+    const posts = JSON.parse(root.getAttribute('data-posts') || '[]');
+    const input = root.querySelector('#article-search-input');
+    const results = root.querySelector('#article-search-results');
+    const status = root.querySelector('#article-search-status');
+
+    if (!input || !results || !status) continue;
+
+    const normalize = (value) =>
+      value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+
+    const render = (items, query) => {
+      results.innerHTML = '';
+
+      if (!query) {
+        results.classList.add('hidden');
+        status.textContent = '';
+        return;
+      }
+
+      if (items.length === 0) {
+        results.classList.remove('hidden');
+        status.textContent = 'Sin resultados';
+
+        const empty = document.createElement('li');
+        empty.className = 'px-3 py-2 text-sm text-gray-500';
+        empty.textContent = 'No encontramos artículos con ese término.';
+        results.appendChild(empty);
+        return;
+      }
+
+      status.textContent = `${items.length} resultado${items.length === 1 ? '' : 's'}`;
+      results.classList.remove('hidden');
+
+      for (const item of items) {
+        const li = document.createElement('li');
+        li.className = 'border-b border-gray-100 last:border-b-0';
+
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.className =
+          'block px-3 py-2 no-underline outline-none focus:bg-gray-50 focus:ring-2 focus:ring-inset focus:ring-gray-300';
+
+        const title = document.createElement('p');
+        title.className = 'text-sm font-medium text-gray-900';
+        title.textContent = item.title;
+
+        const desc = document.createElement('p');
+        desc.className = 'mt-1 text-xs text-gray-600';
+        desc.textContent = item.description;
+
+        link.appendChild(title);
+        link.appendChild(desc);
+        li.appendChild(link);
+        results.appendChild(li);
+      }
+    };
+
+    input.addEventListener('input', () => {
+      const raw = input.value;
+      const query = normalize(raw);
+
+      const matches = posts
+        .filter((post) => {
+          const haystack = normalize(`${post.title} ${post.description}`);
+          return haystack.includes(query);
+        })
+        .slice(0, 8);
+
+      render(matches, query);
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        results.classList.add('hidden');
+        status.textContent = '';
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!root.contains(event.target)) {
+        results.classList.add('hidden');
+      }
+    });
+  }
+</script>

@@ -5,6 +5,7 @@ import config from '@config/config.json';
 import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
+import ArticleSearch from '@components/ArticleSearch.astro';
 
 export interface NavigationLink {
   name: string;
@@ -37,6 +38,8 @@ const { main }: { main: NavigationLink[] } = menu;
           id='show-button'
           for='nav-toggle'
           class='order-2 flex cursor-pointer items-center text-black md:hidden'
+          aria-label='Abrir menú de navegación'
+          aria-controls='nav-menu'
         >
           <HamburgerIcon />
         </label>
@@ -44,6 +47,8 @@ const { main }: { main: NavigationLink[] } = menu;
           id='hide-button'
           for='nav-toggle'
           class='order-2 hidden cursor-pointer items-center text-black'
+          aria-label='Cerrar menú de navegación'
+          aria-controls='nav-menu'
         >
           <CloseIcon />
         </label>
@@ -79,6 +84,9 @@ const { main }: { main: NavigationLink[] } = menu;
           ))
         }
       </ul>
+    </div>
+    <div class='mt-5'>
+      <ArticleSearch />
     </div>
   </div>
 </header>
