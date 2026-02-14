@@ -13,7 +13,7 @@ export async function getStaticPaths() {
     const posts = await getPostsByLocale(locale);
     paths.push(
       ...posts.map((post) => ({
-        params: { locale, slug: post.slug }
+        params: { locale, slug: post.slug || post.id.replace(/\.(md|mdx)$/i, '') }
       }))
     );
   }
@@ -23,7 +23,9 @@ export async function getStaticPaths() {
 const { locale, slug } = Astro.params;
 if (!isLocale(locale)) return Astro.redirect('/');
 const posts = await getPostsByLocale(locale as Locale);
-const post = posts.find((item) => item.slug === slug);
+const post = posts.find(
+  (item) => (item.slug || item.id.replace(/\.(md|mdx)$/i, '')) === slug
+);
 if (!post) return Astro.redirect(withLocalePath(locale as Locale, '/blog'));
 
 const { Content } = await render(post);
