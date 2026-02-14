@@ -27,6 +27,7 @@ const { title, meta_title, description, image, noindex, blogpost, canonical, loc
 const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jpg';
 const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
 const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
+const isDev = import.meta.env.DEV;
 ---
 
 <!doctype html>
@@ -99,8 +100,8 @@ const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
     <meta name='twitter:image' content={ogImage} />
     <meta name='twitter:card' content='summary_large_image' />
 
-    <script is:inline src='/registerSW.js'></script>
-    <link rel='manifest' href='/manifest.webmanifest' />
+    {!isDev && <script is:inline src='/registerSW.js'></script>}
+    {!isDev && <link rel='manifest' href='/manifest.webmanifest' />}
     <ViewTransitions />
     <script
       defer
