@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "ev0",
+	"name": "gndxdev",
   "compatibility_date": "2026-02-15",
   "compatibility_flags": [
     "nodejs_compat",
