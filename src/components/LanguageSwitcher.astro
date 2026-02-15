@@ -6,22 +6,37 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const labels: Record<Locale, string> = { es: 'ES', en: 'EN', pt: 'PT' };
+const labels: Record<Locale, string> = { es: 'Espanol', en: 'English', pt: 'Portugues' };
 const currentPath = Astro.url.pathname;
 ---
 
-<div class='ml-4 flex gap-2 text-xs font-semibold text-gray-500'>
-  {
-    locales.map((lang) => (
-      <a
-        href={withLocalePath(lang, currentPath)}
-        data-lang={lang}
-        class={`rounded border px-2 py-1 hover:text-gray-800 ${lang === locale ? 'border-gray-700 text-gray-900' : 'border-gray-300'}`}
-      >
-        {labels[lang]}
-      </a>
-    ))
-  }
+<div class='ml-4 relative text-sm text-gray-600'>
+  <details class='relative group'>
+    <summary
+      class='flex cursor-pointer list-none items-center rounded-full border border-gray-300 px-2 py-1 hover:border-gray-500'
+      aria-label='Open language menu'
+    >
+      <span aria-hidden='true' class='text-base leading-none'>🌐</span>
+    </summary>
+    <ul
+      class='absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-md border border-gray-200 bg-white py-1 shadow-lg'
+      aria-label='Language options'
+    >
+      {
+        locales.map((lang) => (
+          <li>
+            <a
+              href={withLocalePath(lang, currentPath)}
+              data-lang={lang}
+              class={`block px-3 py-2 text-sm hover:bg-gray-50 hover:text-gray-800 ${lang === locale ? 'bg-gray-100 font-semibold text-gray-900' : 'text-gray-600'}`}
+            >
+              {labels[lang]}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
 </div>
 
 <script>
