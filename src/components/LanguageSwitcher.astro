@@ -6,20 +6,36 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const labels: Record<Locale, string> = { es: 'Espanol', en: 'English', pt: 'Portugues' };
+const labels: Record<Locale, string> = { es: 'Español', en: 'English', pt: 'Português' };
 const currentPath = Astro.url.pathname;
 ---
 
 <div class='ml-4 relative text-sm text-gray-600'>
-  <details class='relative group'>
+  <details class='relative group language-switcher'>
     <summary
-      class='flex cursor-pointer list-none items-center rounded-full border border-gray-300 px-2 py-1 hover:border-gray-500'
+      class='flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-md border border-slate-700/80 bg-slate-900 p-0.5 align-middle transition-colors hover:bg-slate-800'
       aria-label='Open language menu'
     >
-      <span aria-hidden='true' class='text-base leading-none'>🌐</span>
+      <svg
+        aria-hidden='true'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='2'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        class='h-[18px] w-[18px] text-slate-200'
+      >
+        <path d='m5 8 6 6'></path>
+        <path d='m4 14 6-6 2-3'></path>
+        <path d='M2 5h12'></path>
+        <path d='M7 2h1'></path>
+        <path d='m22 22-5-10-5 10'></path>
+        <path d='M14 18h6'></path>
+      </svg>
     </summary>
     <ul
-      class='absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-md border border-gray-200 bg-white py-1 shadow-lg'
+      class='language-menu absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-md border border-gray-200 bg-white py-1 shadow-lg'
       aria-label='Language options'
     >
       {
@@ -38,6 +54,30 @@ const currentPath = Astro.url.pathname;
     </ul>
   </details>
 </div>
+
+<style>
+  .language-switcher > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .language-switcher .language-menu {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+    transform-origin: top right;
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 180ms ease;
+  }
+
+  .language-switcher[open] .language-menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .language-switcher[open] > summary {
+    background-color: rgb(30 41 59);
+  }
+</style>
 
 <script>
   document.querySelectorAll('[data-lang]').forEach((item) => {
