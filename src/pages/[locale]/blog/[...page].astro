@@ -1,0 +1,41 @@
+---
+import Base from '@layouts/Base.astro';
+import Posts from '@layouts/Posts.astro';
+import Pagination from '@components/Pagination.astro';
+import { prefixedLocales, isLocale } from '@i18n/config';
+import { getPostsByLocale } from '@utils/i18nContent';
+import { getUi } from '@i18n/ui';
+
+export async function getStaticPaths({ paginate }) {
+  const pages = [];
+  for (const locale of prefixedLocales) {
+    const posts = await getPostsByLocale(locale);
+    pages.push(
+      ...paginate(posts, {
+        pageSize: 9,
+        params: { locale }
+      })
+    );
+  }
+  return pages;
+}
+
+const { page } = Astro.props;
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/');
+const copy = getUi(locale);
+---
+
+<Base locale={locale} meta_title={copy.labels.blog}>
+  <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.blog}</h1>
+  <Posts posts={page.data} locale={locale} />
+  <Pagination
+    length={page.lastPage}
+    currentUrl={page.url.current}
+    currentPage={page.currentPage}
+    firstUrl={`/${locale}/blog/`}
+    prevUrl={page.url.prev}
+    nextUrl={page.url.next}
+    lastUrl={`/${locale}/blog/${page.lastPage}`}
+  />
+</Base>

@@ -1,0 +1,42 @@
+---
+title: 'Create development server with Webpack (Hot Reload) in React'
+description: 'One of the most important resources when developing in React is being able to test our code in the browser without compiling every change made.'
+pubDate: 2019-12-29T00:00:00.000Z
+heroImage: '/blog-placeholder.jpg'
+tags:
+  - 'react'
+  - 'javascript'
+  - 'tutorials'
+---
+
+
+One of the most important resources when developing in React is being able to test our code in the browser without compiling every change made. For this we are going to resort to preparing our previous project: "[Hello world in React + Babel + Webpack](https://arepa.dev/hola-mundo-en-react-babel-webpack/)"
+
+**What will we learn?** Prepare our project to have a development server. Additionally, every time you save a file after a modification, the webpack server will automatically refresh the browser window.
+
+We are going to update our project, the first thing we must do is install the development dependencies that webpack requires to add this feature to our project:
+
+```bash
+npm i webpack-dev-server --save-dev
+```
+
+Once the necessary dependencies are installed, in our **package.json** file we will add the following script below the one we have to compile the project:
+
+```json
+"start": "webpack-dev-server --open --mode development",
+```
+
+We save and execute the command in the terminal/console:
+
+```
+npm run start
+```
+
+Webpack will open a browser window on port 8080 of your localhost where you can see your project ready to test. Also, if there is an error, the console will help you by displaying a message.
+
+**In conclusion**
+
+We learned to prepare our projects with a development server to speed up our work, optimizing the compilation process every time we need to save our code.
+
+If you want to learn more about this package and its multiple uses, I recommend reading the documentation in detail: [Webpack DevServer](https://webpack.js.org/configuration/dev-server/)"
+

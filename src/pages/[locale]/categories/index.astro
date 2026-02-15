@@ -1,0 +1,39 @@
+---
+import Base from '@layouts/Base.astro';
+import CategoryIcon from '@icons/CategoryIcon.astro';
+import { getTaxonomyByLocale } from '@utils/i18nContent';
+import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
+import { getUi } from '@i18n/ui';
+
+export async function getStaticPaths() {
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/');
+
+const copy = getUi(locale);
+const categories = await getTaxonomyByLocale(locale, 'categories');
+---
+
+<Base locale={locale} meta_title={copy.labels.categories}>
+  <section class='grid grid-cols-1'>
+    <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.categories}:</h1>
+    <ul class='flex flex-wrap gap-3 text-gray-500'>
+      {
+        categories.map((category) => (
+          <li class='flex items-center justify-between mr-4'>
+            <CategoryIcon />
+            <a
+              class='text-lg text-gray-500 hover:text-gray-800 capitalize'
+              href={withLocalePath(locale, `/categories/${category.slug}`)}
+              title={`${copy.labels.postsWithCategory}: ${category.name}`}
+            >
+              {category.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

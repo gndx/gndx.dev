@@ -8,12 +8,24 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 import { manifest } from './src/utils/manifest';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://gndx.dev',
+
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en', 'pt'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
+
   image: {
     remotePatterns: [{ protocol: 'https' }]
   },
+
   markdown: {
     drafts: true,
     shikiConfig: {
@@ -21,6 +33,7 @@ export default defineConfig({
       wrap: true
     }
   },
+
   integrations: [
     mdx({
       syntaxHighlight: 'shiki',
@@ -35,6 +48,7 @@ export default defineConfig({
     tailwindcss(),
     robotsTxt()
   ],
+
   vite: {
     plugins: [VitePWA({
       registerType: 'autoUpdate',
@@ -47,5 +61,7 @@ export default defineConfig({
         navigateFallback: null
       }
     }), tailwindcss()]
-  }
+  },
+
+  adapter: cloudflare()
 });

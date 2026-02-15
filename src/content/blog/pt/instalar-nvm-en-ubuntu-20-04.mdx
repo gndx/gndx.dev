@@ -1,0 +1,80 @@
+---
+title: 'Instale NVM no Ubuntu 20.04'
+description: 'Node Version Manager (NVM) é uma ferramenta que nos permite gerenciar múltiplas versões do Node.js, aprenda como instalá-lo em WSL2 no Windows 11.'
+pubDate: '2021-10-14T02:33:37.383Z'
+tags:
+  - 'Ubuntu'
+  - 'javascript'
+  - 'recursos'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+**Node Version Manager** (**NVM**) é uma ferramenta que nos permite gerenciar várias versões do **Node.js**. Graças ao NVM podemos instalar as versões mais recentes do node.js incluindo npm ou instalar uma versão específica e poder alternar facilmente entre versões a partir da linha de comando.
+
+Anteriormente aprendemos como [instalar WSL2 no Windows 11](https://gndx.dev/blog/instalar-wsl2-en-windows-11) agora vamos instalar o Node.js através do NVM para trabalhar em nossos projetos construídos em JavaScript dentro da configuração do Ubuntu 20.04 que instalamos com WSL2 no Windows 11.
+
+### Instale NVM no Ubuntu 20.04
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+```
+
+Agora vamos ativar a variável de ambiente para NVM com o seguinte comando:
+
+```
+source ~/.bashrc
+```
+
+Agora vamos verificar se o NVM está instalado e funcionando.
+
+```
+nvm --version
+```
+
+### Instale o Node.js em sua versão mais recente
+
+```
+nvm install node
+```
+
+![instalar node.js no Ubuntu](https://arepa.s3.amazonaws.com/nvm-nodejs.png)
+
+Agora verificamos se temos o Node.js e o npm instalados.
+
+```
+node --version | npm --version
+```
+
+#### instale uma versão específica do Node.js
+
+```
+nvm install 14.18.1 // Node LTS
+```
+
+#### Listar versões instaladas
+
+```
+nvm ls
+```
+
+#### Alternar entre versões do Node.js.
+
+```
+nvm use 14.18.1 | 16.11.1
+```
+
+#### Excluir uma versão do Node.js
+
+```
+nvm uninstall 14.18.1
+```
+
+**NVM** nos permite instalar e gerenciar corretamente as versões do Node.js necessárias para nossos projetos.
+
+![instalar nvm no Ubuntu](https://arepa.s3.amazonaws.com/ls-nvm.png)
+
+**Nota:** _Se você estiver trabalhando com zsh ou algum outro perfil em seu sistema operacional GNU/Linux, você deve ativar a variável de ambiente NVM._
+
+Mais informações no repositório GitHub: [nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+

@@ -1,0 +1,80 @@
+---
+title: 'Install NVM on Ubuntu 20.04'
+description: 'Node Version Manager (NVM) is a tool that allows us to manage multiple versions of Node.js, learn how to install it in WSL2 on Windows 11.'
+pubDate: '2021-10-14T02:33:37.383Z'
+tags:
+  - 'ubuntu'
+  - 'javascript'
+  - 'resources'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+**Node Version Manager** (**NVM**) is a tool that allows us to manage multiple versions of **Node.js**. Thanks to NVM we can install the most recent versions of node.js including npm or install a specific version and be able to switch between versions easily from the command line.
+
+Previously we learned how to [install WSL2 on Windows 11](https://gndx.dev/blog/instalar-wsl2-en-windows-11) now we are going to install Node.js through NVM to work on our projects built in JavaScript within the Ubuntu 20.04 configuration that we installed with WSL2 on Windows 11.
+
+### Install NVM on Ubuntu 20.04
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+```
+
+Now we are going to activate the environment variable for NVM with the following command:
+
+```
+source ~/.bashrc
+```
+
+Now let's verify that we have NVM installed and working.
+
+```
+nvm --version
+```
+
+### Install Node.js in its latest version
+
+```
+nvm install node
+```
+
+![install node.js on Ubuntu](https://arepa.s3.amazonaws.com/nvm-nodejs.png)
+
+Now we check that we have Node.js and npm installed.
+
+```
+node --version | npm --version
+```
+
+#### install a specific version of Node.js
+
+```
+nvm install 14.18.1 // Node LTS
+```
+
+#### List installed versions
+
+```
+nvm ls
+```
+
+#### Switch between Node.js versions
+
+```
+nvm use 14.18.1 | 16.11.1
+```
+
+#### Delete a version of Node.js
+
+```
+nvm uninstall 14.18.1
+```
+
+**NVM** allows us to correctly install and manage the versions of Node.js that we need for our projects.
+
+![install nvm on Ubuntu](https://arepa.s3.amazonaws.com/ls-nvm.png)
+
+**Note:** _If you are working with zsh or some other profile in your GNU/Linux operating system, you must activate the NVM environment variable._
+
+More information in the GitHub repository: [nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+

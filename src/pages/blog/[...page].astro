@@ -6,10 +6,10 @@ import Pagination from "@components/Pagination.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths({ paginate }) {
-  const allPosts = await getCollection("blog");
-  const formattedPosts = allPosts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
+  const allPosts = await getCollection("blogEs");
+  const formattedPosts = allPosts
+    .map((post) => ({ ...post, slug: post.slug || post.id.replace(/\.(md|mdx)$/i, '') }))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return paginate(formattedPosts, {
     pageSize: 9,
   });

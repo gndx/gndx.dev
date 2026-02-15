@@ -1,0 +1,51 @@
+---
+title: 'Instale o Ghost no Heroku'
+description: 'Ghost é uma plataforma de blog de código aberto escrita em JavaScript e distribuída sob licença do MIT. Desde o seu lançamento em 2013, tornou-se bastante popular devido à sua simplicidade e desempenho.'
+pubDate: 2020-01-06T00:00:00.000Z
+tags:
+  - 'tutoriais'
+  - 'javascript'
+  - 'heróiku'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+Há algum tempo me perguntaram como este blog é construído, então escreverei uma série de recursos para ajudá-lo a criar um blog com as mesmas tecnologias que utilizo.
+
+Arepa.dev usa [Ghost](https://ghost.org/) para criar e gerenciar o conteúdo que escrevo e eu uso [Gatsby](https://www.gatsbyjs.org/) para criar um site estático, personalizar o frontend e obter todo o poder do Gatsby.
+![](https://s3.amazonaws.com/arepadev/2020/01/admin-api-gatsby-diagram.png)
+Nesta edição vamos nos concentrar na instalação do **Ghost no Heroku** e na execução da primeira parte do blog que chamaremos de "**The Backend**".
+
+### Instale o Ghost no Heroku
+
+Ghost é uma plataforma de blog de código aberto escrita em JavaScript e distribuída sob licença do MIT. Desde o seu lançamento em 2013, tornou-se bastante popular devido à sua simplicidade e desempenho.
+
+Para esta seção é necessário ter em mente os seguintes elementos para criar um blog com fantasma.
+
+1. [Conta Heroku](https://signup.heroku.com/)
+2. [Conta Amazon Web Services](https://aws.amazon.com/es/free/)
+
+Depois de criada sua conta na Amazon Web Services, você deverá obter os seguintes elementos:
+
+1. [Chave de acesso AWS](https://docs.aws.amazon.com/es_es/general/latest/gr/managing-aws-access-keys.html)
+2. [Chave secreta da AWS](https://docs.aws.amazon.com/es_es/general/latest/gr/managing-aws-access-keys.html)
+3. [Criar um intervalo no S3](https://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/create-bucket.html)
+
+Agora que você tem todos os requisitos necessários, podemos prosseguir com a instalação do **Ghost no Heroku**  Para esta etapa, criei um repositório onde estão localizadas todas as configurações necessárias para instalar o Ghost em sua versão mais recente no Heroku.
+
+Tudo que você precisa fazer é usar o seguinte botão de implantação no Heroku e seguir as instruções necessárias.
+
+[![Implantar](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fgndx%2Fghost-on-heroku&template=https%3A%2F%2Fgithub.com%2Fgndx%2Fghost-on-heroku)
+
+Agora você deve escolher um nome de usuário para o App que irá criar no Heroku, que será a URL que você obterá para o seu blog.
+![](https://s3.amazonaws.com/arepadev/2020/01/heroku-app.png)
+Esta configuração usará um banco de dados MySql e o serviço mailgun para gerenciamento de email dentro do seu projeto.
+![](https://s3.amazonaws.com/arepadev/2020/01/heroku-aws.png)
+Depois de preencher todos os dados necessários, clicamos em “Implantar aplicativo” para criar nosso aplicativo.
+
+Quando o processo for concluído você poderá visualizar as boas-vindas do Ghost na URL escolhida. Agora é necessário ir em https:///ghost/ para configurar seu usuário e começar a criar conteúdo.
+![](https://s3.amazonaws.com/arepadev/2020/01/register-ghost.png)
+Agora você tem um novo blog com Heroku.
+![](https://s3.amazonaws.com/arepadev/2020/01/ghost-heroku-blog.png)
+Agora que você tem seu blog rodando com o Ghost, é hora de personalizá-lo e criar sua primeira postagem.
+

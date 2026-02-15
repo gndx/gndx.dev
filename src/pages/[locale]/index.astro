@@ -1,0 +1,21 @@
+---
+import HomePagination from '@components/HomePagination.astro';
+import Base from '@layouts/Base.astro';
+import Posts from '@layouts/Posts.astro';
+import { prefixedLocales, type Locale, isLocale } from '@i18n/config';
+import { getPostsByLocale } from '@utils/i18nContent';
+
+export async function getStaticPaths() {
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/');
+
+const posts = await getPostsByLocale(locale);
+---
+
+<Base locale={locale}>
+  <Posts posts={posts} locale={locale as Locale} />
+  <HomePagination locale={locale as Locale} />
+</Base>

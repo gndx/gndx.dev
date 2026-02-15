@@ -1,0 +1,39 @@
+---
+title: 'Contact form with React + Firebase'
+description: 'We are going to create a contact form made with ReactJS and store the contact requests in Firebase Database.'
+pubDate: 2017-12-08T00:00:00.000Z
+tags:
+  - 'firebase'
+  - 'reactJS'
+  - 'resources'
+  - 'javasscriptpt'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+We are going to create a contact form made with ReactJS and store the contact requests in Firebase Database.
+
+**What is Firebase Realtime Database?**
+
+It is a service that stores and synchronizes data with our NoSQL database hosted in the cloud. Data is synced to all clients in real time and remains available when your app is offline.
+
+One of the great qualities of [Firebase RealTime Database](https://firebase.google.com/products/database/?hl=es-419) is that it works offline, the Firebase RealTime Database SDK stores the data on disk and when the connection is reestablished the client receives the missing data and synchronizes with the current state of the server. (Feature I love).
+
+Our example project is built with "[create-React-app](https://github.com/facebookincubator/create-react-app)", so we're going to skip all the initial setup and focus on working on the "App.js" file where we'll create the form.
+
+**Configure Firebase within our React project**
+
+To use _Firebase RealTime Database_ in our React application we must import the "_Firebase_" library which we will install within our project from npm with the following command:
+
+    npm install --save firebase
+
+We go to our "_[Firebase Console](https://console.firebase.google.com)_" we choose or create a project and in the "Add Firebase to your web app" option we copy the configuration that includes the apiKey, authDomain, projectId, databaseURL, storageBucket necessary to connect with the service.
+
+We create a file inside "src/" and we will call it "Firebase.js" where we will add our configuration as follows:
+
+Creating our contact form within our App.js file
+
+I leave you the repository with the project: [react-form-firebase](https://github.com/gndx/react-form-firebase)
+
+Demo of the form: [https://gndx-projects.firebaseapp.com/](https://gndx-projects.firebaseapp.com/)
+

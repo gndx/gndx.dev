@@ -1,0 +1,36 @@
+---
+import { getPostsByLocale } from '@utils/i18nContent';
+import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
+import type { Locale } from '@i18n/config';
+import { render } from 'astro:content';
+
+import BlogPost from '@layouts/BlogPost.astro';
+import Code from '@components/mdx/Code.astro';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const locale of prefixedLocales) {
+    const posts = await getPostsByLocale(locale);
+    paths.push(
+      ...posts.map((post) => ({
+        params: { locale, slug: post.slug || post.id.replace(/\.(md|mdx)$/i, '') }
+      }))
+    );
+  }
+  return paths;
+}
+
+const { locale, slug } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/');
+const posts = await getPostsByLocale(locale as Locale);
+const post = posts.find(
+  (item) => (item.slug || item.id.replace(/\.(md|mdx)$/i, '')) === slug
+);
+if (!post) return Astro.redirect(withLocalePath(locale as Locale, '/blog'));
+
+const { Content } = await render(post);
+---
+
+<BlogPost {...post.data} locale={locale as Locale}>
+  <Content components={{ pre: Code }} />
+</BlogPost>

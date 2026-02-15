@@ -1,0 +1,33 @@
+---
+import Base from '@layouts/Base.astro';
+import Page from '@layouts/Page.astro';
+import { prefixedLocales, isLocale } from '@i18n/config';
+
+export async function getStaticPaths() {
+  return prefixedLocales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params;
+if (!isLocale(locale)) return Astro.redirect('/');
+
+const content = {
+  es: {
+    title: 'Quien es Oscar Barajas Tavares',
+    body: 'Learning Engineer, creador de contenido y desarrollador FrontEnd con mas de 22 anos de experiencia.'
+  },
+  en: {
+    title: 'Who is Oscar Barajas Tavares',
+    body: 'Learning Engineer, content creator, and Frontend developer with 22+ years of experience.'
+  },
+  pt: {
+    title: 'Quem e Oscar Barajas Tavares',
+    body: 'Learning Engineer, criador de conteudo e desenvolvedor Frontend com mais de 22 anos de experiencia.'
+  }
+}[locale];
+---
+
+<Base locale={locale} meta_title={content.title}>
+  <Page title={content.title}>
+    <p>{content.body}</p>
+  </Page>
+</Base>

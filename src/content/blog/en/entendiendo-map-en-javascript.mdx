@@ -1,0 +1,68 @@
+---
+title: 'Understanding "map()" in Javascript'
+description: 'When we have to work with Arrays in JavaScript, there are several options available with which we can iterate, transform or manipulate our arrays.'
+pubDate: 2019-05-27T00:00:00.000Z
+tags:
+  - 'javascript'
+  - 'tutorials'
+  - 'resources'
+heroImage: '/blog-placeholder.jpg'
+---
+
+When we have to work with **Arrays in JavaScript**, there are several options available with which we can iterate, transform or manipulate our arrays. This time we are going to talk about how "**Array.prototype.map()**" works, this method that we can use in arrays in JavaScript.
+
+Mozilla's MDN site explains its functionality as follows:
+
+> The map() method creates a new array with the results of the call to the indicated function applied to each of its elements.
+
+**But what does this mean in practice?** The map() method allows us to return a new array of data based on an array. In other words, we do not mutate the data of the original array, now we have a new array with the resulting values.
+
+**Let's put a problem and solve it with the map() method. **
+We have a list of products that a user will buy and we want to obtain only the names of the products to buy.
+
+To understand the example a little more, we are going to solve it without the map() method, for this we will use the for() method.
+
+```js
+const products = [
+  { id: "1", name: "shirt", category: "clothing" },
+  { id: "2", name: "Sports Tennis", category: "accessories" },
+  { id: "3", name: "Casual shoes", category: "footwear" },
+  { id: "4", name: "skirt", category: "clothing" },
+  { id: "5", name: "tie", category: "clothing" },
+];
+
+let nameOfProducts = [];
+
+for (let i = 0; i < products.length; i++) {
+  nameOfProducts.push(products[i].name);
+}
+
+console.log(nameOfProducts); // ["shirt","Sports Tennis","Casual shoes","skirt","tie"]
+```
+
+**Now let's solve the problem with the map() method**
+map() receives as a parameter a function which receives 3 parameters, the current element, the index of the current element and the original array.
+
+```js
+    array.map(function(currentitem, index, originalarray) {  ... código });
+
+const products = [
+        { id: "1", name: "shirt", category: "clothing" },
+        { id: "2", name: "Sports Tennis", category: "accessories" },
+        { id: "3", name: "Casual shoes", category: "footwear" },
+        { id: "4", name: "skirt", category: "clothing" },
+        { id: "5", name: "tie", category: "clothing" }
+    ]
+    let nameOfProducts = products.map((product, index, array) => {
+        // Cómo solo queremos los nombres, retornamos "name".
+        return product.name;
+    })
+
+console.log(nameOfProducts2); // ["shirt", "Sports Tennis", "Casual shoes", "skirt", "tie"]
+```
+
+In conclusion:
+
+As we can see, we have reduced our code, it is now more readable, easy to understand and simplified.  The functionality of .map() can be extended with other methods and used powerfully, I leave you the [MDN documentation](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/map) in case you want to see more practical examples.
+
+I invite you to set some challenges and solve them using the map() method. If you have questions, leave your comments or questions. They will always be appreciated!

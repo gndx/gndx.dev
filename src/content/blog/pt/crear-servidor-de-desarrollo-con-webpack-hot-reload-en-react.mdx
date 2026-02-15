@@ -1,0 +1,42 @@
+---
+title: 'Crie servidor de desenvolvimento com Webpack (Hot Reload) em React'
+description: 'Um dos recursos mais importantes ao desenvolver em React é poder testar nosso código no navegador sem compilar todas as alterações feitas.'
+pubDate: 2019-12-29T00:00:00.000Z
+heroImage: '/blog-placeholder.jpg'
+tags:
+  - 'reagir'
+  - 'javascript'
+  - 'tutoriais'
+---
+
+
+Um dos recursos mais importantes ao desenvolver em React é poder testar nosso código no navegador sem compilar todas as alterações feitas. Para isso vamos recorrer à preparação do nosso projeto anterior: "[Hello world in React + Babel + Webpack](https://arepa.dev/hola-mundo-en-react-babel-webpack/)"
+
+**O que aprenderemos?** Preparar nosso projeto para ter um servidor de desenvolvimento. Além disso, toda vez que você salva um arquivo após uma modificação, o servidor webpack atualizará automaticamente a janela do navegador.
+
+Vamos atualizar nosso projeto, a primeira coisa que devemos fazer é instalar as dependências de desenvolvimento que o webpack requer para adicionar este recurso ao nosso projeto:
+
+```bash
+npm i webpack-dev-server --save-dev
+```
+
+Uma vez instaladas as dependências necessárias, em nosso arquivo **package.json** adicionaremos o seguinte script abaixo daquele que temos para compilar o projeto:
+
+```json
+"start": "webpack-dev-server --open --mode development",
+```
+
+Salvamos e executamos o comando no terminal/console:
+
+```
+npm run start
+```
+
+O Webpack abrirá uma janela do navegador na porta 8080 do seu host local onde você poderá ver seu projeto pronto para teste. Além disso, se houver um erro, o console irá ajudá-lo exibindo uma mensagem.
+
+**Para concluir**
+
+Aprendemos a preparar nossos projetos com um servidor de desenvolvimento para agilizar nosso trabalho, otimizando o processo de compilação sempre que precisarmos salvar nosso código.
+
+Se você quiser saber mais sobre este pacote e seus múltiplos usos, recomendo a leitura detalhada da documentação: [Webpack DevServer](https://webpack.js.org/configuration/dev-server/)"
+

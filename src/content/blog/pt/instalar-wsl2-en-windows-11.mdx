@@ -1,0 +1,66 @@
+---
+title: 'Instale WSL2 no Windows 11'
+description: 'Como instalar o subsistema Windows Linux (WSL 2) no Windows 11'
+pubDate: '2021-10-12T03:26:17.542Z'
+tags:
+  - 'Windows'
+  - 'Programação'
+  - 'recursos'
+heroImage: '/blog-placeholder.jpg'
+---
+
+
+**Windows SubSystem Linux**, mais conhecido como WSL ou WSL2, é uma ferramenta que permite que usuários do **Windows 10** e **Windows 11** executem distribuições GNU/Linux sem precisar instalar software adicional de terceiros ou alterar sistemas operacionais. Atualmente suporta distribuições GNU/Linux como Ubuntu, Debian, Fedora, Suse, entre outras que você encontra na loja de aplicativos.
+
+![gndx instala wsl2 no Windows 11](https://arepa.s3.amazonaws.com/instalar-wsl2-windows-11.png)
+
+A versão mais recente do **Windows SubSystem Linux** é conhecida como WSL2. Entre as principais funcionalidades que WSL2 nos oferece estão:
+
+- Integração entre Windows - GNU/Linux
+- Início rápido da instância
+- VM gerenciada
+- Kernel GNU/Linux completo
+- Compatibilidade de sistema operacional
+
+**WSL2** permite que os desenvolvedores executem um ambiente GNU/Linux com a maioria de seus aplicativos, utilitários e acesso à linha de comando. Parte fundamental para trabalhar com nossos projetos escritos em JavaScript.
+
+### Como instalar WSL2 no Windows 11
+
+Com o recente lançamento do Windows 11, devemos configurar nosso ambiente de trabalho, tanto no meu uso pessoal quanto no meu dia a dia como Desenvolvedor Frontend, preciso ter um ambiente de trabalho otimizado para trabalhar com JavaScript, executar programas do terminal, entre outras tarefas importantes.
+
+A primeira coisa que precisamos fazer é iniciar o aplicativo "**Windows Terminal**" que é instalado por padrão no Windows 11. (_Anteriormente, no Windows 10, tínhamos que instalá-lo na loja de aplicativos._).
+
+1. Execute o **Terminal do Windows** como administrador.
+2. Execute o comando:
+
+```bash
+wsl --install
+```
+
+![instalar wsl2 no Windows 11](https://arepa.s3.amazonaws.com/windows-terminal-gndx-instalar-wsl2.png)
+
+Siga as instruções na tela e aguarde a conclusão da instalação.
+
+3. Instale uma distribuição GNU/Linux daquelas disponíveis na loja de aplicativos da Microsoft.
+
+Distribuições que recomendo usar:
+
+- [Ubuntu 20.04 LTS](https://www.microsoft.com/store/apps/9N9TNGVNDL3Q)
+- [Debian GNU/Linux](https://www.microsoft.com/store/apps/9MSVKQC78PK6)
+
+Na minha configuração eu uso "**Ubuntu 20.04 LTS**" instalado em "[Microsoft Store](https://www.microsoft.com/es-co/store/apps/windows)". (_Você pode instalar a versão GNU/Linux de sua escolha._)
+
+![instale o Ubuntu 20.04 no Windows 11](https://arepa.s3.amazonaws.com/instalar-ubuntu-windows-11.png)
+
+4. Depois de instalado, é necessário reiniciar nosso computador para iniciar a instalação do Ubuntu e configurar nosso usuário.
+
+5. Execute o aplicativo Ubuntu, será aberto um terminal no qual seguiremos as instruções e atribuiremos um nome de usuário e senha.
+
+6. Assim que este processo for concluído, você poderá executar o Ubuntu a partir do Terminal Windows.
+
+![insira a descrição da imagem aqui](https://arepa.s3.amazonaws.com/windows-terminal-ubuntu-windows-11.png)
+
+O Windows 11 nos permite trabalhar com muito mais facilidade, com instalação e configuração mais amigáveis ​​com **Windows SubSystem Linux** e ter um ambiente de desenvolvimento poderoso para trabalhar em nossos aplicativos.
+
+Para finalizar, convido você a instalar meu "[Tema personalizado para ZSH](https://gndx.dev/blog/tema-oh-my-zsh-gndx)" e os plug-ins que utilizo.
+
