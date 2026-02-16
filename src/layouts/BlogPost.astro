@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '@components/FormattedDate.astro';
 import CalendarIcon from '@icons/CalendarIcon.astro';
 import CategoryIcon from '@icons/CategoryIcon.astro';
+import GiscusComments from '@components/GiscusComments.astro';
 import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
@@ -14,34 +15,73 @@ interface Props extends CollectionEntry<'blogEs'>['data'] {
   ogImage?: string;
 }
 
-const { title, description, pubDate, heroImage, categories, tags, ogImage, locale = 'es' } =
+const { title, description, pubDate, updatedDate, heroImage, categories, tags, ogImage, locale = 'es' } =
   Astro.props as Props;
 const dateLocaleMap: Record<Locale, string> = {
   es: 'es-ES',
   en: 'en-US',
   pt: 'pt-BR'
 };
+const normalizedPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const articleUrl = new URL(normalizedPath, config.site.base_url).toString();
+const articleImage = ogImage || heroImage;
+const imageUrl = articleImage
+  ? articleImage.startsWith('http')
+    ? articleImage
+    : new URL(articleImage, config.site.base_url).toString()
+  : undefined;
+const publisherLogo = config.site.logo.startsWith('http')
+  ? config.site.logo
+  : new URL(config.site.logo, config.site.base_url).toString();
+
+const blogPostingLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate || pubDate).toISOString(),
+  inLanguage: locale,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl
+  },
+  ...(imageUrl ? { image: [imageUrl] } : {}),
+  author: [
+    {
+      '@type': 'Person',
+      name: config.author.name
+    }
+  ],
+  publisher: {
+    '@type': 'Organization',
+    name: config.site.title,
+    logo: {
+      '@type': 'ImageObject',
+      url: publisherLogo
+    }
+  },
+  ...(categories?.length ? { articleSection: categories[0] } : {}),
+  ...(tags?.length ? { keywords: tags.join(', ') } : {})
+};
 ---
 
-<Base meta_title={title} description={description} image={ogImage || heroImage} blogpost locale={locale}>
-  <article>
-    <div class='rounded-lg block overflow-hidden mb-8'>
-      <figure class='w-auto h-auto md:h-[480px] object-cover'>
-        <img
-          class='transition duration-300 ease-in-out hover:scale-110 cursor-pointer'
-          src={ogImage || heroImage}
-          alt={title}
-          width='1200'
-          height='630'
-          loading='eager'
-          decoding='async'
-        />
-      </figure>
-    </div>
-    <div class='md:col-10 text-center mb-12'>
-      <h1 class='text-2xl md:text-4xl font-bold'>{title}</h1>
-      <div class='mt-4 flex flex-wrap items-center justify-center text-text'>
-        <div class='mx-3 flex items-center flex-wrap font-medium mt-2'>
+<Base
+  meta_title={title}
+  description={description}
+  image={ogImage || heroImage}
+  blogpost
+  locale={locale}
+  articlePublishedTime={pubDate.toISOString()}
+  articleModifiedTime={(updatedDate || pubDate).toISOString()}
+  articleSection={categories?.[0]}
+  articleTags={tags}
+>
+  <article class='article-shell'>
+    <header class='mb-10 text-center'>
+      <h1 class='text-balance text-3xl font-bold tracking-tight text-zinc-900 md:text-5xl'>{title}</h1>
+      <div class='article-meta mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-zinc-700'>
+        <div class='flex flex-wrap items-center font-medium'>
           <figure>
             <Image
               alt={config.author.name}
@@ -55,39 +95,144 @@ const dateLocaleMap: Record<Locale, string> = {
           </figure>
           <span>{config.author.name}</span>
         </div>
-        <div class='mx-3 flex items-center flex-wrap font-medium mt-2'>
+        <div class='flex flex-wrap items-center font-medium'>
           <CalendarIcon />
           <FormattedDate date={pubDate} locale={dateLocaleMap[locale]} />
         </div>
-        <div class='mx-3 flex items-center flex-wrap font-medium mt-2'>
-          <CategoryIcon />
-          {
-            categories?.slice(0, 1).map((category) => (
+        {
+          categories?.slice(0, 1).map((category) => (
+            <div class='flex flex-wrap items-center font-medium'>
+              <CategoryIcon />
               <a
                 href={withLocalePath(locale, `/categories/${slugify(category)}`)}
-                class='mr-2 hover:text-primary font-medium capitalize'
+                class='ml-1 capitalize hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700'
               >
                 {category}
               </a>
-            ))
-          }
-        </div>
+            </div>
+          ))
+        }
       </div>
-    </div>
-    <div class='prose prose-green prose-md max-w-prose mx-auto leading-loose text-xl'>
+    </header>
+    <script type='application/ld+json' set:html={JSON.stringify(blogPostingLd)} />
+    <div class='article-content prose prose-zinc mx-auto'>
       <slot />
     </div>
-    <div class='mt-8'>
+    <script is:inline>
+      const COPY_LABEL = 'Copiar';
+      const COPIED_LABEL = 'Copiado';
+      const CODE_BLOCK_SELECTOR = '.article-content pre.astro-code, .article-content pre.gndx';
+
+      const inferLanguage = (block) => {
+        if (block.dataset.language) return;
+        const code = block.querySelector('code');
+        if (!code) return;
+        const languageClass = Array.from(code.classList).find((value) => value.startsWith('language-'));
+        const language = languageClass ? languageClass.replace('language-', '') : 'code';
+        block.dataset.language = language.toUpperCase();
+      };
+
+      const getCodeText = (block) => {
+        const lines = block.querySelectorAll('code > span.line');
+        if (lines.length > 0) {
+          return Array.from(lines)
+            .map((line) => line.textContent ?? '')
+            .join('\n')
+            .replace(/\n+$/g, '');
+        }
+        return block.querySelector('code')?.textContent?.trim() || '';
+      };
+
+      const bindCopyBehavior = (block, button, check) => {
+        if (button.dataset.bound === 'true') return;
+        button.dataset.bound = 'true';
+        check.textContent = COPIED_LABEL;
+
+        button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(getCodeText(block));
+            check.classList.add('is-visible');
+            button.classList.add('is-hidden');
+            setTimeout(() => {
+              check.classList.remove('is-visible');
+              button.classList.remove('is-hidden');
+            }, 1700);
+          } catch {
+            check.classList.remove('is-visible');
+            button.classList.remove('is-hidden');
+          }
+        });
+      };
+
+      const ensureLanguageChip = (block) => {
+        let chip = block.querySelector('.code-language-chip');
+        if (!chip) {
+          chip = document.createElement('span');
+          chip.className = 'code-language-chip';
+          chip.setAttribute('aria-hidden', 'true');
+          block.append(chip);
+        }
+        chip.textContent = block.dataset.language || 'CODE';
+      };
+
+      const ensureCopyControls = (block) => {
+        let button = block.querySelector('.copy-button');
+        if (!button) {
+          button = document.createElement('button');
+          block.append(button);
+        }
+        button.type = 'button';
+        button.className = 'copy-button';
+        button.setAttribute('aria-label', COPY_LABEL);
+        button.textContent = COPY_LABEL;
+
+        let check = block.querySelector('.check-span');
+        if (!check) {
+          check = document.createElement('span');
+          block.append(check);
+        }
+        check.className = 'check-span';
+        check.setAttribute('aria-hidden', 'true');
+        check.textContent = COPIED_LABEL;
+
+        bindCopyBehavior(block, button, check);
+      };
+
+      const normalizeLineDensity = (block) => {
+        block.querySelectorAll('code > span.line').forEach((line) => {
+          const isBlank = (line.textContent || '').trim().length === 0;
+          line.classList.toggle('is-blank-line', isBlank);
+        });
+      };
+
+      const initCodeBlocks = () => {
+        document.querySelectorAll(CODE_BLOCK_SELECTOR).forEach((block) => {
+          inferLanguage(block);
+          normalizeLineDensity(block);
+          ensureLanguageChip(block);
+          ensureCopyControls(block);
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCodeBlocks, { once: true });
+      } else {
+        initCodeBlocks();
+      }
+      document.addEventListener('astro:page-load', initCodeBlocks);
+    </script>
+    <div class='article-tags mt-10 flex flex-wrap justify-center gap-2'>
       {
         tags?.map((tag) => (
           <a
             href={withLocalePath(locale, `/tags/${slugify(tag)}`)}
-            class='capitalize inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'
+            class='inline-block rounded-full bg-zinc-100 px-3 py-1 text-sm font-semibold text-zinc-700 capitalize hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700'
           >
             #{tag}
           </a>
         ))
       }
     </div>
+    <GiscusComments locale={locale} />
   </article>
 </Base>

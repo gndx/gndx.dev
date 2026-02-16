@@ -1,0 +1,93 @@
+---
+import type { Locale } from '@i18n/config';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'es' } = Astro.props as Props;
+
+const repo = import.meta.env.PUBLIC_GISCUS_REPO;
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID;
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY;
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID;
+const mapping = import.meta.env.PUBLIC_GISCUS_MAPPING || 'pathname';
+const strict = import.meta.env.PUBLIC_GISCUS_STRICT || '1';
+const reactionsEnabled = import.meta.env.PUBLIC_GISCUS_REACTIONS_ENABLED || '1';
+const emitMetadata = import.meta.env.PUBLIC_GISCUS_EMIT_METADATA || '0';
+const inputPosition = import.meta.env.PUBLIC_GISCUS_INPUT_POSITION || 'top';
+const theme = import.meta.env.PUBLIC_GISCUS_THEME || 'preferred_color_scheme';
+const loading = import.meta.env.PUBLIC_GISCUS_LOADING || 'lazy';
+
+const isEnabled = [repo, repoId, category, categoryId].every(Boolean);
+const languageByLocale: Record<Locale, string> = {
+  es: 'es',
+  en: 'en',
+  pt: 'pt'
+};
+const headingByLocale: Record<Locale, string> = {
+  es: 'Comentarios',
+  en: 'Comments',
+  pt: 'Comentarios'
+};
+---
+
+{
+  isEnabled && (
+    <section class='mx-auto mt-16 max-w-[700px]' aria-label={headingByLocale[locale]}>
+      <h2 class='mb-4 text-2xl font-semibold text-zinc-900'>{headingByLocale[locale]}</h2>
+      <div
+        class='giscus-host'
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+        data-mapping={mapping}
+        data-strict={strict}
+        data-reactions-enabled={reactionsEnabled}
+        data-emit-metadata={emitMetadata}
+        data-input-position={inputPosition}
+        data-theme={theme}
+        data-lang={languageByLocale[locale]}
+        data-loading={loading}></div>
+      <script is:inline>
+        const initGiscus = () => {
+          const host = document.querySelector('.giscus-host');
+          if (!host) return;
+          if (host.querySelector('iframe.giscus-frame')) return;
+
+          const existingScript = host.querySelector('script[data-giscus-script="true"]');
+          if (existingScript) existingScript.remove();
+
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.async = true;
+          script.crossOrigin = 'anonymous';
+          script.setAttribute('data-giscus-script', 'true');
+
+          script.setAttribute('data-repo', host.getAttribute('data-repo') || '');
+          script.setAttribute('data-repo-id', host.getAttribute('data-repo-id') || '');
+          script.setAttribute('data-category', host.getAttribute('data-category') || '');
+          script.setAttribute('data-category-id', host.getAttribute('data-category-id') || '');
+          script.setAttribute('data-mapping', host.getAttribute('data-mapping') || 'pathname');
+          script.setAttribute('data-strict', host.getAttribute('data-strict') || '1');
+          script.setAttribute('data-reactions-enabled', host.getAttribute('data-reactions-enabled') || '1');
+          script.setAttribute('data-emit-metadata', host.getAttribute('data-emit-metadata') || '0');
+          script.setAttribute('data-input-position', host.getAttribute('data-input-position') || 'top');
+          script.setAttribute('data-theme', host.getAttribute('data-theme') || 'preferred_color_scheme');
+          script.setAttribute('data-lang', host.getAttribute('data-lang') || 'es');
+          script.setAttribute('data-loading', host.getAttribute('data-loading') || 'lazy');
+
+          host.append(script);
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initGiscus, { once: true });
+        } else {
+          initGiscus();
+        }
+        document.addEventListener('astro:page-load', initGiscus);
+      </script>
+    </section>
+  )
+}
