@@ -29,8 +29,8 @@ export default defineConfig({
   markdown: {
     drafts: true,
     shikiConfig: {
-      theme: 'material-theme-palenight',
-      wrap: true
+      theme: 'dracula',
+      wrap: false
     }
   },
 
@@ -38,8 +38,8 @@ export default defineConfig({
     mdx({
       syntaxHighlight: 'shiki',
       shikiConfig: {
-        theme: 'material-theme-palenight',
-        wrap: true
+        theme: 'dracula',
+        wrap: false
       },
       drafts: true
     }),
