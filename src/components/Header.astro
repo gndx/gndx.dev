@@ -44,7 +44,7 @@ const main: NavigationLink[] = [
           />
         </figure>
       </a>
-      <div class='flex relative'>
+      <div class='relative md:hidden'>
         <!-- navbar toggler -->
         <input id='nav-toggle' type='checkbox' class='hidden' />
         <label
@@ -64,7 +64,7 @@ const main: NavigationLink[] = [
         <!-- /navbar toggler -->
         <div
           id='nav-menu'
-          class='absolute top-8 right-0 p-2 z-10 mt-2 hidden w-44 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg'
+          class='absolute right-0 top-8 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg'
         >
           <ul class='py-2 text-sm text-gray-700 dark:text-gray-200'>
             {
@@ -80,6 +80,7 @@ const main: NavigationLink[] = [
               ))
             }
           </ul>
+          <LanguageSwitcher locale={locale} variant='list' />
         </div>
       </div>
       <ul class='ml-auto hidden md:flex items-center gap-6 lg:flex'>
@@ -93,7 +94,7 @@ const main: NavigationLink[] = [
           ))
         }
       </ul>
-      <LanguageSwitcher locale={locale} />
+      <LanguageSwitcher locale={locale} className='hidden md:block' />
     </div>
   </div>
 </header>

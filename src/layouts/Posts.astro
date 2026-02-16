@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import FormattedDate from "@components/FormattedDate.astro";
 import { slugify } from "@utils/slug";
 import { type Locale, withLocalePath } from '@i18n/config';
@@ -16,6 +15,10 @@ const dateLocaleMap: Record<Locale, string> = {
   pt: 'pt-BR'
 };
 const getPostSlug = (post: PostType) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
+const getPostOgImage = (post: PostType) => {
+  const slug = getPostSlug(post);
+  return locale === 'es' ? `/og/blog/${slug}.png` : `/og/${locale}/blog/${slug}.png`;
+};
 
 type PostType = {
   id: string;
@@ -41,21 +44,19 @@ type PostType = {
     posts?.slice(0, 9).map((post: PostType) => (
       <article class="flex w-full flex-col items-start justify-between">
         <div class="rounded-lg block overflow-hidden mb-4">
-          {post.data.heroImage && (
-            <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)}>
-              <figure class="w-auto h-auto md:h-[150px] object-cover">
-                <Image
-                  class="transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                  src={post.data.heroImage}
-                  alt={post.data.title}
-                  width={960}
-                  height={480}
-                  decoding="async"
-                  loading="lazy"
-                />
-              </figure>
-            </a>
-          )}
+          <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)}>
+            <figure class="w-auto h-auto md:h-[150px] object-cover">
+              <img
+                class="transition duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                src={getPostOgImage(post)}
+                alt={post.data.title}
+                width="1200"
+                height="630"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </a>
         </div>
         <div class="flex items-center gap-x-4 text-xs">
           <FormattedDate date={post.data.pubDate} locale={dateLocaleMap[locale]} />

@@ -28,9 +28,10 @@ const post = posts.find(
 );
 if (!post) return Astro.redirect(withLocalePath(locale as Locale, '/blog'));
 
+const postSlug = post.slug || post.id.replace(/\.(md|mdx)$/i, '');
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} locale={locale as Locale}>
+<BlogPost {...post.data} locale={locale as Locale} ogImage={`/og/${locale}/blog/${postSlug}.png`}>
   <Content components={{ pre: Code }} />
 </BlogPost>

@@ -25,6 +25,7 @@ const { title, meta_title, description, image, noindex, blogpost, canonical, loc
   Astro.props;
 
 const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jpg';
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, config.site.base_url).toString();
 const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
 const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
 const isDev = import.meta.env.DEV;
@@ -95,9 +96,9 @@ const isDev = import.meta.env.DEV;
       content={description ? description : config.metadata.meta_description}
     />
     <!-- og-image -->
-    <meta property='og:image' content={ogImage} />
+    <meta property='og:image' content={ogImageUrl} />
     <!-- twitter-image -->
-    <meta name='twitter:image' content={ogImage} />
+    <meta name='twitter:image' content={ogImageUrl} />
     <meta name='twitter:card' content='summary_large_image' />
 
     {

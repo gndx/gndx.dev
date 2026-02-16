@@ -18,9 +18,10 @@ const post = posts.find((item) => (item.slug || item.id.replace(/\.(md|mdx)$/i, 
 if (!post) {
   return Astro.redirect('/blog/');
 }
+const postSlug = post.slug || post.id.replace(/\.(md|mdx)$/i, '');
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} ogImage={`/og/blog/${postSlug}.png`}>
   <Content components={{ pre: Code }} />
 </BlogPost>
