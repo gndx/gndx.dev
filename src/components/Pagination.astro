@@ -3,17 +3,34 @@ import NextIcon from '@icons/NextIcon.astro';
 import PrevIcon from '@icons/PrevIcon.astro';
 
 const { length, currentPage, firstUrl, prevUrl, nextUrl } = Astro.props;
-const paginationList = Array.from({ length }, (_, i) => i + 1);
+
+const getPageHref = (pageNumber: number) => `${firstUrl}${pageNumber === 1 ? '' : pageNumber}`;
+
+const getVisiblePages = (totalPages: number, current: number) => {
+  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, 'ellipsis', totalPages];
+  }
+
+  if (current >= totalPages - 3) {
+    return [1, 'ellipsis', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+  }
+
+  return [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', totalPages];
+};
+
+const visiblePages = getVisiblePages(length, currentPage);
 ---
 
-<nav class='mt-12'>
-  <ol class='flex justify-center gap-3 text-xs font-medium'>
+<nav class='mt-12 flex justify-center' aria-label='Pagination'>
+  <ol class='inline-flex flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-zinc-200/80 bg-white/95 p-2 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_10px_24px_rgba(15,23,42,0.05)]'>
     {
       prevUrl ? (
         <li>
           <a
             href={prevUrl}
-            class='inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100  text-gray-900 rtl:rotate-180'
+            class='inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-700 transition-colors duration-200 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 rtl:rotate-180'
           >
             <span class='sr-only'>Prev Page</span>
             <PrevIcon />
@@ -22,15 +39,28 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
       ) : null
     }
     {
-      paginationList?.map((num) => (
-        <a
-          href={`${firstUrl}${num == 1 ? '' : '' + num}`}
-          class={`block h-8 w-8 rounded border text-center leading-8 text-gray-900 ${
-            currentPage == num ? 'border-indigo-600 bg-indigo-500 text-white' : ''
-          }`}
-        >
-          {num}
-        </a>
+      visiblePages.map((item) => (
+        <li>
+          {
+            item === 'ellipsis' ? (
+              <span class='inline-flex h-9 min-w-9 items-center justify-center px-2 text-sm font-semibold text-zinc-400'>
+                …
+              </span>
+            ) : (
+              <a
+                href={getPageHref(item)}
+                aria-current={currentPage === item ? 'page' : undefined}
+                class={`inline-flex h-9 min-w-9 items-center justify-center rounded-xl border px-3 text-sm font-semibold transition-all duration-200 ${
+                  currentPage === item
+                    ? 'border-zinc-900 bg-zinc-900 text-white shadow-sm'
+                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900'
+                }`}
+              >
+                {item}
+              </a>
+            )
+          }
+        </li>
       ))
     }
     {
@@ -38,7 +68,7 @@ const paginationList = Array.from({ length }, (_, i) => i + 1);
         <li>
           <a
             href={nextUrl}
-            class='inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180'
+            class='inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-700 transition-colors duration-200 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 rtl:rotate-180'
           >
             <span class='sr-only'>Next Page</span>
             <NextIcon />

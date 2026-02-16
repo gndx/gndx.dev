@@ -1,6 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
-import CategoryIcon from "@components/icons/CategoryIcon.astro";
+import TaxonomyPosts from "@components/TaxonomyPosts.astro";
 
 import { getTaxonomy } from "@utils/getAllTags";
 import { getSinglePage } from "@utils/getAllTags";
@@ -21,24 +21,14 @@ const { tag } = Astro.params;
 
 const posts = await getSinglePage("blogEs");
 const filterByTags = taxonomyFilter(posts, "tags", tag);
-const getPostSlug = (post) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
 ---
 
 <Base>
-  <h1 class="text-2xl md:text-3xl font-bold mb-8">Tag: {deslugify(tag as string)}</h1>
-  <ul class="space-y-4 text-left ml-4 text-gray-500 dark:text-gray-400">
-    {
-      filterByTags?.map((post) => (
-        <li class="flex items-center space-x-1">
-          <CategoryIcon />
-          <a
-            href={`/blog/${getPostSlug(post)}`}
-            class="text-gray-500 hover:text-gray-800"
-          >
-            {post.data.title}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <TaxonomyPosts
+    posts={filterByTags}
+    term={deslugify(tag as string)}
+    prefixLabel="Tag"
+    subtitle="Ver posts con el tag"
+    locale="es"
+  />
 </Base>
