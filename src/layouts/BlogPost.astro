@@ -11,9 +11,10 @@ import { type Locale, withLocalePath } from '@i18n/config';
 
 interface Props extends CollectionEntry<'blogEs'>['data'] {
   locale?: Locale;
+  ogImage?: string;
 }
 
-const { title, description, pubDate, heroImage, categories, tags, locale = 'es' } =
+const { title, description, pubDate, heroImage, categories, tags, ogImage, locale = 'es' } =
   Astro.props as Props;
 const dateLocaleMap: Record<Locale, string> = {
   es: 'es-ES',
@@ -22,24 +23,20 @@ const dateLocaleMap: Record<Locale, string> = {
 };
 ---
 
-<Base meta_title={title} description={description} image={heroImage} blogpost locale={locale}>
+<Base meta_title={title} description={description} image={ogImage || heroImage} blogpost locale={locale}>
   <article>
     <div class='rounded-lg block overflow-hidden mb-8'>
-      {
-        heroImage && (
-          <figure class='w-auto h-auto md:h-[480px] object-cover'>
-            <Image
-              class='transition duration-300 ease-in-out hover:scale-110 cursor-pointer'
-              src={heroImage}
-              alt={title}
-              width={960}
-              height={480}
-              decoding='async'
-              loading='lazy'
-            />
-          </figure>
-        )
-      }
+      <figure class='w-auto h-auto md:h-[480px] object-cover'>
+        <img
+          class='transition duration-300 ease-in-out hover:scale-110 cursor-pointer'
+          src={ogImage || heroImage}
+          alt={title}
+          width='1200'
+          height='630'
+          loading='eager'
+          decoding='async'
+        />
+      </figure>
     </div>
     <div class='md:col-10 text-center mb-12'>
       <h1 class='text-2xl md:text-4xl font-bold'>{title}</h1>

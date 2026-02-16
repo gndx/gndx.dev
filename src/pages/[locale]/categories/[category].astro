@@ -1,8 +1,8 @@
 ---
 import Base from '@layouts/Base.astro';
-import CategoryIcon from '@icons/CategoryIcon.astro';
+import TaxonomyPosts from '@components/TaxonomyPosts.astro';
 import { getPostsByLocale, filterByTaxonomy } from '@utils/i18nContent';
-import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
+import { prefixedLocales, isLocale } from '@i18n/config';
 import { deslugify } from '@utils/slug';
 import { getUi } from '@i18n/ui';
 
@@ -24,23 +24,14 @@ if (!isLocale(locale)) return Astro.redirect('/');
 const posts = await getPostsByLocale(locale);
 const filterByCategory = filterByTaxonomy(posts, 'categories', category as string);
 const copy = getUi(locale);
-const getPostSlug = (post) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
 ---
 
 <Base locale={locale}>
-  <h1 class='text-2xl md:text-3xl font-bold mb-8 capitalize'>
-    {copy.labels.categoryPrefix}: {deslugify(category as string)}
-  </h1>
-  <ul class='space-y-4 text-left ml-4 text-gray-500 dark:text-gray-400'>
-    {
-      filterByCategory.map((post) => (
-        <li class='flex items-center space-x-1'>
-          <CategoryIcon />
-          <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)} class='text-gray-500 hover:text-gray-800'>
-            {post.data.title}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <TaxonomyPosts
+    posts={filterByCategory}
+    term={deslugify(category as string)}
+    prefixLabel={copy.labels.categoryPrefix}
+    subtitle={copy.labels.postsWithCategory}
+    locale={locale}
+  />
 </Base>

@@ -10,11 +10,14 @@ const { locale = 'es' } = Astro.props;
 const copy = getUi(locale);
 ---
 
-<div class='m-auto text-right mt-12'>
+<div class='m-auto mt-12 flex justify-end'>
   <a
-    class='inline-block rounded border border-indigo-600 px-12 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500'
+    class='group inline-flex items-center gap-3 rounded-2xl border border-zinc-300/80 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-[0_14px_30px_rgba(15,23,42,0.12)] focus:outline-none focus:ring-2 focus:ring-zinc-400/50'
     href={withLocalePath(locale, '/blog')}
   >
-    {copy.labels.viewAll} →
+    <span>{copy.labels.viewAll}</span>
+    <span class='inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-[13px] text-zinc-700 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900'>
+      ↗
+    </span>
   </a>
 </div>

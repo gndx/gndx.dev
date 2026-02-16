@@ -1,0 +1,167 @@
+---
+import FormattedDate from '@components/FormattedDate.astro';
+import { type Locale, withLocalePath } from '@i18n/config';
+import { heroPatterns } from '@utils/heroPatterns';
+
+interface PostType {
+  id: string;
+  slug?: string;
+  data: {
+    title: string;
+    description: string;
+    pubDate: Date;
+  };
+}
+
+interface Props {
+  posts: PostType[];
+  term: string;
+  prefixLabel: string;
+  subtitle: string;
+  locale?: Locale;
+}
+
+const { posts, term, prefixLabel, subtitle, locale = 'es' } = Astro.props as Props;
+
+const dateLocaleMap: Record<Locale, string> = {
+  es: 'es-ES',
+  en: 'en-US',
+  pt: 'pt-BR'
+};
+
+const ctaByLocale: Record<Locale, string> = {
+  es: 'Abrir post',
+  en: 'Open post',
+  pt: 'Abrir post'
+};
+
+const postWordByLocale: Record<Locale, { singular: string; plural: string; empty: string }> = {
+  es: { singular: 'post', plural: 'posts', empty: 'No hay posts para este filtro todavia.' },
+  en: { singular: 'post', plural: 'posts', empty: 'There are no posts for this filter yet.' },
+  pt: { singular: 'post', plural: 'posts', empty: 'Ainda nao ha posts para este filtro.' }
+};
+
+const postLabel = posts.length === 1 ? postWordByLocale[locale].singular : postWordByLocale[locale].plural;
+const getPostSlug = (post: PostType) => post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
+
+const patternForegroundPalette = ['#0f172a', '#1f2937', '#334155', '#0b3b2e', '#4a3419', '#312e81', '#3b0764'];
+const surfacePalette = ['#f9fafb', '#f8fafc', '#fdf4ff', '#eff6ff', '#f0fdf4', '#fef3c7', '#fef2f2', '#ecfeff'];
+
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(index);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+};
+
+const withOpacity = (hex: string, opacity: number) => {
+  const normalized = hex.replace('#', '');
+  const withFullLength =
+    normalized.length === 3
+      ? normalized
+          .split('')
+          .map((part) => `${part}${part}`)
+          .join('')
+      : normalized;
+  const r = Number.parseInt(withFullLength.slice(0, 2), 16);
+  const g = Number.parseInt(withFullLength.slice(2, 4), 16);
+  const b = Number.parseInt(withFullLength.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
+const toPatternDataUri = (svg: string, color: string) => {
+  const coloredSvg = svg.replace(/#000/g, color).replace(/\n/g, '').replace(/\s{2,}/g, ' ');
+  return `url("data:image/svg+xml,${encodeURIComponent(coloredSvg)}")`;
+};
+
+const getPatternStyle = (seedValue: string) => {
+  const seed = hashString(seedValue);
+  const pattern = heroPatterns[seed % heroPatterns.length];
+  const patternColorBase = patternForegroundPalette[Math.floor(seed / 3) % patternForegroundPalette.length];
+  const surfaceColor = surfacePalette[Math.floor(seed / 7) % surfacePalette.length];
+  const patternColor = withOpacity(patternColorBase, 0.24);
+
+  return {
+    surfaceColor,
+    patternImage: toPatternDataUri(pattern.svg, patternColor)
+  };
+};
+
+const { surfaceColor, patternImage } = getPatternStyle(`${prefixLabel}-${term}-${locale}`);
+---
+
+<section class='mb-8'>
+  <div class='relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/95 p-6 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_10px_24px_rgba(15,23,42,0.05)] md:p-8'>
+    <div class='taxonomy-pattern-layer absolute inset-0' style={`background-color:${surfaceColor}; background-image:${patternImage};`} />
+    <div
+      class='absolute inset-0'
+      style='background: linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.96) 30%, rgba(255,255,255,0.68) 65%, rgba(255,255,255,0.24) 100%);'
+    />
+    <div class='pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-zinc-100/70 blur-2xl'></div>
+    <div class='pointer-events-none absolute -bottom-20 left-10 h-44 w-44 rounded-full bg-zinc-100/55 blur-2xl'></div>
+
+    <div class='relative z-10'>
+      <span class='inline-flex rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-zinc-600'>
+        {prefixLabel}
+      </span>
+      <h1 class='mt-3 text-2xl font-semibold uppercase leading-tight text-zinc-900 md:text-4xl'>{term}</h1>
+      <p class='mt-2 text-sm text-zinc-600'>
+        {subtitle} · {posts.length} {postLabel}
+      </p>
+    </div>
+  </div>
+</section>
+
+{
+  posts.length > 0 ? (
+    <div class='grid grid-cols-1 gap-5 md:grid-cols-2'>
+      {
+        posts.map((post) => (
+          <article class='group relative flex h-full flex-col rounded-3xl border border-zinc-200/80 bg-white/95 p-5 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_10px_24px_rgba(15,23,42,0.05)] transition duration-200 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-[0_14px_36px_rgba(15,23,42,0.12)]'>
+            <a href={withLocalePath(locale, `/blog/${getPostSlug(post)}`)} class='absolute inset-0 z-10' aria-label={post.data.title}></a>
+            <div class='text-xs font-medium text-zinc-500'>
+              <FormattedDate date={post.data.pubDate} locale={dateLocaleMap[locale]} />
+            </div>
+            <h2 class='mt-3 text-xl font-semibold leading-tight text-zinc-900 transition-colors duration-200 group-hover:text-zinc-700'>
+              {post.data.title}
+            </h2>
+            <p class='mt-2 line-clamp-3 text-sm leading-relaxed text-zinc-600'>{post.data.description}</p>
+            <span class='mt-4 inline-flex items-center text-sm font-medium text-zinc-500 transition-colors duration-200 group-hover:text-zinc-800'>
+              {ctaByLocale[locale]}
+              <span class='ml-1' aria-hidden='true'>↗</span>
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  ) : (
+    <div class='rounded-3xl border border-zinc-200/80 bg-zinc-50 p-10 text-center text-sm text-zinc-600'>
+      {postWordByLocale[locale].empty}
+    </div>
+  )
+}
+
+<style>
+  .taxonomy-pattern-layer {
+    background-repeat: repeat;
+    animation: taxonomyPatternShift 68s linear infinite;
+  }
+
+  @keyframes taxonomyPatternShift {
+    from {
+      background-position: 0 0;
+    }
+
+    to {
+      background-position: 42px 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .taxonomy-pattern-layer {
+      animation: none;
+    }
+  }
+</style>

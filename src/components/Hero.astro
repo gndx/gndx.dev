@@ -14,6 +14,14 @@ interface Props {
 }
 
 const socialItems = social.networks;
+const hashtags = (config.author.bio.match(/#[\p{L}\p{N}_-]+/gu) ?? []).filter(
+  (tag) => tag.toLowerCase() !== '#withastro'
+);
+const bioMain = config.author.bio
+  .replace(/#[\p{L}\p{N}_-]+/gu, '')
+  .replace(/-\s*-/g, '-')
+  .replace(/\s{2,}/g, ' ')
+  .trim();
 ---
 
 <section class='bg-gray-50'>
@@ -23,9 +31,12 @@ const socialItems = social.networks;
         <h1 class='text-lg md:text-2xl font-bold text-gray-900 sm:text-3xl mb-0'>
           {config.author.name}
         </h1>
-        <p class='mt-1.5 text-sm md:text-lg text-gray-500'>
-          {config.author.bio}
-        </p>
+        <p class='mt-1.5 text-sm md:text-lg text-gray-500'>{bioMain}</p>
+        {
+          hashtags.length > 0 && (
+            <p class='mt-2 text-xs md:text-sm font-semibold text-emerald-600'>{hashtags.join(' ')}</p>
+          )
+        }
         <div class='flex space-x-5 pt-8 m-auto'>
           {
             socialItems?.map((item) => (
