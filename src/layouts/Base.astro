@@ -158,6 +158,19 @@ const ogType = blogpost ? 'article' : 'website';
     )}
     <Header locale={locale} />
     {!blogpost && <Hero />}
+    {!blogpost && (
+      <div class='mx-auto max-w-screen-lg px-4 py-4 sm:px-6 lg:px-8'>
+        <ins class='adsbygoogle'
+          style='display:block'
+          data-ad-client='ca-pub-6020915585588826'
+          data-ad-slot='9545920431'
+          data-ad-format='auto'
+          data-full-width-responsive='true'></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    )}
     <main class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
       <slot />
     </main>

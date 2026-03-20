@@ -41,12 +41,12 @@
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/typography": "0.5.16",
     "astro": "^5.16.4",
-    "astro-compress": "2.3.6",
+    "astro-compress": "^2.4.0",
     "astro-robots-txt": "1.0.0",
     "dotenv": "16.4.7",
     "googleapis": "148.0.0",
     "tailwindcss": "4.0.15",
-    "vite-plugin-pwa": "0.21.2"
+    "vite-plugin-pwa": "^0.19.8"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

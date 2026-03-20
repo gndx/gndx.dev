@@ -6,6 +6,7 @@ heroImage: '/blog-placeholder.jpg'
 categories: ['artificial-intelligence', 'open-source', 'agents']
 authors: ['gndx']
 tags: ['openclaw', 'clawdbot', 'moltbot', 'ai', 'openai']
+slug: '190226-la-historia-del-proyecto-openclaw'
 ---
 
 In November 2025, Austrian developer and PSPDFKit founder Peter Steinberger started a weekend experiment that quickly became one of the most talked-about open-source AI projects.
@@ -59,7 +60,7 @@ This separation enabled rapid feature growth while keeping a practical direction
 
 ## Ecosystem and community
 
-Community momentum became a major driver. Around the core project, contributors built extensible skills and modules, including collections in the spirit of *awesome-openclaw-skills* and related ecosystems such as VoltAgent.
+Community momentum became a major driver. Around the core project, contributors built extensible skills and modules, including collections in the spirit of _awesome-openclaw-skills_ and related ecosystems such as VoltAgent.
 
 The team also introduced **Moltbook**, a social network concept for AI agents to communicate and coordinate with each other.
 

@@ -6,6 +6,7 @@ heroImage: '/blog-placeholder.jpg'
 categories: ['inteligencia-artificial', 'open-source', 'agentes']
 authors: ['gndx']
 tags: ['openclaw', 'clawdbot', 'moltbot', 'ia', 'openai']
+slug: '190226-la-historia-del-proyecto-openclaw'
 ---
 
 Em novembro de 2025, Peter Steinberger, desenvolvedor austríaco e fundador da PSPDFKit, iniciou um experimento de fim de semana que rapidamente se tornou um dos projetos de IA open source mais comentados.
@@ -59,7 +60,7 @@ Essa separação permitiu evoluir rápido sem perder foco: suporte a múltiplos 
 
 ## Ecossistema e comunidade
 
-A comunidade virou um motor importante do projeto. Surgiram skills e módulos extensíveis, com coleções comunitárias no estilo *awesome-openclaw-skills* e ecossistemas relacionados como VoltAgent.
+A comunidade virou um motor importante do projeto. Surgiram skills e módulos extensíveis, com coleções comunitárias no estilo _awesome-openclaw-skills_ e ecossistemas relacionados como VoltAgent.
 
 Também foi lançada a proposta do **Moltbook**, uma rede social para agentes de IA se comunicarem e se organizarem de forma autônoma.
 
