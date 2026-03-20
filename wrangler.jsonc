@@ -5,10 +5,10 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist",
+    "directory": "./dist"
   },
   "observability": {
-    "enabled": true,
+    "enabled": true
   },
   "vars": {
     "PUBLIC_GISCUS_REPO": "gndx/gndx.dev",
@@ -21,6 +21,6 @@
     "PUBLIC_GISCUS_EMIT_METADATA": "0",
     "PUBLIC_GISCUS_INPUT_POSITION": "bottom",
     "PUBLIC_GISCUS_THEME": "light_protanopia",
-    "PUBLIC_GISCUS_LOADING": "lazy",
-  },
+    "PUBLIC_GISCUS_LOADING": "lazy"
+  }
 }
