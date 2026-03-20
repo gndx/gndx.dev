@@ -20,6 +20,12 @@ const theme = import.meta.env.PUBLIC_GISCUS_THEME || 'preferred_color_scheme';
 const loading = import.meta.env.PUBLIC_GISCUS_LOADING || 'lazy';
 
 const isEnabled = [repo, repoId, category, categoryId].every(Boolean);
+const isDev = import.meta.env.DEV;
+
+// Debug: mostrar valores en desarrollo
+if (isDev) {
+  console.log('Giscus config:', { repo, repoId, category, categoryId, isEnabled });
+}
 const languageByLocale: Record<Locale, string> = {
   es: 'es',
   en: 'en',
@@ -33,7 +39,7 @@ const headingByLocale: Record<Locale, string> = {
 ---
 
 {
-  isEnabled && (
+  isEnabled ? (
     <section class='mx-auto mt-16 max-w-[700px]' aria-label={headingByLocale[locale]}>
       <h2 class='mb-4 text-2xl font-semibold text-zinc-900'>{headingByLocale[locale]}</h2>
       <div
@@ -88,6 +94,14 @@ const headingByLocale: Record<Locale, string> = {
         }
         document.addEventListener('astro:page-load', initGiscus);
       </script>
+    </section>
+  ) : (
+    <section class='mx-auto mt-16 max-w-[700px]'>
+      <div class='rounded-lg border border-amber-200 bg-amber-50 p-4 text-amber-800'>
+        <p class='text-sm font-medium'>
+          ⚠️ Comentarios no disponibles - Variables de entorno de Giscus no configuradas en producción
+        </p>
+      </div>
     </section>
   )
 }
