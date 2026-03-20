@@ -1,26 +1,16 @@
 {
-  "main": "dist/_worker.js/index.js",
-  "name": "gndxdev",
+	"main": "dist/_worker.js/index.js",
+	"name": "gndxdev",
   "compatibility_date": "2026-02-15",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  },
-  "observability": {
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
     "enabled": true
-  },
-  "vars": {
-    "PUBLIC_GISCUS_REPO": "gndx/gndx.dev",
-    "PUBLIC_GISCUS_REPO_ID": "R_kgDOKVIR-Q",
-    "PUBLIC_GISCUS_CATEGORY": "Announcements",
-    "PUBLIC_GISCUS_CATEGORY_ID": "DIC_kwDOKVIR-c4C2hwG",
-    "PUBLIC_GISCUS_MAPPING": "url",
-    "PUBLIC_GISCUS_STRICT": "0",
-    "PUBLIC_GISCUS_REACTIONS_ENABLED": "1",
-    "PUBLIC_GISCUS_EMIT_METADATA": "0",
-    "PUBLIC_GISCUS_INPUT_POSITION": "bottom",
-    "PUBLIC_GISCUS_THEME": "light_protanopia",
-    "PUBLIC_GISCUS_LOADING": "lazy"
   }
 }
