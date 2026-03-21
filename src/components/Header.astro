@@ -5,7 +5,7 @@ import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
-import { type Locale, withLocalePath } from '@i18n/config';
+import { type Locale, stripLocaleFromPath, withLocalePath } from '@i18n/config';
 import { getUi } from '@i18n/ui';
 import { getPostsByLocale } from '@utils/i18nContent';
 
@@ -27,6 +27,8 @@ const main: NavigationLink[] = [
   { name: copy.nav.courses, url: withLocalePath(locale, '/cursos') },
   { name: copy.nav.mentoring, url: 'https://mentor.gndx.dev/' }
 ];
+const currentPath = stripLocaleFromPath(Astro.url.pathname);
+const isCurrentPath = (url: string) => url.startsWith('/') && stripLocaleFromPath(url) === currentPath;
 
 const blogPosts = await getPostsByLocale(locale);
 const searchItems = blogPosts.map((post) => {
@@ -46,21 +48,24 @@ const searchCopy = {
     placeholder: 'Buscar artículos por título, tema o tag…',
     noResults: 'No encontré artículos con ese término.',
     empty: 'Empieza escribiendo para filtrar artículos del blog.',
-    viewAll: 'Ver blog completo'
+    viewAll: 'Ver blog completo',
+    shortcut: 'Tip: presiona / para abrir la búsqueda rápido.'
   },
   en: {
     button: 'Search',
     placeholder: 'Search posts by title, topic or tag…',
     noResults: 'No posts found for that search.',
     empty: 'Start typing to filter blog posts.',
-    viewAll: 'View all posts'
+    viewAll: 'View all posts',
+    shortcut: 'Tip: press / to open search quickly.'
   },
   pt: {
     button: 'Buscar',
     placeholder: 'Busque artigos por título, tema ou tag…',
     noResults: 'Nenhum artigo encontrado para esse termo.',
     empty: 'Comece a digitar para filtrar os artigos do blog.',
-    viewAll: 'Ver blog completo'
+    viewAll: 'Ver blog completo',
+    shortcut: 'Dica: pressione / para abrir a busca rapidamente.'
   }
 }[locale];
 ---
@@ -68,7 +73,7 @@ const searchCopy = {
 <header class='bg-gray-50'>
   <div class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
     <div class='flex items-start md:items-center justify-between sm:gap-4'>
-      <a href='/' class='logo flex items-center' aria-current='page'>
+      <a href={withLocalePath(locale, '/')} class='logo flex items-center' aria-label={copy.nav.home}>
         <figure>
           <Image
             src={config.site.logo}
@@ -104,16 +109,23 @@ const searchCopy = {
         >
           <ul class='py-2 text-sm text-gray-700 dark:text-gray-200'>
             {
-              main?.map((menu) => (
-                <li>
-                  <a
-                    href={menu?.url}
-                    class='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-                  >
-                    {menu?.name}
-                  </a>
-                </li>
-              ))
+              main?.map((menu) => {
+                const isActive = isCurrentPath(menu.url);
+                return (
+                  <li>
+                    <a
+                      href={menu.url}
+                      aria-current={isActive ? 'page' : undefined}
+                      class:list={[
+                        'block rounded-lg px-4 py-2 text-sm transition',
+                        isActive ? 'bg-zinc-100 font-medium text-zinc-900' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                      ]}
+                    >
+                      {menu.name}
+                    </a>
+                  </li>
+                );
+              })
             }
           </ul>
           <LanguageSwitcher locale={locale} variant='list' />
@@ -122,13 +134,23 @@ const searchCopy = {
 
       <ul class='ml-auto hidden md:flex items-center gap-6 lg:flex'>
         {
-          main?.map((menu) => (
-            <li class='block rounded-lg px-2 py-2 text-md text-gray-500 hover:text-gray-800'>
-              <a href={menu?.url} class='flex items-center relative'>
-                {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
-              </a>
-            </li>
-          ))
+          main?.map((menu) => {
+            const isActive = isCurrentPath(menu.url);
+            return (
+              <li class='block text-md'>
+                <a
+                  href={menu.url}
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    'flex items-center rounded-lg px-2 py-2 transition',
+                    isActive ? 'font-medium text-zinc-900' : 'text-gray-500 hover:text-gray-800'
+                  ]}
+                >
+                  {menu.name === copy.nav.home ? <HomeIcon /> : menu.name}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
 
@@ -145,6 +167,9 @@ const searchCopy = {
             <line x1='16.65' y1='16.65' x2='21' y2='21'></line>
           </svg>
           {searchCopy.button}
+          <kbd class='hidden items-center rounded border border-zinc-300 px-1.5 py-0.5 text-[11px] font-medium text-zinc-500 sm:inline-flex'>
+            /
+          </kbd>
         </button>
         <LanguageSwitcher locale={locale} className='hidden md:block' />
       </div>
@@ -165,6 +190,7 @@ const searchCopy = {
         />
       </div>
       <p id='header-search-empty' class='mt-3 text-sm text-zinc-500'>{searchCopy.empty}</p>
+      <p class='mt-2 text-xs text-zinc-500'>{searchCopy.shortcut}</p>
       <ul id='header-search-results' class='mt-3 space-y-2'></ul>
       <a href={withLocalePath(locale, '/blog')} class='mt-4 inline-flex text-sm text-zinc-600 hover:text-zinc-900'>
         {searchCopy.viewAll} →
@@ -182,6 +208,12 @@ const searchCopy = {
 
   const state = {
     open: false
+  };
+
+  const isEditableTarget = (target) => {
+    if (!(target instanceof HTMLElement)) return false;
+    const tagName = target.tagName.toLowerCase();
+    return tagName === 'input' || tagName === 'textarea' || target.isContentEditable;
   };
 
   const normalize = (value) =>
@@ -244,9 +276,34 @@ const searchCopy = {
   };
 
   toggleButton?.addEventListener('click', () => setOpen(!state.open));
-  input?.addEventListener('input', (event) => filterItems(event.target.value));
+  input?.addEventListener('input', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    filterItems(target.value);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!state.open || !panel || !toggleButton) return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (!panel.contains(target) && !toggleButton.contains(target)) {
+      setOpen(false);
+    }
+  });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setOpen(false);
+    if (event.key === 'Escape') {
+      setOpen(false);
+      return;
+    }
+
+    const isQuickSearch =
+      event.key === '/' ||
+      ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k');
+
+    if (isQuickSearch && !isEditableTarget(event.target)) {
+      event.preventDefault();
+      setOpen(true);
+    }
   });
 </script>
