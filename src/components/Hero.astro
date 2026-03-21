@@ -37,7 +37,15 @@ const bioMain = config.author.bio
             <p class='mt-2 text-xs md:text-sm font-semibold text-emerald-600'>{hashtags.join(' ')}</p>
           )
         }
-        <div class='flex space-x-5 pt-8 m-auto'>
+        <div class='mt-6'>
+          <a
+            href='https://mentor.gndx.dev/'
+            class='inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 transition'
+          >
+            Reserva mentoría
+          </a>
+        </div>
+        <div class='flex space-x-5 pt-6 m-auto'>
           {
             socialItems?.map((item) => (
               <a href={item.url} target='_blank' rel='noopener noreferrer'>
