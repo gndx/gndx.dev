@@ -5,8 +5,9 @@ import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
-import { type Locale, withLocalePath } from '@i18n/config';
+import { type Locale, stripLocaleFromPath, withLocalePath } from '@i18n/config';
 import { getUi } from '@i18n/ui';
+import { getPostsByLocale } from '@utils/i18nContent';
 
 export interface NavigationLink {
   name: string;
@@ -27,12 +28,53 @@ const main: NavigationLink[] = [
   { name: copy.nav.mentoring, url: 'https://mentor.gndx.dev/' },
   { name: 'English Club', url: 'https://lp.leap.school/a/gndx?via=gndx' },
 ];
+const currentPath = stripLocaleFromPath(Astro.url.pathname);
+const isCurrentPath = (url: string) => url.startsWith('/') && stripLocaleFromPath(url) === currentPath;
+
+const blogPosts = await getPostsByLocale(locale);
+const searchItems = blogPosts.map((post) => {
+  const postSlug = post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
+  return {
+    title: post.data.title,
+    description: post.data.description,
+    tags: post.data.tags || [],
+    categories: post.data.categories || [],
+    url: withLocalePath(locale, `/blog/${postSlug}`)
+  };
+});
+
+const searchCopy = {
+  es: {
+    button: 'Buscar',
+    placeholder: 'Buscar artículos por título, tema o tag…',
+    noResults: 'No encontré artículos con ese término.',
+    empty: 'Empieza escribiendo para filtrar artículos del blog.',
+    viewAll: 'Ver blog completo',
+    shortcut: 'Tip: presiona / para abrir la búsqueda rápido.'
+  },
+  en: {
+    button: 'Search',
+    placeholder: 'Search posts by title, topic or tag…',
+    noResults: 'No posts found for that search.',
+    empty: 'Start typing to filter blog posts.',
+    viewAll: 'View all posts',
+    shortcut: 'Tip: press / to open search quickly.'
+  },
+  pt: {
+    button: 'Buscar',
+    placeholder: 'Busque artigos por título, tema ou tag…',
+    noResults: 'Nenhum artigo encontrado para esse termo.',
+    empty: 'Comece a digitar para filtrar os artigos do blog.',
+    viewAll: 'Ver blog completo',
+    shortcut: 'Dica: pressione / para abrir a busca rapidamente.'
+  }
+}[locale];
 ---
 
 <header class='bg-gray-50'>
   <div class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
     <div class='flex items-start md:items-center justify-between sm:gap-4'>
-      <a href='/' class='logo flex items-center' aria-current='page'>
+      <a href={withLocalePath(locale, '/')} class='logo flex items-center' aria-label={copy.nav.home}>
         <figure>
           <Image
             src={config.site.logo}
@@ -45,8 +87,8 @@ const main: NavigationLink[] = [
           />
         </figure>
       </a>
+
       <div class='relative md:hidden'>
-        <!-- navbar toggler -->
         <input id='nav-toggle' type='checkbox' class='hidden' />
         <label
           id='show-button'
@@ -62,40 +104,207 @@ const main: NavigationLink[] = [
         >
           <CloseIcon />
         </label>
-        <!-- /navbar toggler -->
         <div
           id='nav-menu'
           class='absolute right-0 top-8 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg'
         >
           <ul class='py-2 text-sm text-gray-700 dark:text-gray-200'>
             {
-              main?.map((menu) => (
-                <li>
-                  <a
-                    href={menu?.url}
-                    class='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-                  >
-                    {menu?.name}
-                  </a>
-                </li>
-              ))
+              main?.map((menu) => {
+                const isActive = isCurrentPath(menu.url);
+                return (
+                  <li>
+                    <a
+                      href={menu.url}
+                      aria-current={isActive ? 'page' : undefined}
+                      class:list={[
+                        'block rounded-lg px-4 py-2 text-sm transition',
+                        isActive ? 'bg-zinc-100 font-medium text-zinc-900' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                      ]}
+                    >
+                      {menu.name}
+                    </a>
+                  </li>
+                );
+              })
             }
           </ul>
           <LanguageSwitcher locale={locale} variant='list' />
         </div>
       </div>
+
       <ul class='ml-auto hidden md:flex items-center gap-6 lg:flex'>
         {
-          main?.map((menu) => (
-            <li class='block rounded-lg px-2 py-2 text-md text-gray-500 hover:text-gray-800'>
-              <a href={menu?.url} class='flex items-center relative'>
-                {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
-              </a>
-            </li>
-          ))
+          main?.map((menu) => {
+            const isActive = isCurrentPath(menu.url);
+            return (
+              <li class='block text-md'>
+                <a
+                  href={menu.url}
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    'flex items-center rounded-lg px-2 py-2 transition',
+                    isActive ? 'font-medium text-zinc-900' : 'text-gray-500 hover:text-gray-800'
+                  ]}
+                >
+                  {menu.name === copy.nav.home ? <HomeIcon /> : menu.name}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
-      <LanguageSwitcher locale={locale} className='hidden md:block' />
+
+      <div class='flex items-center gap-3 ml-auto md:ml-0'>
+        <button
+          id='header-search-toggle'
+          type='button'
+          class='inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 hover:border-zinc-300 hover:text-zinc-900 transition'
+          aria-expanded='false'
+          aria-controls='header-search-panel'
+        >
+          <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' class='h-4 w-4'>
+            <circle cx='11' cy='11' r='7'></circle>
+            <line x1='16.65' y1='16.65' x2='21' y2='21'></line>
+          </svg>
+          {searchCopy.button}
+          <kbd class='hidden items-center rounded border border-zinc-300 px-1.5 py-0.5 text-[11px] font-medium text-zinc-500 sm:inline-flex'>
+            /
+          </kbd>
+        </button>
+        <LanguageSwitcher locale={locale} className='hidden md:block' />
+      </div>
+    </div>
+
+    <div id='header-search-panel' class='header-search-panel mt-5 hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm'>
+      <div class='flex items-center gap-3'>
+        <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' class='h-4 w-4 text-zinc-400'>
+          <circle cx='11' cy='11' r='7'></circle>
+          <line x1='16.65' y1='16.65' x2='21' y2='21'></line>
+        </svg>
+        <input
+          id='header-search-input'
+          type='search'
+          class='w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-800 outline-none focus:border-zinc-400'
+          placeholder={searchCopy.placeholder}
+          autocomplete='off'
+        />
+      </div>
+      <p id='header-search-empty' class='mt-3 text-sm text-zinc-500'>{searchCopy.empty}</p>
+      <p class='mt-2 text-xs text-zinc-500'>{searchCopy.shortcut}</p>
+      <ul id='header-search-results' class='mt-3 space-y-2'></ul>
+      <a href={withLocalePath(locale, '/blog')} class='mt-4 inline-flex text-sm text-zinc-600 hover:text-zinc-900'>
+        {searchCopy.viewAll} →
+      </a>
     </div>
   </div>
 </header>
+
+<script define:vars={{ searchItems, searchCopy }}>
+  const toggleButton = document.getElementById('header-search-toggle');
+  const panel = document.getElementById('header-search-panel');
+  const input = document.getElementById('header-search-input');
+  const resultList = document.getElementById('header-search-results');
+  const emptyText = document.getElementById('header-search-empty');
+
+  const state = {
+    open: false
+  };
+
+  const isEditableTarget = (target) => {
+    if (!(target instanceof HTMLElement)) return false;
+    const tagName = target.tagName.toLowerCase();
+    return tagName === 'input' || tagName === 'textarea' || target.isContentEditable;
+  };
+
+  const normalize = (value) =>
+    value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+  const renderResults = (items) => {
+    if (!resultList || !emptyText) return;
+    resultList.innerHTML = '';
+
+    if (items.length === 0) {
+      emptyText.textContent = searchCopy.noResults;
+      emptyText.classList.remove('hidden');
+      return;
+    }
+
+    emptyText.classList.add('hidden');
+
+    for (const item of items.slice(0, 8)) {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.url}" class="block rounded-lg border border-zinc-200 px-3 py-2 hover:border-zinc-300 hover:bg-zinc-50"><p class="text-sm font-medium text-zinc-900">${item.title}</p><p class="mt-1 text-xs text-zinc-600 line-clamp-2">${item.description}</p></a>`;
+      resultList.appendChild(li);
+    }
+  };
+
+  const filterItems = (term) => {
+    const query = normalize(term.trim());
+
+    if (!query) {
+      if (emptyText) {
+        emptyText.textContent = searchCopy.empty;
+        emptyText.classList.remove('hidden');
+      }
+      if (resultList) resultList.innerHTML = '';
+      return;
+    }
+
+    const filtered = searchItems.filter((item) => {
+      const haystack = normalize(
+        [item.title, item.description, ...(item.tags || []), ...(item.categories || [])].join(' ')
+      );
+      return haystack.includes(query);
+    });
+
+    renderResults(filtered);
+  };
+
+  const setOpen = (open) => {
+    if (!panel || !toggleButton) return;
+
+    state.open = open;
+    panel.classList.toggle('hidden', !open);
+    toggleButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+    if (open && input) {
+      setTimeout(() => input.focus(), 10);
+    }
+  };
+
+  toggleButton?.addEventListener('click', () => setOpen(!state.open));
+  input?.addEventListener('input', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    filterItems(target.value);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!state.open || !panel || !toggleButton) return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (!panel.contains(target) && !toggleButton.contains(target)) {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setOpen(false);
+      return;
+    }
+
+    const isQuickSearch =
+      event.key === '/' ||
+      ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k');
+
+    if (isQuickSearch && !isEditableTarget(event.target)) {
+      event.preventDefault();
+      setOpen(true);
+    }
+  });
+</script>

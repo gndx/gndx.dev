@@ -49,8 +49,10 @@
     "vite-plugin-pwa": "0.21.2"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.8",
     "@astrojs/cloudflare": "^12.6.12",
     "@tailwindcss/vite": "4.0.15",
-    "astro-md-generator": "^1.0.0"
+    "astro-md-generator": "^1.0.0",
+    "typescript": "^5.9.3"
   }
 }

@@ -46,6 +46,7 @@ const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jp
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, config.site.base_url).toString();
 const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
 const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
+const isHome = pathWithoutLocale === '/' || pathWithoutLocale === '';
 const isDev = import.meta.env.DEV;
 const robots = noindex
   ? 'noindex,nofollow'
@@ -157,11 +158,11 @@ const ogType = blogpost ? 'article' : 'website';
       </div>
     )}
     <Header locale={locale} />
-    {!blogpost && <Hero />}
+    {!blogpost && isHome && <Hero />}
     <main class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
       <slot />
     </main>
-    {!blogpost && <FeaturedVideos />}
+    {!blogpost && isHome && <FeaturedVideos />}
     <Footer />
     <script>
       // This is a hack to get vite-plugin-pwa to generate a sw.js file.
