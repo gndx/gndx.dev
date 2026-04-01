@@ -7,6 +7,7 @@ import HomeIcon from '@icons/HomeIcon.astro';
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
 import { type Locale, withLocalePath } from '@i18n/config';
 import { getUi } from '@i18n/ui';
+import { getPostsByLocale } from '@utils/i18nContent';
 
 export interface NavigationLink {
   name: string;
@@ -27,6 +28,42 @@ const main: NavigationLink[] = [
   { name: copy.nav.mentoring, url: 'https://mentor.gndx.dev/' },
   { name: 'English Club', url: 'https://lp.leap.school/a/gndx?via=gndx' },
 ];
+
+const blogPosts = await getPostsByLocale(locale);
+const searchItems = blogPosts.map((post) => {
+  const postSlug = post.slug || post.id?.replace(/\.(md|mdx)$/i, '') || '';
+  return {
+    title: post.data.title,
+    description: post.data.description,
+    tags: post.data.tags || [],
+    categories: post.data.categories || [],
+    url: withLocalePath(locale, `/blog/${postSlug}`)
+  };
+});
+
+const searchCopy = {
+  es: {
+    button: 'Buscar',
+    placeholder: 'Buscar artículos por título, tema o tag…',
+    noResults: 'No encontré artículos con ese término.',
+    empty: 'Empieza escribiendo para filtrar artículos del blog.',
+    viewAll: 'Ver blog completo'
+  },
+  en: {
+    button: 'Search',
+    placeholder: 'Search posts by title, topic or tag…',
+    noResults: 'No posts found for that search.',
+    empty: 'Start typing to filter blog posts.',
+    viewAll: 'View all posts'
+  },
+  pt: {
+    button: 'Buscar',
+    placeholder: 'Busque artigos por título, tema ou tag…',
+    noResults: 'Nenhum artigo encontrado para esse termo.',
+    empty: 'Comece a digitar para filtrar os artigos do blog.',
+    viewAll: 'Ver blog completo'
+  }
+}[locale];
 ---
 
 <header class='bg-gray-50'>
@@ -45,8 +82,8 @@ const main: NavigationLink[] = [
           />
         </figure>
       </a>
+
       <div class='relative md:hidden'>
-        <!-- navbar toggler -->
         <input id='nav-toggle' type='checkbox' class='hidden' />
         <label
           id='show-button'
@@ -62,7 +99,6 @@ const main: NavigationLink[] = [
         >
           <CloseIcon />
         </label>
-        <!-- /navbar toggler -->
         <div
           id='nav-menu'
           class='absolute right-0 top-8 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg'
@@ -84,6 +120,7 @@ const main: NavigationLink[] = [
           <LanguageSwitcher locale={locale} variant='list' />
         </div>
       </div>
+
       <ul class='ml-auto hidden md:flex items-center gap-6 lg:flex'>
         {
           main?.map((menu) => (
@@ -95,7 +132,122 @@ const main: NavigationLink[] = [
           ))
         }
       </ul>
-      <LanguageSwitcher locale={locale} className='hidden md:block' />
+
+      <div class='flex items-center gap-3 ml-auto md:ml-0'>
+        <button
+          id='header-search-toggle'
+          type='button'
+          class='inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 hover:border-zinc-300 hover:text-zinc-900 transition'
+          aria-expanded='false'
+          aria-controls='header-search-panel'
+        >
+          <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' class='h-4 w-4'>
+            <circle cx='11' cy='11' r='7'></circle>
+            <line x1='16.65' y1='16.65' x2='21' y2='21'></line>
+          </svg>
+          {searchCopy.button}
+        </button>
+        <LanguageSwitcher locale={locale} className='hidden md:block' />
+      </div>
+    </div>
+
+    <div id='header-search-panel' class='header-search-panel mt-5 hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm'>
+      <div class='flex items-center gap-3'>
+        <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' class='h-4 w-4 text-zinc-400'>
+          <circle cx='11' cy='11' r='7'></circle>
+          <line x1='16.65' y1='16.65' x2='21' y2='21'></line>
+        </svg>
+        <input
+          id='header-search-input'
+          type='search'
+          class='w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-800 outline-none focus:border-zinc-400'
+          placeholder={searchCopy.placeholder}
+          autocomplete='off'
+        />
+      </div>
+      <p id='header-search-empty' class='mt-3 text-sm text-zinc-500'>{searchCopy.empty}</p>
+      <ul id='header-search-results' class='mt-3 space-y-2'></ul>
+      <a href={withLocalePath(locale, '/blog')} class='mt-4 inline-flex text-sm text-zinc-600 hover:text-zinc-900'>
+        {searchCopy.viewAll} →
+      </a>
     </div>
   </div>
 </header>
+
+<script define:vars={{ searchItems, searchCopy }}>
+  const toggleButton = document.getElementById('header-search-toggle');
+  const panel = document.getElementById('header-search-panel');
+  const input = document.getElementById('header-search-input');
+  const resultList = document.getElementById('header-search-results');
+  const emptyText = document.getElementById('header-search-empty');
+
+  const state = {
+    open: false
+  };
+
+  const normalize = (value) =>
+    value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+  const renderResults = (items) => {
+    if (!resultList || !emptyText) return;
+    resultList.innerHTML = '';
+
+    if (items.length === 0) {
+      emptyText.textContent = searchCopy.noResults;
+      emptyText.classList.remove('hidden');
+      return;
+    }
+
+    emptyText.classList.add('hidden');
+
+    for (const item of items.slice(0, 8)) {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.url}" class="block rounded-lg border border-zinc-200 px-3 py-2 hover:border-zinc-300 hover:bg-zinc-50"><p class="text-sm font-medium text-zinc-900">${item.title}</p><p class="mt-1 text-xs text-zinc-600 line-clamp-2">${item.description}</p></a>`;
+      resultList.appendChild(li);
+    }
+  };
+
+  const filterItems = (term) => {
+    const query = normalize(term.trim());
+
+    if (!query) {
+      if (emptyText) {
+        emptyText.textContent = searchCopy.empty;
+        emptyText.classList.remove('hidden');
+      }
+      if (resultList) resultList.innerHTML = '';
+      return;
+    }
+
+    const filtered = searchItems.filter((item) => {
+      const haystack = normalize(
+        [item.title, item.description, ...(item.tags || []), ...(item.categories || [])].join(' ')
+      );
+      return haystack.includes(query);
+    });
+
+    renderResults(filtered);
+  };
+
+  const setOpen = (open) => {
+    if (!panel || !toggleButton) return;
+
+    state.open = open;
+    panel.classList.toggle('hidden', !open);
+    toggleButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+    if (open && input) {
+      setTimeout(() => input.focus(), 10);
+    }
+  };
+
+  toggleButton?.addEventListener('click', () => setOpen(!state.open));
+  input?.addEventListener('input', (event) => filterItems(event.target.value));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
+</script>
