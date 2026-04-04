@@ -77,24 +77,6 @@ const main: NavigationLink[] = [
 
       <!-- Mobile controls -->
       <div class='flex items-center gap-2 md:hidden'>
-        <!-- Theme toggle mobile -->
-        <button id='theme-toggle-mobile' class='nd-theme-btn' aria-label='Toggle theme'>
-          <span class='nd-icon-sun' aria-hidden='true'>
-            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
-              <circle cx='12' cy='12' r='4'/>
-              <line x1='12' y1='2' x2='12' y2='4'/><line x1='12' y1='20' x2='12' y2='22'/>
-              <line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/>
-              <line x1='2' y1='12' x2='4' y2='12'/><line x1='20' y1='12' x2='22' y2='12'/>
-              <line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/>
-            </svg>
-          </span>
-          <span class='nd-icon-moon' aria-hidden='true'>
-            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
-              <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/>
-            </svg>
-          </span>
-        </button>
-
         <!-- Hamburger -->
         <div class='relative'>
           <input id='nav-toggle' type='checkbox' class='hidden' />
@@ -118,6 +100,26 @@ const main: NavigationLink[] = [
             </ul>
             <div class='nd-mobile-lang-divider'>
               <LanguageSwitcher locale={locale} variant='list' />
+            </div>
+            <div class='nd-mobile-theme-divider'>
+              <button id='theme-toggle-mobile' class='nd-mobile-theme-btn' aria-label='Toggle theme'>
+                <span class='nd-icon-sun nd-mobile-theme-label' aria-hidden='true'>
+                  <svg viewBox='0 0 24 24' width='14' height='14' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+                    <circle cx='12' cy='12' r='4'/>
+                    <line x1='12' y1='2' x2='12' y2='4'/><line x1='12' y1='20' x2='12' y2='22'/>
+                    <line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/>
+                    <line x1='2' y1='12' x2='4' y2='12'/><line x1='20' y1='12' x2='22' y2='12'/>
+                    <line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/>
+                  </svg>
+                  <span>LIGHT MODE</span>
+                </span>
+                <span class='nd-icon-moon nd-mobile-theme-label' aria-hidden='true'>
+                  <svg viewBox='0 0 24 24' width='14' height='14' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+                    <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/>
+                  </svg>
+                  <span>DARK MODE</span>
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -194,10 +196,6 @@ const main: NavigationLink[] = [
     display: flex;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme='dark']) .nd-icon-sun { display: none; }
-    :root:not([data-theme='dark']) .nd-icon-moon { display: flex; }
-  }
 
   .nd-icon-btn {
     color: var(--nd-text-secondary);
@@ -232,6 +230,37 @@ const main: NavigationLink[] = [
 
   .nd-mobile-lang-divider {
     border-top: 1px solid var(--nd-border);
+  }
+
+  .nd-mobile-theme-divider {
+    border-top: 1px solid var(--nd-border);
+  }
+
+  .nd-mobile-theme-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+    text-align: left;
+  }
+
+  .nd-mobile-theme-btn:hover {
+    color: var(--nd-text-display);
+  }
+
+  .nd-mobile-theme-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 </style>
 

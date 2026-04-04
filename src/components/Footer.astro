@@ -7,10 +7,10 @@ const year = new Date().getFullYear();
 <footer class='mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8'>
   <div class='nd-footer-inner'>
     <p class='nd-footer-text'>
-      &copy; {year}. {config.site.title} - EV0. All rights REVERSED
+      &copy; {year}. {config.site.title} - All rights REVERSED
       <span class='nd-footer-sub'>
         Made with ♥ in Medellín Colombia, by
-        <a href='https://gndx.dev' class='nd-footer-link'>GNDX</a>
+        <a href='#' class='nd-footer-link'>GNDX</a>
       </span>
     </p>
   </div>
@@ -18,8 +18,24 @@ const year = new Date().getFullYear();
 
 <style>
   .nd-footer-inner {
-    border-top: 1px solid var(--nd-border-visible);
+    position: relative;
     padding: 28px 0 32px;
+  }
+
+  .nd-footer-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    height: 8px;
+    background-image: radial-gradient(
+      circle at center,
+      var(--nd-border-visible) 1px,
+      transparent 1.5px
+    );
+    background-size: 16px 8px;
+    background-repeat: repeat-x;
+    background-position: center top;
+    pointer-events: none;
   }
 
   .nd-footer-text {

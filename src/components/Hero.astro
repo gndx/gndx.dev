@@ -104,6 +104,11 @@ const bioMain = config.author.bio
     font-size: 1rem;
     line-height: 1.5;
     color: var(--nd-text-secondary);
+    max-width: 75%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .nd-hero-tags {
@@ -112,7 +117,8 @@ const bioMain = config.author.bio
     font-size: 13px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--nd-text-disabled);
+    color: var(--nd-warning);
+    opacity: 0.75;
   }
 
   .nd-social-row {
@@ -134,8 +140,8 @@ const bioMain = config.author.bio
   }
 
   .nd-social-icon:hover {
-    color: var(--nd-text-display);
-    border-color: var(--nd-text-disabled);
+    color: var(--nd-warning);
+    border-color: var(--nd-warning);
   }
 
   .nd-social-icon :global(svg) {

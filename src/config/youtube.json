@@ -1,152 +1,146 @@
 [
   {
-    "title": "MI NUEVO SETUP 2024",
-    "description": "Mi nuevo setup 2024, pasar de 3 pantallas a solo una, les cuento mi experiencia con mi nuevo setup y las características que ...",
+    "title": "Estás usando ChatGPT MAL para aprender",
+    "description": "La mayoría de las personas usan ChatGPT de la forma incorrecta para aprender.\n\nLe preguntan cosas como:\n\"Enséñame programación\"\n\"Explícame JavaScript\"\n\ny esperan que la IA mágicamente les enseñe todo.Pero así no funciona el aprendizaje con IA.\n\nEn este video te explico:\nCómo usar ChatGPT como mentor\nPor qué el contexto cambia completamente las respuestas\nCómo escribir prompts para aprender mejor\nEl método para que la IA te haga preguntas y te guíe\n\nAgenda una asesoría personal conmigo:\n💚 http://link.gndx.dev/mentoria\n\n😈 Mis Redes Sociales: https://gndx.dev\n\n😎 Conviértete en miembro de este canal para disfrutar de ventajas:\nhttps://www.youtube.com/channel/UCw05fUBPwmpu-ehXFMqfdMw/join\n\n#inteligenciaartificial  #chatgpt #ia \n\nDisclaimer: Opinions are my own and not the views of my employer.",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
     "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "go4IqU-IcNA",
+    "videoId": "FIzRgjk2JHE",
     "thumbnails": {
       "default": {
-        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/default.jpg",
+        "url": "https://i.ytimg.com/vi/FIzRgjk2JHE/default.jpg",
         "width": 120,
         "height": 90
       },
       "medium": {
-        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/mqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/FIzRgjk2JHE/mqdefault.jpg",
         "width": 320,
         "height": 180
       },
       "high": {
-        "url": "https://i.ytimg.com/vi/go4IqU-IcNA/hqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/FIzRgjk2JHE/hqdefault.jpg",
         "width": 480,
         "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/FIzRgjk2JHE/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/FIzRgjk2JHE/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
       }
     },
-    "publishedAt": "2024-03-28T18:15:04Z"
+    "publishedAt": "2026-03-14T17:15:00Z",
+    "duration": "PT9M47S"
   },
   {
-    "title": "Haz tus mensajes de GIT Commit con ESTILO 😎",
-    "description": "Crea los mejores mensajes para \"GIT Commit\" y ponle estilo e intención, utiliza gitmoji como un estándar para tus mensajes.",
+    "title": "La Dopamina de la IA: ¿Nos está volviendo adictos a la productividad?",
+    "description": "La inteligencia artificial está cambiando cómo trabajamos, pensamos y creamos.\nPero hay algo de lo que casi no hablamos: la dopamina que nos genera usar IA.\n\nEn este video reflexiono sobre algo que muchos desarrolladores, creadores y builders estamos viviendo: la sensación de poder delegar tareas a la IA mientras seguimos avanzando en otras cosas.\n\n¿Es productividad real?\n¿O estamos entrando en una nueva forma de dependencia tecnológica?\n\nAgenda una asesoría personal conmigo:\n💚 http://link.gndx.dev/mentoria\n\n😈 Mis Redes Sociales: https://gndx.dev\n\n😎 Conviértete en miembro de este canal para disfrutar de ventajas:\nhttps://www.youtube.com/channel/UCw05fUBPwmpu-ehXFMqfdMw/join\n\n#gndx\n\nDisclaimer: Opinions are my own and not the views of my employer.",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
     "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "P-M7ZGa22sI",
+    "videoId": "376Sti-_Wqk",
     "thumbnails": {
       "default": {
-        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/default.jpg",
+        "url": "https://i.ytimg.com/vi/376Sti-_Wqk/default.jpg",
         "width": 120,
         "height": 90
       },
       "medium": {
-        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/mqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/376Sti-_Wqk/mqdefault.jpg",
         "width": 320,
         "height": 180
       },
       "high": {
-        "url": "https://i.ytimg.com/vi/P-M7ZGa22sI/hqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/376Sti-_Wqk/hqdefault.jpg",
         "width": 480,
         "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/376Sti-_Wqk/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/376Sti-_Wqk/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
       }
     },
-    "publishedAt": "2023-11-27T00:15:00Z"
+    "publishedAt": "2026-03-10T17:15:00Z",
+    "duration": "PT8M20S"
   },
   {
-    "title": "TRANSCRIBIR Audio a Texto con Whisper",
-    "description": "Usando Whisper, la IA gratuita y libre de OpenAI para transcribir el audio de cualquier video de YouTube desde un script en ...",
+    "title": "¿Qué lenguaje de Programación aprender en 2026? Ya NO importa (y te explico por qué)",
+    "description": "En 2026 ya no se trata de qué lenguaje está en tendencia. Python, JavaScript o Go dejaron de ser la pregunta correcta.\n\nHoy el verdadero diferencial de un Software Engineer es saber planear, documentar, diseñar arquitectura y usar herramientas de inteligencia artificial como copiloto.\n\nEn este video te explico:\nPor qué el lenguaje ya no es lo más important\nCómo la IA está cambiando el rol del developer\nQué debes aprender si quieres conseguir trabajo como junior en 2026\nCómo convertirte en un orquestador de herramientas AI\n\nSi quieres sobrevivir y crecer en la nueva era del desarrollo, este cambio de mentalidad es urgente.\n\nAgenda una asesoría personal conmigo:\n💚 http://link.gndx.dev/mentoria\n\n😈 Mis Redes Sociales: https://gndx.dev\n\n😎 Conviértete en miembro de este canal para disfrutar de ventajas:\nhttps://www.youtube.com/channel/UCw05fUBPwmpu-ehXFMqfdMw/join\n\n#gndx #vibecoding #inteligenciaartificial \n\nDisclaimer: Opinions are my own and not the views of my employer.",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
     "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "-MxoDp2CTUU",
+    "videoId": "CjT_McyW84s",
     "thumbnails": {
       "default": {
-        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/default.jpg",
+        "url": "https://i.ytimg.com/vi/CjT_McyW84s/default.jpg",
         "width": 120,
         "height": 90
       },
       "medium": {
-        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/mqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/CjT_McyW84s/mqdefault.jpg",
         "width": 320,
         "height": 180
       },
       "high": {
-        "url": "https://i.ytimg.com/vi/-MxoDp2CTUU/hqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/CjT_McyW84s/hqdefault.jpg",
         "width": 480,
         "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/CjT_McyW84s/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/CjT_McyW84s/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
       }
     },
-    "publishedAt": "2023-11-22T16:15:00Z"
+    "publishedAt": "2026-02-18T17:15:01Z",
+    "duration": "PT7M16S"
   },
   {
-    "title": "¡Mis extensiones favoritas de Visual Studio Code! #vscode",
-    "description": "Mentoría Personalizada: https://gndx.dev/mentoria Ahorra en tu suscripción a Platzi: https://gndx.dev/platzi Mis Redes ...",
+    "title": "¿Qué es el vibe coding?",
+    "description": "¿Has escuchado hablar de vibecoding y no tienes claro si es moda o el futuro del desarrollo? 🤔 En este video te explico qué es el vibecoding, por qué está sonando tanto y para quién realmente tiene sentido.\n\nEl vibecoding es un término cada vez más popular en el mundo tech, especialmente entre desarrolladores, creadores y gente que mezcla código con creatividad.\n\nEn este video exploramos el concepto, su origen y cómo se relaciona con nuevas formas de programar, aprender y crear software de manera más intuitiva.\n\nAgenda una asesoría personal conmigo:\n💚 http://mentor.gndx.dev\n\n😈 Mis Redes Sociales: https://gndx.dev\n\n😎 Conviértete en miembro de este canal para disfrutar de ventajas:\nhttps://www.youtube.com/channel/UCw05fUBPwmpu-ehXFMqfdMw/join\n\n#gndx #vibecoding #ia \n\nDisclaimer: Opinions are my own and not the views of my employer.",
     "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
     "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "DJBp86YPdy0",
+    "videoId": "-Vut9_C7lwI",
     "thumbnails": {
       "default": {
-        "url": "https://i.ytimg.com/vi/DJBp86YPdy0/default.jpg",
+        "url": "https://i.ytimg.com/vi/-Vut9_C7lwI/default.jpg",
         "width": 120,
         "height": 90
       },
       "medium": {
-        "url": "https://i.ytimg.com/vi/DJBp86YPdy0/mqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/-Vut9_C7lwI/mqdefault.jpg",
         "width": 320,
         "height": 180
       },
       "high": {
-        "url": "https://i.ytimg.com/vi/DJBp86YPdy0/hqdefault.jpg",
+        "url": "https://i.ytimg.com/vi/-Vut9_C7lwI/hqdefault.jpg",
         "width": 480,
         "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/-Vut9_C7lwI/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/-Vut9_C7lwI/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
       }
     },
-    "publishedAt": "2023-10-25T22:30:00Z"
-  },
-  {
-    "title": "Nuevas MAC, Evento de Apple #m3 #apple #appleevent",
-    "description": "Mentoría Personalizada: https://gndx.dev/mentoria Ahorra en tu suscripción a Platzi: https://gndx.dev/platzi Mis Redes ...",
-    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
-    "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "x11PkRsayMY",
-    "thumbnails": {
-      "default": {
-        "url": "https://i.ytimg.com/vi/x11PkRsayMY/default.jpg",
-        "width": 120,
-        "height": 90
-      },
-      "medium": {
-        "url": "https://i.ytimg.com/vi/x11PkRsayMY/mqdefault.jpg",
-        "width": 320,
-        "height": 180
-      },
-      "high": {
-        "url": "https://i.ytimg.com/vi/x11PkRsayMY/hqdefault.jpg",
-        "width": 480,
-        "height": 360
-      }
-    },
-    "publishedAt": "2023-10-24T18:30:48Z"
-  },
-  {
-    "title": "Las VENTAJAS de Aprender Programación #shorts #programacion",
-    "description": "Las VENTAJAS de Aprender Programación #shorts #programacion Mentoría Personalizada: https://gndx.dev/mentoria ...",
-    "channelId": "UCw05fUBPwmpu-ehXFMqfdMw",
-    "channelTitle": "Oscar Barajas @gndx",
-    "videoId": "E_Q5QnAYLkM",
-    "thumbnails": {
-      "default": {
-        "url": "https://i.ytimg.com/vi/E_Q5QnAYLkM/default.jpg",
-        "width": 120,
-        "height": 90
-      },
-      "medium": {
-        "url": "https://i.ytimg.com/vi/E_Q5QnAYLkM/mqdefault.jpg",
-        "width": 320,
-        "height": 180
-      },
-      "high": {
-        "url": "https://i.ytimg.com/vi/E_Q5QnAYLkM/hqdefault.jpg",
-        "width": 480,
-        "height": 360
-      }
-    },
-    "publishedAt": "2023-10-11T16:30:04Z"
+    "publishedAt": "2026-02-07T17:15:01Z",
+    "duration": "PT13M31S"
   }
 ]

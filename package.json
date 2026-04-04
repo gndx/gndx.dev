@@ -26,6 +26,9 @@
     "url": "https://github.com/gndx/gndx.dev.git"
   },
   "scripts": {
+    "predev": "node scripts/youtube.cjs",
+    "prestart": "node scripts/youtube.cjs",
+    "prebuild": "node scripts/youtube.cjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",

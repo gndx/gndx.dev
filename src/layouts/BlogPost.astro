@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '@components/FormattedDate.astro';
 import CalendarIcon from '@icons/CalendarIcon.astro';
 import CategoryIcon from '@icons/CategoryIcon.astro';
-import GiscusComments from '@components/GiscusComments.astro';
 import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
@@ -237,7 +236,6 @@ const blogPostingLd = {
         ))
       }
     </div>
-    <GiscusComments locale={locale} />
   </article>
 </Base>
 
@@ -296,7 +294,6 @@ const blogPostingLd = {
   .bp-tags {
     margin-top: 40px;
     padding-top: 24px;
-    border-top: 1px solid var(--nd-border);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

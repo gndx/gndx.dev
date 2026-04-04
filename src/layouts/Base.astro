@@ -62,7 +62,7 @@ const ogType = blogpost ? 'article' : 'website';
 ---
 
 <!doctype html>
-<html lang={locale}>
+<html lang={locale} data-theme='dark'>
   <head>
     <meta charset='utf-8' />
     <link rel='shortcut icon' href={config.site.favicon} />
@@ -80,8 +80,6 @@ const ogType = blogpost ? 'article' : 'website';
           if (!t) t = localStorage.getItem('nd-theme');
           if (t) {
             document.documentElement.setAttribute('data-theme', t);
-          } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.documentElement.setAttribute('data-theme', 'light');
           } else {
             document.documentElement.setAttribute('data-theme', 'dark');
           }
@@ -155,9 +153,9 @@ const ogType = blogpost ? 'article' : 'website';
   </head>
   <body>
     {!blogpost && (
-      <div style='border-bottom: 1px solid var(--nd-border); background: var(--nd-surface); padding: 10px 16px;'>
-        <p style='text-align: center; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nd-text-disabled);'>
-          <a href='https://mentor.gndx.dev/' style='color: var(--nd-text-secondary); transition: color 200ms ease;'>
+      <div style='border-bottom: 1px solid var(--nd-border); background: var(--nd-surface); padding: 10px 16px; border-left: 3px solid var(--nd-warning);'>
+        <p style='text-align: center; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.01em;'>
+          <a href='https://mentor.gndx.dev/' style='color: var(--nd-warning); transition: color 200ms ease;'>
             ¿Cómo Aprovechar al Máximo una Mentoría? →
           </a>
         </p>
