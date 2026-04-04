@@ -29,15 +29,15 @@ const main: NavigationLink[] = [
 ];
 ---
 
-<header class='bg-gray-50'>
-  <div class='mx-auto max-w-screen-lg px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
-    <div class='flex items-start md:items-center justify-between sm:gap-4'>
+<header class='nd-header'>
+  <div class='mx-auto max-w-screen-lg px-4 py-5 sm:px-6 lg:px-8'>
+    <div class='flex items-center justify-between gap-4'>
       <a href='/' class='logo flex items-center' aria-current='page'>
         <figure>
           <Image
             src={config.site.logo}
             alt={config.site.title}
-            class='w-16 rounded mr-8'
+            class='nd-logo'
             width={512}
             height={512}
             decoding='async'
@@ -45,57 +45,227 @@ const main: NavigationLink[] = [
           />
         </figure>
       </a>
-      <div class='relative md:hidden'>
-        <!-- navbar toggler -->
-        <input id='nav-toggle' type='checkbox' class='hidden' />
-        <label
-          id='show-button'
-          for='nav-toggle'
-          class='order-2 flex cursor-pointer items-center text-black md:hidden'
-        >
-          <HamburgerIcon />
-        </label>
-        <label
-          id='hide-button'
-          for='nav-toggle'
-          class='order-2 hidden cursor-pointer items-center text-black'
-        >
-          <CloseIcon />
-        </label>
-        <!-- /navbar toggler -->
-        <div
-          id='nav-menu'
-          class='absolute right-0 top-8 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg'
-        >
-          <ul class='py-2 text-sm text-gray-700 dark:text-gray-200'>
-            {
-              main?.map((menu) => (
-                <li>
-                  <a
-                    href={menu?.url}
-                    class='block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-                  >
-                    {menu?.name}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-          <LanguageSwitcher locale={locale} variant='list' />
-        </div>
-      </div>
-      <ul class='ml-auto hidden md:flex items-center gap-6 lg:flex'>
+
+      <!-- Desktop nav -->
+      <nav class='ml-auto hidden md:flex items-center gap-0.5'>
         {
           main?.map((menu) => (
-            <li class='block rounded-lg px-2 py-2 text-md text-gray-500 hover:text-gray-800'>
-              <a href={menu?.url} class='flex items-center relative'>
-                {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
-              </a>
-            </li>
+            <a href={menu?.url} class='nd-nav-link'>
+              {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
+            </a>
           ))
         }
-      </ul>
-      <LanguageSwitcher locale={locale} className='hidden md:block' />
+        <LanguageSwitcher locale={locale} className='hidden md:block' />
+        <!-- Theme toggle desktop -->
+        <button id='theme-toggle' class='nd-theme-btn' aria-label='Toggle theme' title='Toggle dark/light mode'>
+          <span class='nd-icon-sun' aria-hidden='true'>
+            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+              <circle cx='12' cy='12' r='4'/>
+              <line x1='12' y1='2' x2='12' y2='4'/><line x1='12' y1='20' x2='12' y2='22'/>
+              <line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/>
+              <line x1='2' y1='12' x2='4' y2='12'/><line x1='20' y1='12' x2='22' y2='12'/>
+              <line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/>
+            </svg>
+          </span>
+          <span class='nd-icon-moon' aria-hidden='true'>
+            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+              <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/>
+            </svg>
+          </span>
+        </button>
+      </nav>
+
+      <!-- Mobile controls -->
+      <div class='flex items-center gap-2 md:hidden'>
+        <!-- Theme toggle mobile -->
+        <button id='theme-toggle-mobile' class='nd-theme-btn' aria-label='Toggle theme'>
+          <span class='nd-icon-sun' aria-hidden='true'>
+            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+              <circle cx='12' cy='12' r='4'/>
+              <line x1='12' y1='2' x2='12' y2='4'/><line x1='12' y1='20' x2='12' y2='22'/>
+              <line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/>
+              <line x1='2' y1='12' x2='4' y2='12'/><line x1='20' y1='12' x2='22' y2='12'/>
+              <line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/>
+            </svg>
+          </span>
+          <span class='nd-icon-moon' aria-hidden='true'>
+            <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
+              <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Hamburger -->
+        <div class='relative'>
+          <input id='nav-toggle' type='checkbox' class='hidden' />
+          <label id='show-button' for='nav-toggle' class='flex cursor-pointer items-center nd-icon-btn'>
+            <HamburgerIcon />
+          </label>
+          <label id='hide-button' for='nav-toggle' class='hidden cursor-pointer items-center nd-icon-btn'>
+            <CloseIcon />
+          </label>
+          <div id='nav-menu' class='absolute right-0 top-10 z-10 mt-2 hidden w-52 nd-mobile-menu'>
+            <ul class='py-2'>
+              {
+                main?.map((menu) => (
+                  <li>
+                    <a href={menu?.url} class='nd-mobile-link'>
+                      {menu?.name}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class='nd-mobile-lang-divider'>
+              <LanguageSwitcher locale={locale} variant='list' />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
+
+<style>
+  /* No bottom border — fuses visually with the hero */
+  .nd-header {
+    background: var(--nd-black);
+  }
+
+  .nd-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    margin-right: 24px;
+  }
+
+  .nd-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+    white-space: nowrap;
+  }
+
+  .nd-nav-link:hover {
+    color: var(--nd-text-display);
+  }
+
+  /* ─── Theme toggle button ─── */
+  .nd-theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--nd-text-secondary);
+    cursor: pointer;
+    transition: color 200ms ease, border-color 200ms ease;
+    flex-shrink: 0;
+  }
+
+  .nd-theme-btn:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+
+  /* Show sun in dark, moon in light */
+  :root[data-theme='dark'] .nd-icon-sun,
+  :root:not([data-theme='light']) .nd-icon-sun {
+    display: flex;
+  }
+  :root[data-theme='dark'] .nd-icon-moon,
+  :root:not([data-theme='light']) .nd-icon-moon {
+    display: none;
+  }
+  :root[data-theme='light'] .nd-icon-sun {
+    display: none;
+  }
+  :root[data-theme='light'] .nd-icon-moon {
+    display: flex;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) .nd-icon-sun { display: none; }
+    :root:not([data-theme='dark']) .nd-icon-moon { display: flex; }
+  }
+
+  .nd-icon-btn {
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+  }
+
+  .nd-icon-btn:hover {
+    color: var(--nd-text-display);
+  }
+
+  .nd-mobile-menu {
+    background: var(--nd-surface);
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .nd-mobile-link {
+    display: block;
+    padding: 10px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+  }
+
+  .nd-mobile-link:hover {
+    color: var(--nd-text-display);
+  }
+
+  .nd-mobile-lang-divider {
+    border-top: 1px solid var(--nd-border);
+  }
+</style>
+
+<script>
+  function getThemeCookie(): string | null {
+    const m = document.cookie.match(/(?:^|; )nd-theme=([^;]*)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  function applyTheme(theme: string) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.cookie = `nd-theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
+  }
+
+  function getTheme(): string {
+    return document.documentElement.getAttribute('data-theme') || 'dark';
+  }
+
+  function toggleTheme() {
+    const current = getTheme();
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  function initToggles() {
+    document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+  }
+
+  // Restore theme after View Transitions swap (html attributes get reset)
+  document.addEventListener('astro:after-swap', () => {
+    const t = getThemeCookie();
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  });
+
+  initToggles();
+  document.addEventListener('astro:page-load', initToggles);
+</script>

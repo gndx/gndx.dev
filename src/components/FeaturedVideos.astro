@@ -3,11 +3,11 @@ import { Image } from 'astro:assets';
 import youtube from '@config/youtube.json';
 ---
 
-<section class='max-w-screen-lg px-4 mx-auto pb-12 sm:px-6 lg:px-8'>
-  <h3 class='mb-4 mt-3 text-lg font-semibold leading-6 text-zinc-900 md:text-2xl'>
-    Últimos videos en YouTube:
+<section class='max-w-screen-lg px-4 mx-auto pb-14 sm:px-6 lg:px-8'>
+  <h3 class='nd-section-label'>
+    Últimos videos en YouTube
   </h3>
-  <ul class='mx-auto grid grid-cols-1 gap-5 md:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3'>
+  <ul class='mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3'>
     {
       youtube?.slice(0, 3).map((item) => (
         <li class='h-full'>
@@ -15,34 +15,35 @@ import youtube from '@config/youtube.json';
             href={`https://www.youtube.com/watch?v=${item.videoId}`}
             target='_blank'
             rel='noopener noreferrer'
-            class='youtube-bento-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/95'
+            class='nd-video-card group relative flex h-full flex-col overflow-hidden'
           >
-            <figure class='relative overflow-hidden border-b border-zinc-200/80'>
+            <figure class='nd-video-thumb relative overflow-hidden'>
               <Image
                 alt={item.title}
                 src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
-                class='h-48 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]'
+                class='h-48 w-full object-cover'
                 width={309}
                 height={176}
                 decoding='async'
                 loading='lazy'
               />
-              <div class='absolute inset-0 bg-gradient-to-t from-zinc-950/65 via-zinc-900/20 to-transparent' />
-              <span class='pointer-events-none absolute inset-0 flex items-center justify-center'>
+              <div class='absolute inset-0' style='background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);' />
+              <span class='nd-play-btn pointer-events-none absolute inset-0 flex items-center justify-center'>
                 <svg
                   aria-hidden='true'
                   viewBox='0 0 24 24'
-                  class='h-14 w-14 fill-white drop-shadow-[0_8px_16px_rgba(0,0,0,0.45)] transition-transform duration-200 group-hover:scale-105'
+                  class='h-12 w-12'
+                  style='fill: var(--nd-text-display); opacity: 0.9;'
                 >
                   <path d='M8 5.14v13.72c0 .78.84 1.26 1.5.86l10.2-6.86a1 1 0 0 0 0-1.72L9.5 4.28A1 1 0 0 0 8 5.14z'></path>
                 </svg>
               </span>
             </figure>
-            <div class='flex flex-1 flex-col gap-3 p-5'>
-              <span class='text-[11px] font-semibold uppercase tracking-[0.08em] text-red-500'>
+            <div class='flex flex-1 flex-col gap-2 p-4'>
+              <span class='nd-channel-label'>
                 {item.channelTitle}
               </span>
-              <p class='line-clamp-2 text-base font-semibold leading-snug text-zinc-900 transition-colors duration-200 group-hover:text-zinc-600'>
+              <p class='nd-video-title line-clamp-2'>
                 {item.title}
               </p>
             </div>
@@ -54,24 +55,63 @@ import youtube from '@config/youtube.json';
 </section>
 
 <style>
-  .youtube-bento-card {
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 24px rgba(15, 23, 42, 0.05);
-    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  .nd-section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    margin-bottom: 16px;
+    margin-top: 12px;
   }
 
-  .youtube-bento-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(113, 113, 122, 0.35);
-    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+  .nd-video-card {
+    background: var(--nd-surface);
+    border: 1px solid var(--nd-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .nd-video-card:hover {
+    border-color: var(--nd-border-visible);
+  }
+
+  .nd-video-thumb {
+    border-bottom: 1px solid var(--nd-border);
+  }
+
+  .nd-video-thumb img {
+    transition: opacity 250ms ease;
+  }
+
+  .nd-video-card:hover .nd-video-thumb img {
+    opacity: 0.85;
+  }
+
+  .nd-channel-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-video-title {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--nd-text-primary);
+    transition: color 200ms ease;
+  }
+
+  .nd-video-card:hover .nd-video-title {
+    color: var(--nd-text-display);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .youtube-bento-card {
-      transition: none;
-    }
-
-    .youtube-bento-card:hover {
-      transform: none;
-    }
+    .nd-video-card { transition: none; }
+    .nd-video-thumb img { transition: none; }
   }
 </style>

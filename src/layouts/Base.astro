@@ -68,17 +68,32 @@ const ogType = blogpost ? 'article' : 'website';
     <link rel='shortcut icon' href={config.site.favicon} />
     <meta name='theme-name' content='bookworm-light-astro' />
     <meta name='msapplication-TileColor' content='#000000' />
-    <meta name='theme-color' media='(prefers-color-scheme: light)' content='#fff' />
+    <meta name='theme-color' content='#000000' />
     <meta name='generator' content={Astro.generator} />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
-    {blogpost && <link rel='preconnect' href='https://fonts.googleapis.com' />}
-    {blogpost && <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />}
-    {blogpost && (
-      <link
-        href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap'
-        rel='stylesheet'
-      />
-    )}
+    {/* Prevent flash of wrong theme — runs before CSS */}
+    <script is:inline>
+      (function () {
+        try {
+          var m = document.cookie.match(/(?:^|; )nd-theme=([^;]*)/);
+          var t = m ? decodeURIComponent(m[1]) : null;
+          if (!t) t = localStorage.getItem('nd-theme');
+          if (t) {
+            document.documentElement.setAttribute('data-theme', t);
+          } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.setAttribute('data-theme', 'light');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Doto:wght@400&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap'
+      rel='stylesheet'
+    />
 
     <title>{pageTitle}</title>
     <meta name='title' content={pageTitle} />
@@ -137,21 +152,13 @@ const ogType = blogpost ? 'article' : 'website';
     {!isDev && <script is:inline src='/registerSW.js'></script>}
     {!isDev && <link rel='manifest' href='/manifest.webmanifest' />}
     <ViewTransitions />
-    <script
-      defer
-      src='https://us.umami.is/script.js'
-      data-website-id='db3f0d8a-7fde-495b-9d0f-d45267e61cff'></script>
-    <script
-      async
-      src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6020915585588826'
-      crossorigin='anonymous'></script>
   </head>
   <body>
     {!blogpost && (
-      <div class='bg-green-600 px-4 py-4 text-white'>
-        <p class='text-center text-md font-medium text-green-100'>
-          <a href='https://mentor.gndx.dev/' class='font-bold ml-1'>
-            🚀 ¿Cómo Aprovechar al Máximo una Mentoría?
+      <div style='border-bottom: 1px solid var(--nd-border); background: var(--nd-surface); padding: 10px 16px;'>
+        <p style='text-align: center; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nd-text-disabled);'>
+          <a href='https://mentor.gndx.dev/' style='color: var(--nd-text-secondary); transition: color 200ms ease;'>
+            ¿Cómo Aprovechar al Máximo una Mentoría? →
           </a>
         </p>
       </div>

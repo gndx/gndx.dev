@@ -78,14 +78,14 @@ const blogPostingLd = {
   articleTags={tags}
 >
   <article class='article-shell'>
-    <header class='mb-10 text-center'>
-      <h1 class='text-balance text-3xl font-bold tracking-tight text-zinc-900 md:text-5xl'>{title}</h1>
-      <div class='article-meta mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-zinc-700'>
-        <div class='flex flex-wrap items-center font-medium'>
+    <header class='bp-header'>
+      <h1 class='bp-title'>{title}</h1>
+      <div class='bp-meta'>
+        <div class='flex flex-wrap items-center gap-1.5'>
           <figure>
             <Image
               alt={config.author.name}
-              class='mr-2 h-6 w-6 rounded-full'
+              class='bp-avatar'
               width={50}
               height={50}
               src={config.author.avatar}
@@ -95,27 +95,31 @@ const blogPostingLd = {
           </figure>
           <span>{config.author.name}</span>
         </div>
-        <div class='flex flex-wrap items-center font-medium'>
+        <span class='bp-meta-dot'>·</span>
+        <div class='flex flex-wrap items-center gap-1.5'>
           <CalendarIcon />
           <FormattedDate date={pubDate} locale={dateLocaleMap[locale]} />
         </div>
         {
           categories?.slice(0, 1).map((category) => (
-            <div class='flex flex-wrap items-center font-medium'>
-              <CategoryIcon />
-              <a
-                href={withLocalePath(locale, `/categories/${slugify(category)}`)}
-                class='ml-1 capitalize hover:text-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700'
-              >
-                {category}
-              </a>
-            </div>
+            <>
+              <span class='bp-meta-dot'>·</span>
+              <div class='flex flex-wrap items-center gap-1.5'>
+                <CategoryIcon />
+                <a
+                  href={withLocalePath(locale, `/categories/${slugify(category)}`)}
+                  class='bp-category-link capitalize'
+                >
+                  {category}
+                </a>
+              </div>
+            </>
           ))
         }
       </div>
     </header>
     <script type='application/ld+json' set:html={JSON.stringify(blogPostingLd)} />
-    <div class='article-content prose prose-zinc mx-auto'>
+    <div class='article-content prose mx-auto'>
       <slot />
     </div>
     <script is:inline>
@@ -221,12 +225,12 @@ const blogPostingLd = {
       }
       document.addEventListener('astro:page-load', initCodeBlocks);
     </script>
-    <div class='article-tags mt-10 flex flex-wrap justify-center gap-2'>
+    <div class='bp-tags'>
       {
         tags?.map((tag) => (
           <a
             href={withLocalePath(locale, `/tags/${slugify(tag)}`)}
-            class='inline-block rounded-full bg-zinc-100 px-3 py-1 text-sm font-semibold text-zinc-700 capitalize hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700'
+            class='bp-tag'
           >
             #{tag}
           </a>
@@ -236,3 +240,83 @@ const blogPostingLd = {
     <GiscusComments locale={locale} />
   </article>
 </Base>
+
+<style>
+  .bp-header {
+    margin-bottom: 40px;
+    text-align: center;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--nd-border);
+  }
+
+  .bp-title {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--nd-text-display);
+    text-wrap: balance;
+    margin: 0 0 20px 0;
+  }
+
+  .bp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+  }
+
+  .bp-meta-dot {
+    color: var(--nd-border-visible);
+  }
+
+  .bp-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--nd-border-visible);
+  }
+
+  .bp-category-link {
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+  }
+
+  .bp-category-link:hover {
+    color: var(--nd-text-display);
+  }
+
+  .bp-tags {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--nd-border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .bp-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    border: 1px solid var(--nd-border-visible);
+    padding: 4px 14px;
+    border-radius: 999px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .bp-tag:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+</style>

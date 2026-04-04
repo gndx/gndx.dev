@@ -14,8 +14,8 @@ const currentPath = Astro.url.pathname;
 
 {
   variant === 'list' ? (
-    <div class={`text-sm text-gray-600 ${className}`.trim()}>
-      <p class='px-4 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-gray-400'>Idioma</p>
+    <div class={`${className}`.trim()}>
+      <p class='nd-lang-label'>Idioma</p>
       <ul class='pb-2' aria-label='Language options'>
         {
           locales.map((lang) => (
@@ -23,7 +23,7 @@ const currentPath = Astro.url.pathname;
               <a
                 href={withLocalePath(lang, currentPath)}
                 data-lang={lang}
-                class={`block px-4 py-2 text-sm hover:bg-gray-50 hover:text-gray-800 ${lang === locale ? 'bg-gray-100 font-semibold text-gray-900' : 'text-gray-600'}`}
+                class={`nd-lang-list-item ${lang === locale ? 'nd-lang-active' : ''}`}
               >
                 {labels[lang]}
               </a>
@@ -33,10 +33,10 @@ const currentPath = Astro.url.pathname;
       </ul>
     </div>
   ) : (
-    <div class={`ml-4 relative text-sm text-gray-600 ${className}`.trim()}>
+    <div class={`ml-4 relative ${className}`.trim()}>
       <details class='relative group language-switcher'>
         <summary
-          class='flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-md border border-slate-700/80 bg-slate-900 p-0.5 align-middle transition-colors hover:bg-slate-800'
+          class='nd-lang-btn flex h-8 w-8 cursor-pointer list-none items-center justify-center'
           aria-label='Open language menu'
         >
           <svg
@@ -44,10 +44,10 @@ const currentPath = Astro.url.pathname;
             viewBox='0 0 24 24'
             fill='none'
             stroke='currentColor'
-            stroke-width='2'
+            stroke-width='1.5'
             stroke-linecap='round'
             stroke-linejoin='round'
-            class='h-[18px] w-[18px] text-slate-200'
+            class='h-[16px] w-[16px]'
           >
             <path d='m5 8 6 6'></path>
             <path d='m4 14 6-6 2-3'></path>
@@ -58,7 +58,7 @@ const currentPath = Astro.url.pathname;
           </svg>
         </summary>
         <ul
-          class='language-menu absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-md border border-gray-200 bg-white py-1 shadow-lg'
+          class='language-menu absolute right-0 z-20 mt-2 w-36 overflow-hidden nd-lang-dropdown'
           aria-label='Language options'
         >
           {
@@ -67,7 +67,7 @@ const currentPath = Astro.url.pathname;
                 <a
                   href={withLocalePath(lang, currentPath)}
                   data-lang={lang}
-                  class={`block px-3 py-2 text-sm hover:bg-gray-50 hover:text-gray-800 ${lang === locale ? 'bg-gray-100 font-semibold text-gray-900' : 'text-gray-600'}`}
+                  class={`nd-lang-dropdown-item ${lang === locale ? 'nd-lang-active' : ''}`}
                 >
                   {labels[lang]}
                 </a>
@@ -85,7 +85,47 @@ const currentPath = Astro.url.pathname;
     display: none;
   }
 
-  .language-switcher .language-menu {
+  .nd-lang-label {
+    padding: 12px 16px 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-disabled);
+  }
+
+  .nd-lang-list-item {
+    display: block;
+    padding: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+  }
+
+  .nd-lang-list-item:hover,
+  .nd-lang-list-item.nd-lang-active {
+    color: var(--nd-text-display);
+  }
+
+  .nd-lang-btn {
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 6px;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .nd-lang-btn:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+
+  .nd-lang-dropdown {
+    background: var(--nd-surface-raised);
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 8px;
     opacity: 0;
     transform: translateY(-6px) scale(0.97);
     transform-origin: top right;
@@ -93,14 +133,31 @@ const currentPath = Astro.url.pathname;
     transition: opacity 160ms ease, transform 180ms ease;
   }
 
-  .language-switcher[open] .language-menu {
+  .language-switcher[open] .nd-lang-dropdown {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
   }
 
+  .nd-lang-dropdown-item {
+    display: block;
+    padding: 10px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    transition: color 200ms ease;
+  }
+
+  .nd-lang-dropdown-item:hover,
+  .nd-lang-dropdown-item.nd-lang-active {
+    color: var(--nd-text-display);
+  }
+
   .language-switcher[open] > summary {
-    background-color: rgb(30 41 59);
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
   }
 </style>
 

@@ -5,16 +5,46 @@ const year = new Date().getFullYear();
 ---
 
 <footer class='mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8'>
-  <div class='border-t border-gray-100'>
-    <p class='text-center text-xs/relaxed text-gray-500 mt-8 mb-8'>
+  <div class='nd-footer-inner'>
+    <p class='nd-footer-text'>
       &copy; {year}. {config.site.title} - EV0. All rights REVERSED
-      <span class='block mt-2'>
+      <span class='nd-footer-sub'>
         Made with ♥ in Medellín Colombia, by
-        <a
-          href='https://gndx.dev'
-          class='text-gray-700 decoration-dashed transition hover:text-gray-700/75'>GNDX</a
-        >
+        <a href='https://gndx.dev' class='nd-footer-link'>GNDX</a>
       </span>
     </p>
   </div>
 </footer>
+
+<style>
+  .nd-footer-inner {
+    border-top: 1px solid var(--nd-border-visible);
+    padding: 28px 0 32px;
+  }
+
+  .nd-footer-text {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    line-height: 1.6;
+  }
+
+  .nd-footer-sub {
+    display: block;
+    margin-top: 6px;
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-footer-link {
+    color: var(--nd-text-secondary);
+    text-decoration: underline;
+    transition: color 200ms ease;
+  }
+
+  .nd-footer-link:hover {
+    color: var(--nd-text-display);
+  }
+</style>

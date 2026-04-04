@@ -40,26 +40,27 @@ const bentoVariants = [
 
 const getBentoVariant = (index: number) => bentoVariants[index % bentoVariants.length];
 
+/* Dark surfaces + colored patterns — each card has a distinct tint */
 const patternForegroundPalette = [
-  '#0f172a',
-  '#1f2937',
-  '#334155',
-  '#3f3f46',
-  '#0b3b2e',
-  '#4a3419',
-  '#312e81',
-  '#3b0764'
+  '#d71921', // nothing red
+  '#5b9bf6', // interactive blue
+  '#4a9e5c', // success green
+  '#d4a843', // warning amber
+  '#8b5cf6', // violet
+  '#22d3ee', // cyan
+  '#f97316', // orange
+  '#e879f9', // fuchsia
 ];
 
 const cardSurfacePalette = [
-  '#f9fafb',
-  '#f8fafc',
-  '#fdf4ff',
-  '#eff6ff',
-  '#f0fdf4',
-  '#fef3c7',
-  '#fef2f2',
-  '#ecfeff'
+  '#0d0a0a', // warm dark (red tint)
+  '#090d12', // cool dark (blue tint)
+  '#090d0a', // green dark
+  '#0d0c08', // amber dark
+  '#0b090f', // violet dark
+  '#080d0e', // cyan dark
+  '#0e0b07', // orange dark
+  '#0e0810', // fuchsia dark
 ];
 
 const hashString = (value: string) => {
@@ -96,7 +97,7 @@ const getPatternStyle = (post: PostType, index: number) => {
   const pattern = heroPatterns[seed % heroPatterns.length];
   const patternColorBase = patternForegroundPalette[Math.floor(seed / 3) % patternForegroundPalette.length];
   const surfaceColor = cardSurfacePalette[Math.floor(seed / 7) % cardSurfacePalette.length];
-  const patternColor = withOpacity(patternColorBase, 0.4);
+  const patternColor = withOpacity(patternColorBase, 0.22);
 
   return {
     surfaceColor,
@@ -121,7 +122,7 @@ type PostType = {
 };
 ---
 
-<div class="mx-auto grid grid-cols-1 gap-5 md:grid-flow-row-dense md:grid-cols-6 md:auto-rows-[minmax(150px,auto)]">
+<div class="mx-auto grid grid-cols-1 gap-4 md:grid-flow-row-dense md:grid-cols-6 md:auto-rows-[minmax(150px,auto)]">
   {
     posts?.slice(0, 9).map((post: PostType, index: number) => {
       const { surfaceColor, patternImage } = getPatternStyle(post, index);
@@ -131,45 +132,43 @@ type PostType = {
       const primaryCategory = post.data.categories?.[0] || labels.uncategorized;
 
       return (
-        <article class={`bento-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/95 ${getBentoVariant(index)}`}>
+        <article class={`nd-card group relative flex h-full flex-col overflow-hidden ${getBentoVariant(index)}`}>
           <a href={withLocalePath(locale, `/blog/${postSlug}`)} class="absolute inset-0 z-10" aria-label={post.data.title} />
 
-          <div class={`relative overflow-hidden border-b border-zinc-200/80 ${index === 0 ? 'h-44 md:h-52' : 'h-36'}`}>
-            <div class="bento-pattern-layer absolute inset-0" style={`background-color:${surfaceColor}; background-image:${patternImage};`} />
-            <div class="absolute inset-0 bg-gradient-to-br from-white/55 via-white/10 to-zinc-900/15" />
-            <span class="absolute left-4 top-4 inline-flex rounded-full border border-white/70 bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-zinc-700">
+          {/* Pattern image area */}
+          <div class={`nd-card-pattern relative overflow-hidden ${index === 0 ? 'h-44 md:h-52' : 'h-36'}`}
+               style={`background-color:${surfaceColor}; background-image:${patternImage};`}>
+            <div class="nd-pattern-overlay absolute inset-0" style="background: linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 100%);" />
+            <span class="nd-category-badge absolute left-4 top-4">
               {primaryCategory}
             </span>
           </div>
 
-          <div class="relative z-20 flex flex-1 flex-col gap-3 p-5">
-            <div class="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+          {/* Card body */}
+          <div class="relative z-20 flex flex-1 flex-col gap-2.5 p-5">
+            <div class="nd-meta flex flex-wrap items-center gap-2">
               <FormattedDate date={post.data.pubDate} locale={dateLocaleMap[locale]} />
-              <span class="text-zinc-300">•</span>
-              <span class="font-medium text-zinc-700">{labels.author}: {authors}</span>
+              <span class="nd-meta-dot">·</span>
+              <span>{authors}</span>
             </div>
 
-            <h2 class="text-xl font-semibold leading-tight text-zinc-900">
-              <a href={withLocalePath(locale, `/blog/${postSlug}`)} class="relative z-20 transition-colors duration-200 group-hover:text-zinc-600">
+            <h2 class="nd-card-title">
+              <a href={withLocalePath(locale, `/blog/${postSlug}`)} class="relative z-20">
                 {post.data.title}
               </a>
             </h2>
 
-            <p class="line-clamp-3 text-sm leading-relaxed text-zinc-600">{post.data.description}</p>
+            <p class="nd-card-desc line-clamp-3">{post.data.description}</p>
 
             <div class="flex flex-wrap items-center gap-2 pt-1">
-              <span class="text-[11px] uppercase tracking-[0.08em] text-zinc-400">{labels.tags}</span>
+              <span class="nd-tags-label">{labels.tags}</span>
               {
                 tags.length > 0 ? (
                   tags.map((tag) => (
-                    <span class="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-medium text-zinc-600">
-                      #{tag}
-                    </span>
+                    <span class="nd-tag">#{tag}</span>
                   ))
                 ) : (
-                  <span class="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-medium text-zinc-600">
-                    {labels.untagged}
-                  </span>
+                  <span class="nd-tag">{labels.untagged}</span>
                 )
               }
             </div>
@@ -181,48 +180,117 @@ type PostType = {
 </div>
 
 <style>
-  .bento-card {
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 24px rgba(15, 23, 42, 0.05);
-    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  .nd-card {
+    background: var(--nd-surface);
+    border: 1px solid var(--nd-border);
+    border-radius: 12px;
+    transition: border-color 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
-  .bento-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(113, 113, 122, 0.35);
-    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+  .nd-card:hover {
+    border-color: var(--nd-border-visible);
   }
 
-  .bento-pattern-layer {
+  .nd-card-pattern {
+    border-bottom: 1px solid var(--nd-border);
     background-repeat: repeat;
-    animation: bentoPatternShift 46s linear infinite;
+    animation: patternShift 50s linear infinite;
   }
 
-  .bento-card:hover .bento-pattern-layer {
-    animation-duration: 39s;
+  .nd-card:hover .nd-card-pattern {
+    animation-duration: 40s;
   }
 
-  @keyframes bentoPatternShift {
-    from {
-      background-position: 0 0;
+  @keyframes patternShift {
+    from { background-position: 0 0; }
+    to   { background-position: 42px 30px; }
+  }
+
+  .nd-category-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    border: 1px solid var(--nd-border-visible);
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .nd-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-meta-dot {
+    color: var(--nd-border-visible);
+  }
+
+  .nd-card-title {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--nd-text-display);
+    transition: color 200ms ease;
+  }
+
+  .nd-card:hover .nd-card-title {
+    color: var(--nd-text-primary);
+  }
+
+  .nd-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-tags-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    border: 1px solid var(--nd-border-visible);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  /* Light mode: override dark tinted surfaces to light surface */
+  :root[data-theme='light'] .nd-card-pattern {
+    background-color: var(--nd-surface-raised) !important;
+  }
+
+  :root[data-theme='light'] .nd-pattern-overlay {
+    background: linear-gradient(160deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 100%) !important;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) .nd-card-pattern {
+      background-color: var(--nd-surface-raised) !important;
     }
 
-    to {
-      background-position: 42px 30px;
+    :root:not([data-theme='dark']) .nd-pattern-overlay {
+      background: linear-gradient(160deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 100%) !important;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .bento-card {
-      transition: none;
-    }
-
-    .bento-card:hover {
-      transform: none;
-    }
-
-    .bento-pattern-layer,
-    .bento-card:hover .bento-pattern-layer {
-      animation: none;
-    }
+    .nd-card { transition: none; }
+    .nd-card-pattern,
+    .nd-card:hover .nd-card-pattern { animation: none; }
   }
 </style>

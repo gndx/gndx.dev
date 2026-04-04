@@ -10,14 +10,50 @@ import Page from "@layouts/Page.astro";
       mí, te dejo la lista de los cursos que tengo actualmente en Platzi. Si,
       Quieres ver todos mis curso visita mi perfil en Platzi.
     </p>
-    <p class="text-lg leading-7 text-gray-500">
+    <p class="nd-stats">
       💻 22 Cursos &nbsp;&nbsp;&nbsp; 💖 35,298 Opiniones &nbsp;&nbsp;&nbsp; 😀
       86,913 Estudiantes
     </p>
     <a
       href="https://platzi.com/conoceme/gndx"
       target="_blank"
-      class="text-2xl font-bold mt-8">Cursos en Platzi</a
+      class="nd-cta-link"
     >
+      Cursos en Platzi
+      <span aria-hidden="true">→</span>
+    </a>
   </Page>
 </Base>
+
+<style>
+  .nd-stats {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary) !important;
+    margin-top: 1rem;
+  }
+
+  .nd-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    border: 1px solid var(--nd-border-visible);
+    padding: 10px 20px;
+    border-radius: 999px;
+    transition: color 200ms ease, border-color 200ms ease;
+    text-decoration: none;
+  }
+
+  .nd-cta-link:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+</style>

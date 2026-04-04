@@ -1,9 +1,68 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
+/* ─── Nothing Design System — Color Tokens ───────────────────────────── */
+
+/* Dark mode (default) */
+:root {
+  --nd-black: #000000;
+  --nd-surface: #111111;
+  --nd-surface-raised: #1a1a1a;
+  --nd-border: #222222;
+  --nd-border-visible: #333333;
+  --nd-text-disabled: #666666;
+  --nd-text-secondary: #999999;
+  --nd-text-primary: #e8e8e8;
+  --nd-text-display: #ffffff;
+  --nd-accent: #d71921;
+  --nd-accent-subtle: rgba(215, 25, 33, 0.15);
+  --nd-success: #4a9e5c;
+  --nd-warning: #d4a843;
+  --nd-interactive: #5b9bf6;
+}
+
+/* Light mode — via JS toggle */
+:root[data-theme='light'] {
+  --nd-black: #f5f5f5;
+  --nd-surface: #ffffff;
+  --nd-surface-raised: #f0f0f0;
+  --nd-border: #e8e8e8;
+  --nd-border-visible: #cccccc;
+  --nd-text-disabled: #999999;
+  --nd-text-secondary: #666666;
+  --nd-text-primary: #1a1a1a;
+  --nd-text-display: #000000;
+  --nd-interactive: #0060df;
+}
+
+/* Light mode — system preference fallback (no explicit toggle set) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --nd-black: #f5f5f5;
+    --nd-surface: #ffffff;
+    --nd-surface-raised: #f0f0f0;
+    --nd-border: #e8e8e8;
+    --nd-border-visible: #cccccc;
+    --nd-text-disabled: #999999;
+    --nd-text-secondary: #666666;
+    --nd-text-primary: #1a1a1a;
+    --nd-text-display: #000000;
+    --nd-interactive: #0060df;
+  }
+}
+/* ──────────────────────────────────────────────────────────────────────── */
+
 @layer base {
+  html,
   body {
-    transition: background-color 0.5s ease;
+    background-color: var(--nd-black);
+    color: var(--nd-text-primary);
+    font-family: 'Space Grotesk', 'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    transition: background-color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+                color 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -15,17 +74,9 @@
     }
   }
 
+  /* Override prose code scale */
   .prose code {
     @apply text-base;
-  }
-
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose p {
-    @apply text-zinc-700;
   }
 }
 
@@ -34,14 +85,34 @@
     @apply mx-auto;
   }
 
+  /* ─── Article content — prose color overrides via CSS custom props ─── */
+  /* Setting --tw-prose-* on the container makes them inherited by all    */
+  /* child elements that use var(--tw-prose-*), regardless of layer order. */
   .article-content {
     max-width: 700px;
-    font-family: "Inter", "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      sans-serif;
+    font-family: 'Space Grotesk', 'DM Sans', system-ui, sans-serif;
     font-size: 1.125rem;
     line-height: 1.74;
-    color: #1a1a1a;
+    color: var(--nd-text-primary);
     text-wrap: pretty;
+
+    /* Override Tailwind Typography internal CSS custom properties */
+    --tw-prose-body: var(--nd-text-primary);
+    --tw-prose-headings: var(--nd-text-display);
+    --tw-prose-lead: var(--nd-text-secondary);
+    --tw-prose-links: var(--nd-interactive);
+    --tw-prose-bold: var(--nd-text-display);
+    --tw-prose-counters: var(--nd-text-secondary);
+    --tw-prose-bullets: var(--nd-text-secondary);
+    --tw-prose-hr: var(--nd-border-visible);
+    --tw-prose-quotes: var(--nd-text-primary);
+    --tw-prose-quote-borders: var(--nd-border-visible);
+    --tw-prose-captions: var(--nd-text-secondary);
+    --tw-prose-code: var(--nd-text-display);
+    --tw-prose-pre-code: var(--nd-text-primary);
+    --tw-prose-pre-bg: var(--nd-surface);
+    --tw-prose-th-borders: var(--nd-border-visible);
+    --tw-prose-td-borders: var(--nd-border);
   }
 
   @media (min-width: 768px) {
@@ -51,7 +122,6 @@
     }
   }
 
-  /* Ensure typography plugin defaults do not downscale article text width or size */
   .article-content.prose {
     max-width: 700px;
     font-size: 1.125rem;
@@ -65,64 +135,133 @@
     }
   }
 
-  .article-content :where(p, ul, ol, blockquote, pre, table) {
+  /* Use double-class specificity to guarantee override over prose plugin */
+  .article-content.prose :where(p),
+  .article-content :where(p) {
+    margin-block: 1.15em;
+    margin-bottom: 1.2em;
+    color: var(--nd-text-primary);
+  }
+
+  .article-content.prose :where(ul, ol, blockquote, pre, table) {
     margin-block: 1.15em;
   }
 
-  .article-content :where(p) {
-    margin-bottom: 1.2em;
-  }
-
+  .article-content.prose :where(h2, h3, h4),
   .article-content :where(h2, h3, h4) {
     scroll-margin-top: 6rem;
     line-height: 1.3;
     margin-top: 2.1em;
     margin-bottom: 0.65em;
-    color: #111827;
+    color: var(--nd-text-display);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 
   .article-content :where(h2) {
-    font-size: clamp(1.6rem, 0.95vw + 1.25rem, 1.85rem);
+    font-size: clamp(1.75rem, 1.5vw + 1.25rem, 2.25rem);
   }
 
   .article-content :where(h3) {
-    font-size: clamp(1.3rem, 0.7vw + 1.1rem, 1.45rem);
+    font-size: clamp(1.5rem, 1vw + 1.15rem, 1.875rem);
   }
 
   .article-content :where(h4) {
-    font-size: clamp(1.15rem, 0.4vw + 1.05rem, 1.25rem);
+    font-size: clamp(1.25rem, 0.5vw + 1.1rem, 1.5rem);
   }
 
+  .article-content.prose :where(a),
   .article-content :where(a) {
+    color: var(--nd-interactive);
     text-decoration: underline;
     text-underline-offset: 0.18em;
     text-decoration-thickness: 0.08em;
-    text-decoration-color: color-mix(in oklab, currentColor 50%, transparent);
+    text-decoration-color: color-mix(in oklab, var(--nd-interactive) 40%, transparent);
+    transition: text-decoration-color 200ms ease;
   }
 
   .article-content :where(a:hover) {
-    text-decoration-color: currentColor;
+    text-decoration-color: var(--nd-interactive);
   }
 
   .article-content :where(a:focus-visible) {
-    outline: 2px solid #15803d;
+    outline: 2px solid var(--nd-interactive);
     outline-offset: 2px;
     border-radius: 2px;
   }
 
+  .article-content.prose :where(blockquote),
   .article-content :where(blockquote) {
-    @apply border-l-4 border-zinc-300 pl-4 italic text-zinc-800;
+    border-left: 2px solid var(--nd-border-visible);
+    padding-left: 1.25rem;
+    color: var(--nd-text-secondary);
+    font-style: normal;
+    background: transparent;
+    margin-left: 0;
   }
 
+  /* Remove prose::before quote marks injected by tailwind config */
+  .article-content.prose :where(blockquote::before) {
+    display: none;
+    content: none !important;
+  }
+
+  .article-content.prose :where(ul, ol),
   .article-content :where(ul, ol) {
     padding-inline-start: 1.25em;
+    color: var(--nd-text-primary);
+  }
+
+  .article-content.prose :where(li),
+  .article-content :where(li) {
+    color: var(--nd-text-primary);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 0.5em;
+  }
+
+  .article-content.prose :where(strong),
+  .article-content :where(strong) {
+    color: var(--nd-text-display);
+    font-weight: 600;
+  }
+
+  .article-content.prose :where(em),
+  .article-content :where(em) {
+    color: var(--nd-text-secondary);
   }
 
   .article-content :where(img, video, iframe) {
-    @apply rounded-xl;
+    border-radius: 8px;
     margin-block: 1.4em;
+    border: 1px solid var(--nd-border);
   }
 
+  /* ─── Tables ─── */
+  .article-content.prose :where(th),
+  .article-content :where(th) {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nd-text-secondary);
+    border-bottom: 1px solid var(--nd-border-visible);
+    padding: 8px 12px;
+    text-align: left;
+    background: transparent;
+  }
+
+  .article-content.prose :where(td),
+  .article-content :where(td) {
+    color: var(--nd-text-primary);
+    border-bottom: 1px solid var(--nd-border);
+    padding: 10px 12px;
+    background: transparent;
+  }
+
+  /* ─── Code blocks (Dracula — keep intact) ─── */
   .article-content :where(pre.astro-code, pre.gndx) {
     --toolbar-height: 2.35rem;
     --gutter-width: 3.1rem;
@@ -134,10 +273,9 @@
     margin-block: 1.05em;
     margin-inline: 0;
     border: 1px solid var(--editor-border);
-    border-radius: 14px;
+    border-radius: 8px;
     background: var(--editor-bg) !important;
     color: var(--editor-text) !important;
-    box-shadow: 0 8px 16px rgba(15, 18, 30, 0.18), inset 0 1px 0 rgba(248, 248, 242, 0.04);
     overflow: auto !important;
     position: relative;
     width: 100%;
@@ -164,7 +302,6 @@
     border: 2px solid transparent;
     background-clip: padding-box;
     background: linear-gradient(180deg, rgba(130, 144, 214, 0.92) 0%, rgba(105, 118, 188, 0.96) 100%);
-    box-shadow: inset 0 1px 0 rgba(248, 248, 242, 0.14);
   }
 
   .article-content :where(pre.astro-code, pre.gndx)::-webkit-scrollbar-thumb:hover {
@@ -176,7 +313,7 @@
   }
 
   .article-content :where(pre.astro-code, pre.gndx)::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -195,10 +332,8 @@
     min-width: 100%;
     width: max-content;
     margin: 0;
-    margin-top: 0;
     padding: 0.14rem 0 0.26rem !important;
-    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo,
-      Consolas, "Liberation Mono", monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 0.91rem;
     line-height: 1.18 !important;
     counter-reset: code-line;
@@ -208,7 +343,7 @@
   }
 
   .article-content :where(pre.astro-code > code, pre.gndx > code)::before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -234,7 +369,13 @@
     word-break: normal;
   }
 
-  .article-content :where(pre.astro-code > code > span.line:empty, pre.gndx > code > span.line:empty, pre.astro-code > code > span.line.is-blank-line, pre.gndx > code > span.line.is-blank-line) {
+  .article-content
+    :where(
+      pre.astro-code > code > span.line:empty,
+      pre.gndx > code > span.line:empty,
+      pre.astro-code > code > span.line.is-blank-line,
+      pre.gndx > code > span.line.is-blank-line
+    ) {
     min-height: 0.24em;
     line-height: 0.24 !important;
   }
@@ -251,7 +392,6 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    padding-top: 0;
     padding-right: 0.58rem;
     color: var(--editor-muted);
     user-select: none;
@@ -275,7 +415,7 @@
     align-items: center;
     min-height: 1.18rem;
     padding: 0.15rem 0.42rem 0.13rem;
-    border-radius: 0.44rem;
+    border-radius: 4px;
     border: 1px solid rgba(102, 115, 168, 0.45);
     background: rgba(68, 71, 90, 0.42);
     color: #c8b6ff;
@@ -285,13 +425,20 @@
     line-height: 1;
     text-transform: uppercase;
     white-space: nowrap;
+    font-family: 'Space Mono', monospace;
   }
 
   .article-content :where(pre.astro-code .code-language-chip, pre.gndx .code-language-chip)::before {
     content: none;
   }
 
-  .article-content :where(pre.astro-code .copy-button, pre.astro-code .check-span, pre.gndx .copy-button, pre.gndx .check-span) {
+  .article-content
+    :where(
+      pre.astro-code .copy-button,
+      pre.astro-code .check-span,
+      pre.gndx .copy-button,
+      pre.gndx .check-span
+    ) {
     position: absolute;
     top: 0.58rem;
     right: 0.78rem;
@@ -302,22 +449,21 @@
     min-height: 1.2rem;
     min-width: 4.1rem;
     padding: 0.16rem 0.52rem;
-    border-radius: 0.48rem;
+    border-radius: 4px;
     font-size: 0.64rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.06em;
     line-height: 1;
-    transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease, background-color 0.18s ease,
-      border-color 0.18s ease;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    transition: opacity 0.18s ease, color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
   }
 
   .article-content :where(pre.astro-code .copy-button, pre.gndx .copy-button) {
     color: #f1f4ff;
     background: linear-gradient(180deg, rgba(81, 87, 116, 0.9) 0%, rgba(65, 70, 95, 0.95) 100%);
     border: 1px solid rgba(103, 116, 171, 0.65);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     cursor: pointer;
-    text-transform: none;
   }
 
   .article-content :where(pre.astro-code .copy-button:hover, pre.gndx .copy-button:hover) {
@@ -330,31 +476,29 @@
     color: #50fa7b;
     background: linear-gradient(180deg, rgba(72, 77, 102, 0.95) 0%, rgba(62, 67, 89, 0.98) 100%);
     border: 1px solid rgba(103, 116, 171, 0.65);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(1px);
   }
 
   .article-content :where(pre.astro-code .check-span.is-visible, pre.gndx .check-span.is-visible) {
     opacity: 1;
-    transform: translateY(0);
   }
 
   .article-content :where(pre.astro-code .copy-button.is-hidden, pre.gndx .copy-button.is-hidden) {
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-1px);
   }
 
+  /* ─── Inline code ─── */
+  .article-content.prose :where(p code, li code, blockquote code, td code, th code),
   .article-content :where(p code, li code, blockquote code, td code, th code) {
-    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo,
-      Consolas, "Liberation Mono", monospace;
-    font-size: 0.92em;
-    background: #f4f4f5;
-    color: #27272a;
-    border-radius: 0.35rem;
-    padding: 0.1em 0.35em;
+    font-family: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.86em;
+    background: var(--nd-surface-raised);
+    color: var(--nd-text-display);
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
   }
 
   .article-meta :where(svg) {
@@ -381,4 +525,120 @@ input#nav-toggle:checked ~ label#hide-button {
 
 input#nav-toggle:checked ~ #nav-menu {
   @apply block md:flex;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   UNLAYERED overrides — beat ALL @layer styles (base, components, utilities)
+   This is the definitive fix for Tailwind Typography prose color conflicts.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Container */
+.article-content,
+.article-content.prose {
+  color: var(--nd-text-primary);
+  /* Override Tailwind Typography internal CSS vars */
+  --tw-prose-body: var(--nd-text-primary);
+  --tw-prose-headings: var(--nd-text-display);
+  --tw-prose-lead: var(--nd-text-secondary);
+  --tw-prose-links: var(--nd-interactive);
+  --tw-prose-bold: var(--nd-text-display);
+  --tw-prose-counters: var(--nd-text-secondary);
+  --tw-prose-bullets: var(--nd-text-secondary);
+  --tw-prose-hr: var(--nd-border-visible);
+  --tw-prose-quotes: var(--nd-text-primary);
+  --tw-prose-quote-borders: var(--nd-border-visible);
+  --tw-prose-captions: var(--nd-text-secondary);
+  --tw-prose-code: var(--nd-text-display);
+  --tw-prose-th-borders: var(--nd-border-visible);
+  --tw-prose-td-borders: var(--nd-border);
+}
+
+/* Paragraphs & lists */
+.article-content p,
+.article-content li,
+.article-content dt,
+.article-content dd {
+  color: var(--nd-text-primary);
+}
+
+/* Headings */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  color: var(--nd-text-display);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Links */
+.article-content a:not([class]) {
+  color: var(--nd-interactive);
+}
+
+/* Bold & italic */
+.article-content strong,
+.article-content b {
+  color: var(--nd-text-display);
+}
+
+.article-content em,
+.article-content i {
+  color: var(--nd-text-secondary);
+}
+
+/* Blockquote */
+.article-content blockquote,
+.article-content blockquote p {
+  color: var(--nd-text-secondary);
+  border-left-color: var(--nd-border-visible);
+  font-style: normal;
+}
+
+/* Remove injected quotes from tailwind.config blockquote::before */
+.article-content blockquote::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Tables */
+.article-content th {
+  color: var(--nd-text-secondary);
+  border-bottom-color: var(--nd-border-visible);
+  background: transparent;
+}
+
+.article-content td {
+  color: var(--nd-text-primary);
+  border-bottom-color: var(--nd-border);
+  background: transparent;
+}
+
+/* HR */
+.article-content hr {
+  border-color: var(--nd-border-visible);
+}
+
+/* Inline code (outside pre) */
+.article-content p code,
+.article-content li code,
+.article-content blockquote code,
+.article-content td code,
+.article-content th code {
+  color: var(--nd-text-display);
+  background: var(--nd-surface-raised);
+  border: 1px solid var(--nd-border-visible);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 0.86em;
+}
+
+/* Remove prose-default quote marks on code */
+.article-content p code::before,
+.article-content p code::after {
+  content: none !important;
 }

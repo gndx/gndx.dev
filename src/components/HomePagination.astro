@@ -10,14 +10,42 @@ const { locale = 'es' } = Astro.props;
 const copy = getUi(locale);
 ---
 
-<div class='m-auto mt-12 flex justify-end'>
-  <a
-    class='group inline-flex items-center gap-3 rounded-2xl border border-zinc-300/80 bg-white px-5 py-3 text-sm font-semibold text-zinc-800 shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-[0_14px_30px_rgba(15,23,42,0.12)] focus:outline-none focus:ring-2 focus:ring-zinc-400/50'
-    href={withLocalePath(locale, '/blog')}
-  >
+<div class='m-auto mt-10 flex justify-end'>
+  <a class='nd-view-all' href={withLocalePath(locale, '/blog')}>
     <span>{copy.labels.viewAll}</span>
-    <span class='inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 text-[13px] text-zinc-700 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900'>
-      ↗
-    </span>
+    <span class='nd-arrow' aria-hidden='true'>→</span>
   </a>
 </div>
+
+<style>
+  .nd-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nd-text-primary);
+    border: 1px solid var(--nd-border-visible);
+    padding: 10px 20px 10px 24px;
+    border-radius: 999px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .nd-view-all:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+
+  .nd-arrow {
+    color: var(--nd-text-secondary);
+    transition: transform 200ms ease;
+    display: inline-block;
+  }
+
+  .nd-view-all:hover .nd-arrow {
+    transform: translateX(4px);
+    color: var(--nd-text-display);
+  }
+</style>

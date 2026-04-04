@@ -23,16 +23,12 @@ const getVisiblePages = (totalPages: number, current: number) => {
 const visiblePages = getVisiblePages(length, currentPage);
 ---
 
-<nav class='mt-12 flex justify-center' aria-label='Pagination'>
-  <ol class='inline-flex flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-zinc-200/80 bg-white/95 p-2 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_10px_24px_rgba(15,23,42,0.05)]'>
+<nav class='nd-pagination' aria-label='Pagination'>
+  <ol class='nd-pagination-list'>
     {
       prevUrl ? (
         <li>
-          <a
-            href={prevUrl}
-            class='inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-700 transition-colors duration-200 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 rtl:rotate-180'
-          >
-            <span class='sr-only'>Prev Page</span>
+          <a href={prevUrl} class='nd-page-btn nd-page-arrow' aria-label='Previous page'>
             <PrevIcon />
           </a>
         </li>
@@ -41,36 +37,24 @@ const visiblePages = getVisiblePages(length, currentPage);
     {
       visiblePages.map((item) => (
         <li>
-          {
-            item === 'ellipsis' ? (
-              <span class='inline-flex h-9 min-w-9 items-center justify-center px-2 text-sm font-semibold text-zinc-400'>
-                …
-              </span>
-            ) : (
-              <a
-                href={getPageHref(item)}
-                aria-current={currentPage === item ? 'page' : undefined}
-                class={`inline-flex h-9 min-w-9 items-center justify-center rounded-xl border px-3 text-sm font-semibold transition-all duration-200 ${
-                  currentPage === item
-                    ? 'border-zinc-900 bg-zinc-900 text-white shadow-sm'
-                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900'
-                }`}
-              >
-                {item}
-              </a>
-            )
-          }
+          {item === 'ellipsis' ? (
+            <span class='nd-page-ellipsis'>…</span>
+          ) : (
+            <a
+              href={getPageHref(item as number)}
+              aria-current={currentPage === item ? 'page' : undefined}
+              class={`nd-page-btn ${currentPage === item ? 'nd-page-active' : ''}`}
+            >
+              {item}
+            </a>
+          )}
         </li>
       ))
     }
     {
       nextUrl ? (
         <li>
-          <a
-            href={nextUrl}
-            class='inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-700 transition-colors duration-200 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 rtl:rotate-180'
-          >
-            <span class='sr-only'>Next Page</span>
+          <a href={nextUrl} class='nd-page-btn nd-page-arrow' aria-label='Next page'>
             <NextIcon />
           </a>
         </li>
@@ -78,3 +62,64 @@ const visiblePages = getVisiblePages(length, currentPage);
     }
   </ol>
 </nav>
+
+<style>
+  .nd-pagination {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nd-pagination-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nd-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--nd-text-secondary);
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 6px;
+    transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  }
+
+  .nd-page-btn:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+
+  .nd-page-active {
+    color: var(--nd-text-display);
+    background: var(--nd-surface-raised);
+    border-color: var(--nd-text-disabled);
+  }
+
+  .nd-page-arrow {
+    color: var(--nd-text-secondary);
+  }
+
+  .nd-page-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--nd-text-disabled);
+  }
+</style>
