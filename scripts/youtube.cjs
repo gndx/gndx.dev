@@ -79,13 +79,24 @@ async function fetchLatestVideos() {
 }
 
 async function main() {
+  if (!API_KEY || !CHANNEL_ID) {
+    console.warn('API_KEY o CHANNEL_ID no definidos, se usará youtube.json existente.');
+    return;
+  }
+
   try {
     const videos = await fetchLatestVideos();
     await fs.writeFile(outputPath, JSON.stringify(videos, null, 2));
     console.log('Los datos se han guardado en youtube.json');
   } catch (error) {
-    console.error('Error al obtener o guardar los datos de YouTube:', error);
-    process.exitCode = 1;
+    console.error('Error al obtener datos de YouTube:', error.message);
+    try {
+      await fs.access(outputPath);
+      console.warn('Usando youtube.json existente como fallback.');
+    } catch {
+      await fs.writeFile(outputPath, JSON.stringify([], null, 2));
+      console.warn('Se creó youtube.json vacío como fallback.');
+    }
   }
 }
 
