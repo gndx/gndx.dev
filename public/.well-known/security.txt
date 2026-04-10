@@ -1,0 +1,6 @@
+Contact: mailto:oscar@gndx.dev
+Contact: https://gndx.dev
+Preferred-Languages: es, en
+Canonical: https://gndx.dev/.well-known/security.txt
+Expires: 2027-04-10T00:00:00.000Z
+Policy: https://gndx.dev
