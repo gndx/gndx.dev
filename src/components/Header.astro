@@ -236,7 +236,21 @@ const searchCopy = {
 
     for (const item of items.slice(0, 8)) {
       const li = document.createElement('li');
-      li.innerHTML = `<a href="${item.url}" class="block rounded-lg border border-zinc-200 px-3 py-2 hover:border-zinc-300 hover:bg-zinc-50"><p class="text-sm font-medium text-zinc-900">${item.title}</p><p class="mt-1 text-xs text-zinc-600 line-clamp-2">${item.description}</p></a>`;
+      const link = document.createElement('a');
+      const title = document.createElement('p');
+      const description = document.createElement('p');
+
+      link.href = item.url;
+      link.className = 'block rounded-lg border border-zinc-200 px-3 py-2 hover:border-zinc-300 hover:bg-zinc-50';
+
+      title.className = 'text-sm font-medium text-zinc-900';
+      title.textContent = item.title;
+
+      description.className = 'mt-1 text-xs text-zinc-600 line-clamp-2';
+      description.textContent = item.description;
+
+      link.append(title, description);
+      li.appendChild(link);
       resultList.appendChild(li);
     }
   };
