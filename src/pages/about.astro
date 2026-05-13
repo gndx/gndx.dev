@@ -1,61 +1,76 @@
 ---
 import Base from '@layouts/Base.astro';
 import Page from '@layouts/Page.astro';
+
+const meta_title =
+  'Oscar Barajas Tavares | @gndx — Software AI Engineer, Educador Tech y Speaker';
+const description =
+  'Conoce a Oscar Barajas Tavares, @gndx: Software AI Engineer, educador tech, Microsoft MVP, speaker internacional y experto en JavaScript, React, desarrollo web e inteligencia artificial.';
 ---
 
-<Base meta_title='¿Quién es Oscar Barajas Tavares | About'>
-  <Page title='¿Quién es Oscar Barajas Tavares'>
+<Base meta_title={meta_title} description={description}>
+  <Page title='Oscar Barajas Tavares'>
+    <p class='nd-about-subtitle'>
+      Software AI Engineer, Educador Tech y Speaker Internacional
+    </p>
+    <p class='nd-about-lede'>
+      Más de 25 años creando para la web, enseñando tecnología y construyendo comunidad en
+      Latinoamérica.
+    </p>
+
     <video autoplay='' loop=''
       ><source
         src='https://res.cloudinary.com/gndxdev/video/upload/v1622955538/gndx-video_ytpnow.mp4'
         type='video/mp4'
       />
     </video>
+
     <p>
-      Nacido en Torreón, Coahuila, México, y actualmente residiendo en Medellín, Colombia.
-      Anteriormente Learning Engineer en Platzi, una destacada plataforma de educación en línea.
+      Conocido como <strong>@gndx</strong>, combino desarrollo web, inteligencia artificial y
+      educación para ayudar a personas y equipos a aprender, construir y aplicar tecnología en el
+      mundo real.
     </p>
 
     <p>
-      Mi principal motivación es dedicarme a la educación para acercar la tecnología y la
-      inteligencia artificial a Latinoamérica, impulsando el aprendizaje y la adopción de estas
-      herramientas en nuestra región.
+      Oscar Barajas Tavares, mejor conocido como <strong>@gndx</strong>, es Software AI Engineer,
+      educador tech, speaker internacional y community builder mexicano basado en Medellín,
+      Colombia.
     </p>
+
     <p>
-      Con un fuerte compromiso en el crecimiento y desarrollo de la comunidad educativa en línea,
-      estoy dedicado a compartir mi conocimiento y habilidades para impulsar un cambio positivo en
-      la vida de aquellos que deseen aprender y crecer en el ámbito tecnológico y digital.
+      Creó su primera página web en 2001 y desde entonces ha dedicado su carrera a construir,
+      enseñar y compartir tecnología. Su trabajo conecta desarrollo web, inteligencia artificial,
+      educación online y comunidades técnicas, con un enfoque práctico: aprender construyendo,
+      explicar con claridad y llevar la tecnología a escenarios reales.
     </p>
+
+    <h3>Educación y enseñanza</h3>
     <p>
-      Me encantan las comunidades, Participo fuertemente en la comunidad, me encuentras en los
-      meetups en Medellín, Google Developer Group Medellín, entre otras.
+      Durante su trayectoria ha enseñado programación a cientos de miles de estudiantes en
+      Latinoamérica, principalmente a través de Platzi, donde se ha desempeñado como Learning
+      Engineer y profesor de JavaScript, React, Node.js, TypeScript, Astro, GitHub e Inteligencia
+      Artificial. Actualmente cuenta con decenas de cursos publicados y una comunidad activa que
+      lo sigue por su forma directa, práctica y cercana de enseñar.
     </p>
-    <h3>Especialidades</h3>
+
+    <h3>Speaker y comunidad</h3>
     <p>
-      Soy un apasionado por las tecnologías Web, enseño programación con JavaScript, Solidity,
-      React, NextJS, AstroJS, IA, TypeScript, Node.js, GitHub.
+      Como speaker, ha impartido más de 700 conferencias y workshops en comunidades, meetups,
+      empresas y eventos tecnológicos de Latinoamérica. Su experiencia combina más de dos décadas
+      desarrollando productos web con una fuerte vocación por compartir conocimiento, formar
+      talento y crear espacios donde más personas puedan crecer profesionalmente en tecnología.
     </p>
-    <h3>Trayectoria</h3>
-    <p>
-      Desarrollador FrontEnd con más de 25 años de experiencia, creando mi primera página web en el
-      2001, Nombrado Microsoft Most Valuable Professional desde el 2021 y mejor conocido como @gndx
-      en redes sociales.
-    </p>
-    <p>
-      He impartido más de 700 conferencias y Workshops a lo largo de Latinoamérica, en las
-      principales comunidades, ciudades y países.
-    </p>
-    <h3>Cursos</h3>
-    <p>
-      Actualmente, tengo 40 Cursos donde enseño todo lo relacionado con JavaScript en Platzi.com.
-    </p>
+
     <h3>Reconocimientos</h3>
     <p>
-      Desde el 2020 soy reconocido como <a
+      Oscar ha sido reconocido como <a
         href='https://mvp.microsoft.com/es-ES/MVP/profile/56d95e50-7976-eb11-a812-000d3a8dfe0d'
         target='_blank'
-        rel='noopener noreferrer'>Microsoft MVP (Most Valuable Professional)</a
-      >.
+        rel='noopener noreferrer'>Microsoft Most Valuable Professional</a
+      >, ha participado activamente en comunidades como Meta/Facebook Developer Circles y Google
+      Developer Groups, y mantiene presencia constante en GitHub, YouTube, Twitch, X, Instagram y
+      su blog personal, donde publica contenido sobre JavaScript, React, IA, desarrollo web,
+      productividad y cultura builder.
     </p>
 
     <img
@@ -63,15 +78,17 @@ import Page from '@layouts/Page.astro';
       alt='Microsoft MVP (Most Valuable Professional)'
     />
 
-    <h3>Proyectos recientes</h3>
+    <h3>Hoy</h3>
     <p>
-      Me apasiona escribir y crear contenido sobre ReactJS en mi canal de YouTube y en este blog
-      donde escribo de JavaScript y las conferencias que imparto.
+      Su trabajo se enfoca en la intersección entre software, inteligencia artificial y
+      educación: crear sistemas, experiencias y contenidos que ayuden a personas y equipos a usar
+      la tecnología de forma más estratégica, humana y práctica.
     </p>
+
     <h3>Mi Historia</h3>
     <p>
-      En este episodio de Humans of Platzi, cuento mis inicios, la historia detrás de Oscar Barajas
-      Tavares.
+      En este episodio de Humans of Platzi, cuento mis inicios, la historia detrás de Oscar
+      Barajas Tavares.
     </p>
     <iframe
       style='border-radius:12px'
@@ -83,3 +100,23 @@ import Page from '@layouts/Page.astro';
       loading='lazy'></iframe>
   </Page>
 </Base>
+
+<style>
+  .nd-about-subtitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: clamp(1.125rem, 1.2vw + 0.5rem, 1.375rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--nd-text-display);
+    margin-top: -0.75rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .nd-about-lede {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 1rem;
+    color: var(--nd-text-muted, var(--nd-text-display));
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+</style>
