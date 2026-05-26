@@ -27,7 +27,6 @@ export default defineConfig({
   },
 
   markdown: {
-    drafts: true,
     shikiConfig: {
       theme: 'dracula',
       wrap: false
@@ -40,12 +39,10 @@ export default defineConfig({
       shikiConfig: {
         theme: 'dracula',
         wrap: false
-      },
-      drafts: true
+      }
     }),
     Compress(),
     sitemap(),
-    tailwindcss(),
     robotsTxt()
   ],
 
@@ -63,5 +60,7 @@ export default defineConfig({
     }), tailwindcss()]
   },
 
-  adapter: cloudflare()
+  adapter: cloudflare({
+    cloudflareModules: true
+  })
 });

@@ -1,4 +1,6 @@
-import sharp from 'sharp';
+import { initWasm, Resvg } from '@resvg/resvg-wasm';
+// @ts-expect-error – WASM module, handled by @cloudflare/vite-plugin
+import resvgWasm from '@resvg/resvg-wasm/index_bg.wasm';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -91,10 +93,14 @@ export const generateBlogOgSvg = (title: string): string => {
 </svg>`;
 };
 
-export const generateBlogOgPng = async (title: string): Promise<Buffer> => {
+let wasmInitialized = false;
+
+export const generateBlogOgPng = async (title: string): Promise<Uint8Array> => {
+  if (!wasmInitialized) {
+    await initWasm(resvgWasm as WebAssembly.Module);
+    wasmInitialized = true;
+  }
   const svg = generateBlogOgSvg(title);
-  return sharp(Buffer.from(svg))
-    .resize(WIDTH, HEIGHT, { fit: 'fill' })
-    .png({ compressionLevel: 9, adaptiveFiltering: true })
-    .toBuffer();
+  const resvg = new Resvg(svg);
+  return resvg.render().asPng();
 };

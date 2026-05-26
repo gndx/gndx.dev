@@ -8,7 +8,7 @@ import { locales, type Locale, stripLocaleFromPath, withLocalePath } from '@i18n
 
 import '@styles/global.css';
 
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
   title?: string;
@@ -62,7 +62,7 @@ const ogType = blogpost ? 'article' : 'website';
 ---
 
 <!doctype html>
-<html lang={locale} data-theme='dark'>
+<html lang={locale} data-theme='light'>
   <head>
     <meta charset='utf-8' />
     <link rel='shortcut icon' href={config.site.favicon} />
@@ -81,7 +81,7 @@ const ogType = blogpost ? 'article' : 'website';
           if (t) {
             document.documentElement.setAttribute('data-theme', t);
           } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('data-theme', 'light');
           }
         } catch (_) {}
       })();
@@ -149,7 +149,7 @@ const ogType = blogpost ? 'article' : 'website';
     }
     {!isDev && <script is:inline src='/registerSW.js'></script>}
     {!isDev && <link rel='manifest' href='/manifest.webmanifest' />}
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     {!blogpost && (
