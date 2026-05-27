@@ -31,7 +31,7 @@
     "prebuild": "node scripts/youtube.cjs",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-sw.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "youtube": "node scripts/youtube.cjs",
@@ -42,19 +42,19 @@
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/aspect-ratio": "0.4.2",
-    "@tailwindcss/typography": "0.5.16",
+    "@tailwindcss/typography": "^0.5.19",
     "astro": "^6.3.8",
     "astro-compress": "^2.4.1",
     "astro-robots-txt": "1.0.0",
     "dotenv": "16.4.7",
     "googleapis": "148.0.0",
-    "tailwindcss": "4.0.15",
-    "vite-plugin-pwa": "0.21.2"
+    "tailwindcss": "^4.3.0",
+    "vite-plugin-pwa": "^1.3.0"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.5",
     "@resvg/resvg-wasm": "^2.6.2",
-    "@tailwindcss/vite": "4.0.15",
+    "@tailwindcss/vite": "^4.3.0",
     "astro-md-generator": "^1.0.0"
   }
 }

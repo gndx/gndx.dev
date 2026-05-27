@@ -1,9 +1,8 @@
 ---
-import { Image } from 'astro:assets';
 import youtube from '@config/youtube.json';
 ---
 
-<section class='max-w-screen-lg px-4 mx-auto pb-14 sm:px-6 lg:px-8'>
+<section class='max-w-screen-xl px-4 mx-auto pb-14 sm:px-6 lg:px-8'>
   <h3 class='nd-section-label'>
     Últimos videos en YouTube
   </h3>
@@ -18,7 +17,7 @@ import youtube from '@config/youtube.json';
             class='nd-video-card group relative flex h-full flex-col overflow-hidden'
           >
             <figure class='nd-video-thumb relative overflow-hidden'>
-              <Image
+              <img
                 alt={item.title}
                 src={`https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`}
                 class='h-48 w-full object-cover'

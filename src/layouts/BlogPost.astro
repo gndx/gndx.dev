@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '@components/FormattedDate.astro';
 import CalendarIcon from '@icons/CalendarIcon.astro';
 import CategoryIcon from '@icons/CategoryIcon.astro';
-import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import { slugify } from '@utils/slug';
 import { type Locale, withLocalePath } from '@i18n/config';
@@ -82,7 +81,7 @@ const blogPostingLd = {
       <div class='bp-meta'>
         <div class='flex flex-wrap items-center gap-1.5'>
           <figure>
-            <Image
+            <img
               alt={config.author.name}
               class='bp-avatar'
               width={50}

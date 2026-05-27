@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import config from '@config/config.json';
 import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
@@ -29,11 +28,11 @@ const main: NavigationLink[] = [
 ---
 
 <header class='nd-header'>
-  <div class='mx-auto max-w-screen-lg px-4 py-5 sm:px-6 lg:px-8'>
+  <div class='mx-auto max-w-screen-xl px-4 py-5 sm:px-6 lg:px-8'>
     <div class='flex items-center justify-between gap-4'>
       <a href='/' class='logo flex items-center' aria-current='page'>
         <figure>
-          <Image
+          <img
             src={config.site.logo}
             alt={config.site.title}
             class='nd-logo'

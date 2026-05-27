@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@source "../**/*.{astro,html,js,ts,jsx,tsx,md,mdx}";
 @plugin "@tailwindcss/typography";
 
 /* ─── Nothing Design System — Color Tokens ───────────────────────────── */

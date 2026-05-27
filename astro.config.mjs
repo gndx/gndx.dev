@@ -49,9 +49,10 @@ export default defineConfig({
   vite: {
     plugins: [VitePWA({
       registerType: 'autoUpdate',
+      outDir: 'dist/client',
       manifest,
       workbox: {
-        globDirectory: 'dist',
+        globDirectory: 'dist/client',
         globPatterns: [
           '**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'
         ],
@@ -61,6 +62,7 @@ export default defineConfig({
   },
 
   adapter: cloudflare({
-    cloudflareModules: true
+    cloudflareModules: true,
+    imageService: 'passthrough'
   })
 });
