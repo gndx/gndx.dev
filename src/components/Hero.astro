@@ -47,16 +47,16 @@ const bioMain = config.author.bio
         </div>
       </div>
 
-      <div class='flex-shrink-0'>
-        <figure>
+      <div class='flex-shrink-0 self-stretch'>
+        <figure class='nd-avatar-figure'>
           <img
             class='nd-avatar'
-            width={512}
-            height={512}
+            width={1080}
+            height={1640}
             src={config.author.avatar}
             alt={config.author.name}
             decoding='async'
-            loading='lazy'
+            loading='eager'
           />
         </figure>
       </div>
@@ -149,17 +149,32 @@ const bioMain = config.author.bio
     fill: currentColor;
   }
 
+  /* Retrato recortado (fondo transparente) como en mentor.gndx.dev.
+     Posicionado en absoluto para no estirar el hero: los offsets top/bottom
+     cancelan el padding del contenedor (32px/48px), así la imagen abarca
+     exactamente la altura del hero — del borde del header a la línea
+     inferior — y la altura de la sección la sigue dictando el texto. */
+  .nd-avatar-figure {
+    position: relative;
+    height: 100%;
+    width: 140px;
+    margin: 0;
+  }
+
   .nd-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    border: 1px solid var(--nd-border-visible);
+    position: absolute;
+    bottom: -48px;
+    right: 0;
+    /* 100% = alto de la fila; +80px cubre los paddings (32 arriba + 48 abajo)
+       para que el retrato abarque la altura completa del hero. */
+    height: calc(100% + 80px);
+    width: auto;
+    max-width: none;
   }
 
   @media (min-width: 640px) {
-    .nd-avatar {
-      width: 100px;
-      height: 100px;
+    .nd-avatar-figure {
+      width: 200px;
     }
   }
 </style>

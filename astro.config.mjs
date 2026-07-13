@@ -22,10 +22,6 @@ export default defineConfig({
     }
   },
 
-  image: {
-    remotePatterns: [{ protocol: 'https' }]
-  },
-
   markdown: {
     shikiConfig: {
       theme: 'dracula',

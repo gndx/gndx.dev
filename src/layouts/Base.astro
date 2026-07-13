@@ -62,7 +62,7 @@ const ogType = blogpost ? 'article' : 'website';
 ---
 
 <!doctype html>
-<html lang={locale} data-theme='light'>
+<html lang={locale} data-theme='dark'>
   <head>
     <meta charset='utf-8' />
     <link rel='shortcut icon' href={config.site.favicon} />
@@ -81,7 +81,7 @@ const ogType = blogpost ? 'article' : 'website';
           if (t) {
             document.documentElement.setAttribute('data-theme', t);
           } else {
-            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('data-theme', 'dark');
           }
         } catch (_) {}
       })();
@@ -154,7 +154,7 @@ const ogType = blogpost ? 'article' : 'website';
   <body>
     {!blogpost && (
       <div style='border-bottom: 1px solid var(--nd-border); background: var(--nd-surface); padding: 10px 16px; border-left: 3px solid var(--nd-warning);'>
-        <p style='text-align: center; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.01em;'>
+        <p style='text-align: center; font-size: 14px; font-weight: 500; letter-spacing: 0.01em;'>
           <a href='https://mentor.gndx.dev/' style='color: var(--nd-warning); transition: color 200ms ease;'>
             ¿Cómo Aprovechar al Máximo una Mentoría? →
           </a>
