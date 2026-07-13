@@ -3,7 +3,7 @@ const { title } = Astro.props;
 ---
 
 <div class="nd-page article-content prose mx-auto">
-  <h1 class="nd-page-title">{title}</h1>
+  {title && <h1 class="nd-page-title">{title}</h1>}
   <slot />
 </div>
 
