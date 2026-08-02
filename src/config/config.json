@@ -5,7 +5,7 @@
     "base_url": "https://gndx.dev",
     "base_path": "/",
     "favicon": "/favicon.png",
-    "logo": "https://s3.amazonaws.com/gndx.dev/gndx-logo.png",
+    "logo": "/gndx-logo.svg",
     "lang": "es",
     "description": "Software AI Engineer y educador tech especializado en JavaScript, React e IA. Profesor en Platzi, Microsoft MVP y creador de contenido."
   },

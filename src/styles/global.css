@@ -46,7 +46,7 @@
   body {
     background-color: var(--nd-black);
     color: var(--nd-text-primary);
-    font-family: 'Space Grotesk', 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-space-grotesk);
   }
 
   body {
@@ -79,7 +79,7 @@
   /* child elements that use var(--tw-prose-*), regardless of layer order. */
   .article-content {
     max-width: 700px;
-    font-family: 'Space Grotesk', 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-space-grotesk);
     font-size: 1.125rem;
     line-height: 1.74;
     color: var(--nd-text-primary);
@@ -143,7 +143,7 @@
     margin-top: 2.1em;
     margin-bottom: 0.65em;
     color: var(--nd-text-display);
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: var(--font-space-grotesk);
     font-weight: 500;
     letter-spacing: -0.01em;
   }
@@ -205,7 +205,7 @@
   .article-content.prose :where(li),
   .article-content :where(li) {
     color: var(--nd-text-primary);
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: var(--font-space-grotesk);
     font-size: 1rem;
     line-height: 1.65;
     margin-bottom: 0.5em;
@@ -231,7 +231,7 @@
   /* ─── Tables ─── */
   .article-content.prose :where(th),
   .article-content :where(th) {
-    font-family: 'Space Mono', monospace;
+    font-family: var(--font-space-mono);
     font-size: 0.8125rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -322,7 +322,7 @@
     width: max-content;
     margin: 0;
     padding: 0.14rem 0 0.26rem !important;
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: var(--font-jetbrains-mono);
     font-size: 0.91rem;
     line-height: 1.18 !important;
     counter-reset: code-line;
@@ -414,7 +414,7 @@
     line-height: 1;
     text-transform: uppercase;
     white-space: nowrap;
-    font-family: 'Space Mono', monospace;
+    font-family: var(--font-space-mono);
   }
 
   .article-content :where(pre.astro-code .code-language-chip, pre.gndx .code-language-chip)::before {
@@ -443,7 +443,7 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     line-height: 1;
-    font-family: 'Space Mono', monospace;
+    font-family: var(--font-space-mono);
     text-transform: uppercase;
     transition: opacity 0.18s ease, color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
   }
@@ -481,7 +481,7 @@
   /* ─── Inline code ─── */
   .article-content.prose :where(p code, li code, blockquote code, td code, th code),
   .article-content :where(p code, li code, blockquote code, td code, th code) {
-    font-family: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+    font-family: var(--font-space-mono);
     font-size: 0.86em;
     background: var(--nd-surface-raised);
     color: var(--nd-text-display);
@@ -558,7 +558,7 @@ input#nav-toggle:checked ~ #nav-menu {
 .article-content h5,
 .article-content h6 {
   color: var(--nd-text-display);
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: var(--font-space-grotesk);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -631,7 +631,7 @@ input#nav-toggle:checked ~ #nav-menu {
   border: 1px solid var(--nd-border-visible);
   border-radius: 4px;
   padding: 0.1em 0.4em;
-  font-family: 'Space Mono', ui-monospace, monospace;
+  font-family: var(--font-space-mono);
   font-size: 0.86em;
 }
 

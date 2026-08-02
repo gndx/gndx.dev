@@ -11,6 +11,7 @@ import { truncateSeoText } from '@utils/seo';
 import '@styles/global.css';
 
 import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 
 export interface Props {
   title?: string;
@@ -91,6 +92,9 @@ const alternateLinks = includeHreflang
 const xDefaultUrl = alternateLinks.find((link) => link.lang === 'es')?.href;
 const rssPath = locale === 'es' ? '/rss.xml' : `/${locale}/rss.xml`;
 const jsonFeedPath = locale === 'es' ? '/feed.json' : `/${locale}/feed.json`;
+const markdownPath = blogpost
+  ? `${Astro.url.pathname.replace(/\/$/, '')}.md`
+  : undefined;
 const isDev = import.meta.env.DEV;
 const robots = noindex
   ? 'noindex,follow'
@@ -180,12 +184,9 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
         } catch (_) {}
       })();
     </script>
-    <link rel='preconnect' href='https://fonts.googleapis.com' />
-    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
-    <link
-      href='https://fonts.googleapis.com/css2?family=Doto:wght@400&family=Space+Grotesk:wght@300;400;500&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap'
-      rel='stylesheet'
-    />
+    <Font cssVariable='--font-space-grotesk' preload={[{ weight: 400, subset: 'latin' }]} />
+    <Font cssVariable='--font-space-mono' preload={[{ weight: 400, subset: 'latin' }]} />
+    <Font cssVariable='--font-jetbrains-mono' />
 
     <title>{pageTitle}</title>
     <meta name='title' content={pageTitle} />
@@ -210,6 +211,7 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
     <link rel='alternate' type='application/rss+xml' title={`${config.site.name} RSS (${locale})`} href={rssPath} />
     <link rel='alternate' type='application/feed+json' title={`${config.site.name} JSON Feed (${locale})`} href={jsonFeedPath} />
     <link rel='alternate' type='text/plain' title='GNDX content guide for AI agents' href='/llms.txt' />
+    {markdownPath && <link rel='alternate' type='text/markdown' title={`${pageTitle} — Markdown`} href={markdownPath} />}
 
     <meta property='og:title' content={shareTitle} />
     <meta property='og:description' content={shareDescription} />
@@ -254,7 +256,7 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
         </script>
       )
     }
-    {!isDev && <script is:inline src='/registerSW.js'></script>}
+    {!isDev && <script is:inline src='/registerSW.js' defer></script>}
     {!isDev && <link rel='manifest' href='/manifest.webmanifest' />}
     <ClientRouter />
   </head>

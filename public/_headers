@@ -1,0 +1,39 @@
+# Static security and AI-use policy. These rules are applied at Cloudflare's
+# asset layer and do not invoke the Worker runtime.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Signal: search=yes, ai-input=yes, ai-train=no, use=reference
+
+# Astro fingerprints these files, so they can be cached permanently.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicons/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/favicon.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/gndx-logo.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/gndx.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/blog/*.md
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Link: <https://gndx.dev/blog/:splat/>; rel="canonical"
+
+/en/blog/*.md
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Link: <https://gndx.dev/en/blog/:splat/>; rel="canonical"
+
+/pt/blog/*.md
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Link: <https://gndx.dev/pt/blog/:splat/>; rel="canonical"

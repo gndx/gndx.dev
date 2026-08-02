@@ -29,6 +29,9 @@ const getLocalePrefix = (locale: Locale) => (locale === 'es' ? '' : `/${locale}`
 const getPostUrl = (locale: Locale, slug: string) =>
   `${config.site.base_url}${getLocalePrefix(locale)}/blog/${slug}/`;
 
+const getPostMarkdownUrl = (locale: Locale, slug: string) =>
+  `${config.site.base_url}${getLocalePrefix(locale)}/blog/${slug}.md`;
+
 const getAuthorUrl = (locale: Locale) =>
   `${config.site.base_url}${getLocalePrefix(locale)}/about/`;
 
@@ -81,7 +84,8 @@ export const createJsonFeed = async (locale: Locale) => {
         authors: [{ name: config.author.name, url: getAuthorUrl(locale) }],
         tags: [...new Set([...post.data.categories, ...post.data.tags])],
         image: `${config.site.base_url}/og${prefix}/blog/${slug}.png`,
-        language: metadata.language
+        language: metadata.language,
+        _markdown_url: getPostMarkdownUrl(locale, slug)
       };
     })
   };
@@ -94,8 +98,51 @@ const createArticleList = async (locale: Locale, limit?: number) => {
   return selectedPosts.map((post) => {
     const slug = getPostSlug(post);
     const summary = truncateSeoText(post.data.description, 180);
-    return `- [${post.data.title}](${getPostUrl(locale, slug)}): ${summary}`;
+    return `- [${post.data.title}](${getPostUrl(locale, slug)}): ${summary} — [Markdown](${getPostMarkdownUrl(locale, slug)})`;
   });
+};
+
+type LocalizedPost = Awaited<ReturnType<typeof getPostsByLocale>>[number];
+
+const yamlString = (value: string) => JSON.stringify(value);
+
+export const createArticleMarkdown = (
+  post: LocalizedPost,
+  locale: Locale,
+  slug: string
+): string => {
+  const canonical = getPostUrl(locale, slug);
+  const body = 'body' in post && typeof post.body === 'string'
+    ? post.body.trim()
+    : post.data.description;
+  const metadata = [
+    '---',
+    `title: ${yamlString(post.data.title)}`,
+    `description: ${yamlString(post.data.description)}`,
+    `author: ${yamlString(config.author.name)}`,
+    `language: ${yamlString(localeMetadata[locale].language)}`,
+    `canonical: ${yamlString(canonical)}`,
+    `datePublished: ${yamlString(post.data.pubDate.toISOString())}`,
+    `dateModified: ${yamlString((post.data.updatedDate || post.data.pubDate).toISOString())}`,
+    `categories: ${JSON.stringify(post.data.categories)}`,
+    `tags: ${JSON.stringify(post.data.tags)}`,
+    '---'
+  ];
+
+  return [
+    ...metadata,
+    '',
+    `# ${post.data.title}`,
+    '',
+    `> ${post.data.description}`,
+    '',
+    body,
+    '',
+    '---',
+    '',
+    `Fuente canónica: [${canonical}](${canonical})`,
+    `Autor: [${config.author.name}](${getAuthorUrl(locale)})`
+  ].join('\n');
 };
 
 export const createLlmsText = async (full = false): Promise<string> => {
