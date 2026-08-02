@@ -12,7 +12,14 @@ interface Props {
   socialItems?: SocialMedia[];
 }
 
-const socialItems = social.networks;
+const socialItems = social.networks.map((item) => ({
+  ...item,
+  // Keep SVG labels out of the document title collection. The link itself
+  // provides the accessible name, while the decorative icon stays hidden.
+  svg: item.svg
+    .replace(/<title>.*?<\/title>/g, '')
+    .replace('<svg ', '<svg aria-hidden="true" focusable="false" ')
+}));
 const hashtags = (config.author.bio.match(/#[\p{L}\p{N}_-]+/gu) ?? []).filter(
   (tag) => tag.toLowerCase() !== '#withastro'
 );
@@ -37,7 +44,13 @@ const bioMain = config.author.bio
         <div class='nd-social-row'>
           {
             socialItems?.map((item) => (
-              <a href={item.url} target='_blank' rel='noopener noreferrer' class='nd-social-icon'>
+              <a
+                href={item.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                class='nd-social-icon'
+                aria-label={item.name}
+              >
                 <figure>
                   <Fragment set:html={item.svg} />
                 </figure>

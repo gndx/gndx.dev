@@ -18,6 +18,11 @@ interface Props {
 
 const { locale = 'es' } = Astro.props;
 const copy = getUi(locale);
+const menuLabels: Record<Locale, { open: string; close: string }> = {
+  es: { open: 'Abrir menú', close: 'Cerrar menú' },
+  en: { open: 'Open menu', close: 'Close menu' },
+  pt: { open: 'Abrir menu', close: 'Fechar menu' }
+};
 const main: NavigationLink[] = [
   { name: copy.nav.home, url: withLocalePath(locale, '/') },
   { name: copy.nav.about, url: withLocalePath(locale, '/about') },
@@ -48,7 +53,11 @@ const main: NavigationLink[] = [
       <nav class='ml-auto hidden md:flex items-center gap-0.5'>
         {
           main?.map((menu) => (
-            <a href={menu?.url} class='nd-nav-link'>
+            <a
+              href={menu?.url}
+              class='nd-nav-link'
+              aria-label={menu?.name === copy.nav.home ? menu.name : undefined}
+            >
               {menu?.name === copy.nav.home ? <HomeIcon /> : menu?.name}
             </a>
           ))
@@ -78,10 +87,20 @@ const main: NavigationLink[] = [
         <!-- Hamburger -->
         <div class='relative'>
           <input id='nav-toggle' type='checkbox' class='hidden' />
-          <label id='show-button' for='nav-toggle' class='flex cursor-pointer items-center nd-icon-btn'>
+          <label
+            id='show-button'
+            for='nav-toggle'
+            class='flex cursor-pointer items-center nd-icon-btn'
+            aria-label={menuLabels[locale].open}
+          >
             <HamburgerIcon />
           </label>
-          <label id='hide-button' for='nav-toggle' class='hidden cursor-pointer items-center nd-icon-btn'>
+          <label
+            id='hide-button'
+            for='nav-toggle'
+            class='hidden cursor-pointer items-center nd-icon-btn'
+            aria-label={menuLabels[locale].close}
+          >
             <CloseIcon />
           </label>
           <div id='nav-menu' class='absolute right-0 top-10 z-10 mt-2 hidden w-52 nd-mobile-menu'>
