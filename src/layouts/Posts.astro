@@ -10,6 +10,10 @@ interface Props {
 
 const { posts, locale = 'es' } = Astro.props as Props;
 
+// Large inline SVG patterns can add hundreds of KB to the generated HTML.
+// Keep the visual variety while limiting each embedded background to a small payload.
+const lightweightPatterns = heroPatterns.filter((pattern) => pattern.svg.length <= 4_000);
+
 const dateLocaleMap: Record<Locale, string> = {
   es: 'es-ES',
   en: 'en-US',
@@ -94,7 +98,7 @@ const toPatternDataUri = (svg: string, color: string) => {
 
 const getPatternStyle = (post: PostType, index: number) => {
   const seed = hashString(`${post.id}-${post.data.title}-${index}`);
-  const pattern = heroPatterns[seed % heroPatterns.length];
+  const pattern = lightweightPatterns[seed % lightweightPatterns.length];
   const patternColorBase = patternForegroundPalette[Math.floor(seed / 3) % patternForegroundPalette.length];
   const surfaceColor = cardSurfacePalette[Math.floor(seed / 7) % cardSurfacePalette.length];
   const patternColor = withOpacity(patternColorBase, 0.22);

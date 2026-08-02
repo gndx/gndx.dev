@@ -4,6 +4,7 @@ import Hero from '@components/Hero.astro';
 import FeaturedVideos from '@components/FeaturedVideos.astro';
 import Footer from '@components/Footer.astro';
 import config from '@config/config.json';
+import social from '@config/social';
 import { locales, type Locale, stripLocaleFromPath, withLocalePath } from '@i18n/config';
 
 import '@styles/global.css';
@@ -23,6 +24,7 @@ export interface Props {
   articleModifiedTime?: string;
   articleSection?: string;
   articleTags?: string[];
+  imageAlt?: string;
 }
 
 const {
@@ -37,13 +39,26 @@ const {
   articlePublishedTime,
   articleModifiedTime,
   articleSection,
-  articleTags
+  articleTags,
+  imageAlt
 } = Astro.props as Props;
 
+const defaultDescriptions: Record<Locale, string> = {
+  es: config.metadata.meta_description,
+  en: 'Software AI Engineer and tech educator specializing in JavaScript, React and AI. Platzi instructor, Microsoft MVP and content creator.',
+  pt: 'Software AI Engineer e educador tech especializado em JavaScript, React e IA. Professor da Platzi, Microsoft MVP e criador de conteúdo.'
+};
 const pageTitle = meta_title || title || config.site.title;
-const pageDescription = description || config.metadata.meta_description;
+const pageDescription = description || defaultDescriptions[locale];
 const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jpg';
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, config.site.base_url).toString();
+const ogImageAlt = imageAlt || `${pageTitle} — ${config.author.name}`;
+const ogImagePath = new URL(ogImageUrl).pathname.toLowerCase();
+const ogImageType = ogImagePath.endsWith('.jpg') || ogImagePath.endsWith('.jpeg')
+  ? 'image/jpeg'
+  : ogImagePath.endsWith('.webp')
+    ? 'image/webp'
+    : 'image/png';
 const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
 const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
 const isDev = import.meta.env.DEV;
@@ -59,13 +74,54 @@ const ogLocaleMap: Record<Locale, string> = {
 const ogLocale = ogLocaleMap[locale];
 const alternateOgLocales = locales.filter((lang) => lang !== locale).map((lang) => ogLocaleMap[lang]);
 const ogType = blogpost ? 'article' : 'website';
+const personId = `${config.site.base_url}/#person`;
+const websiteId = `${config.site.base_url}/#website`;
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: `${config.site.base_url}/`,
+      name: config.site.title,
+      description: defaultDescriptions[locale],
+      inLanguage: locale,
+      publisher: { '@id': personId }
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: config.author.name,
+      alternateName: '@gndx',
+      url: `${config.site.base_url}/`,
+      image: new URL(config.author.avatar, config.site.base_url).toString(),
+      jobTitle: 'Software AI Engineer',
+      sameAs: social.networks.map((network) => network.url)
+    },
+    {
+      '@type': Astro.url.pathname === '/' ? 'ProfilePage' : 'WebPage',
+      '@id': `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: pageTitle,
+      description: pageDescription,
+      inLanguage: locale,
+      isPartOf: { '@id': websiteId },
+      ...(Astro.url.pathname === '/' ? { mainEntity: { '@id': personId } } : {})
+    }
+  ]
+};
+const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
 <html lang={locale} data-theme='dark'>
   <head>
     <meta charset='utf-8' />
-    <link rel='shortcut icon' href={config.site.favicon} />
+    <link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+    <link rel='icon' href='/favicons/favicon-32x32.png' sizes='32x32' type='image/png' />
+    <link rel='icon' href='/favicons/favicon-16x16.png' sizes='16x16' type='image/png' />
+    <link rel='shortcut icon' href={config.site.favicon} type='image/png' />
+    <link rel='apple-touch-icon' href='/favicons/apple-icon-180x180.png' sizes='180x180' />
     <meta name='theme-name' content='bookworm-light-astro' />
     <meta name='msapplication-TileColor' content='#000000' />
     <meta name='theme-color' content='#000000' />
@@ -120,6 +176,11 @@ const ogType = blogpost ? 'article' : 'website';
     <meta property='og:type' content={ogType} />
     <meta property='og:url' content={canonicalUrl} />
     <meta property='og:image' content={ogImageUrl} />
+    <meta property='og:image:secure_url' content={ogImageUrl} />
+    <meta property='og:image:type' content={ogImageType} />
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='630' />
+    <meta property='og:image:alt' content={ogImageAlt} />
     <meta property='og:site_name' content={config.site.title} />
     <meta property='og:locale' content={ogLocale} />
     {alternateOgLocales.map((ogAltLocale) => <meta property='og:locale:alternate' content={ogAltLocale} />)}
@@ -134,7 +195,12 @@ const ogType = blogpost ? 'article' : 'website';
     <meta name='twitter:title' content={pageTitle} />
     <meta name='twitter:description' content={pageDescription} />
     <meta name='twitter:image' content={ogImageUrl} />
+    <meta name='twitter:image:alt' content={ogImageAlt} />
     <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:site' content='@gndx' />
+    <meta name='twitter:creator' content='@gndx' />
+
+    <script type='application/ld+json' set:html={serializedWebsiteLd} />
 
     {
       isDev && (
