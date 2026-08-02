@@ -21,12 +21,17 @@ const { category } = Astro.params;
 
 const posts = await getSinglePage("blogEs");
 const filterByCategory = taxonomyFilter(posts, "categories", category);
+const term = deslugify(category as string);
 ---
 
-<Base>
+<Base
+  meta_title={`Artículos de ${term} | GNDX`}
+  description={`Artículos y tutoriales de Oscar Barajas sobre ${term}, desarrollo web, JavaScript e inteligencia artificial.`}
+  includeHreflang={false}
+>
   <TaxonomyPosts
     posts={filterByCategory}
-    term={deslugify(category as string)}
+    term={term}
     prefixLabel="Categoria"
     subtitle="Ver posts con la categoria"
     locale="es"

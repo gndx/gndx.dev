@@ -8,7 +8,7 @@ tags: ["gemma", "edge-ai", "guide"]
 author: '["gndx"]'
 ---
 
-# Gemma 4 in your pocket: fast install for iPhone and Android
+<h2 class="article-legacy-h1">Gemma 4 in your pocket: fast install for iPhone and Android</h2>
 
 Gemma 4 now runs **offline** on modern phones thanks to the official **Google AI Edge Gallery** app. This guide walks you through the setup on both **iPhone** and **Android** with zero cables or complicated steps.
 

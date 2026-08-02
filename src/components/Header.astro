@@ -30,12 +30,14 @@ const main: NavigationLink[] = [
   { name: copy.nav.courses, url: withLocalePath(locale, '/cursos') },
   { name: copy.nav.mentoring, url: 'https://mentor.gndx.dev/' },
 ];
+const homeUrl = withLocalePath(locale, '/');
+const isHome = Astro.url.pathname === homeUrl;
 ---
 
 <header class='nd-header'>
   <div class='mx-auto max-w-screen-xl px-4 py-5 sm:px-6 lg:px-8'>
     <div class='flex items-center justify-between gap-4'>
-      <a href='/' class='logo flex items-center' aria-current='page'>
+      <a href={homeUrl} class='logo flex items-center' aria-current={isHome ? 'page' : undefined}>
         <figure>
           <img
             src={config.site.logo}

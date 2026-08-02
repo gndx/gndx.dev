@@ -14,9 +14,14 @@ if (!isLocale(locale)) return Astro.redirect('/');
 
 const copy = getUi(locale);
 const categories = await getTaxonomyByLocale(locale, 'categories');
+const metadata = {
+  en: { title: 'Blog Categories | GNDX', description: 'Explore GNDX articles by category: JavaScript, React, artificial intelligence, AI agents, web development and technology.' },
+  pt: { title: 'Categorias do blog | GNDX', description: 'Explore os artigos da GNDX por categoria: JavaScript, React, inteligência artificial, agentes de IA e desenvolvimento web.' },
+  es: { title: 'Categorías del blog | GNDX', description: 'Explora los artículos de GNDX por categorías: JavaScript, React, inteligencia artificial, agentes y desarrollo web.' }
+}[locale];
 ---
 
-<Base locale={locale} meta_title={copy.labels.categories}>
+<Base locale={locale} meta_title={metadata.title} description={metadata.description}>
   <section class='grid grid-cols-1'>
     <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.categories}:</h1>
     <ul class='flex flex-wrap gap-3 text-gray-500'>

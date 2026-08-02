@@ -42,7 +42,8 @@ const homeHref = withLocalePath(locale, '/');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content={copy[locale].description} />
+    <meta name="robots" content="noindex,follow" />
     <title>{copy[locale].title} | gndx.dev</title>
   </head>
   <body>

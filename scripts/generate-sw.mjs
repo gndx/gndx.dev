@@ -8,9 +8,11 @@ const root = resolve(__dirname, '..');
 const result = await generateSW({
   swDest: resolve(root, 'dist/client/sw.js'),
   globDirectory: resolve(root, 'dist/client'),
-  globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+  globPatterns: ['**/*.{js,css,svg,woff,woff2,ico}'],
+  globIgnores: ['og/**', 'og-assets/**'],
   navigateFallback: null,
   runtimeCaching: [],
+  cleanupOutdatedCaches: true,
   skipWaiting: true,
   clientsClaim: true,
 });

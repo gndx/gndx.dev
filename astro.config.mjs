@@ -38,8 +38,19 @@ export default defineConfig({
       }
     }),
     Compress(),
-    sitemap(),
-    robotsTxt()
+    sitemap({
+      filter(page) {
+        const pathname = new URL(page).pathname;
+        return !/^\/(?:en\/|pt\/)?tags(?:\/|$)/.test(pathname);
+      }
+    }),
+    robotsTxt({
+      policy: [
+        { userAgent: 'OAI-SearchBot', allow: '/' },
+        { userAgent: 'PerplexityBot', allow: '/' },
+        { userAgent: '*', allow: '/' }
+      ]
+    })
   ],
 
   vite: {
@@ -49,10 +60,10 @@ export default defineConfig({
       manifest,
       workbox: {
         globDirectory: 'dist/client',
-        globPatterns: [
-          '**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'
-        ],
-        navigateFallback: null
+        globPatterns: ['**/*.{js,css,svg,woff,woff2,ico}'],
+        globIgnores: ['og/**', 'og-assets/**'],
+        navigateFallback: null,
+        cleanupOutdatedCaches: true
       }
     }), tailwindcss()]
   },

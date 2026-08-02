@@ -13,13 +13,13 @@ if (!isLocale(locale)) return Astro.redirect('/');
 const copy = getUi(locale);
 
 const content = {
-  es: { title: 'Mentoria', body: 'Sesiones 1:1 para acelerar tu crecimiento profesional en tecnologia.' },
-  en: { title: 'Mentoring', body: '1:1 sessions to accelerate your professional growth in technology.' },
-  pt: { title: 'Mentoria', body: 'Sessoes 1:1 para acelerar seu crescimento profissional em tecnologia.' }
+  es: { title: 'Mentoria', seoTitle: 'Mentorías para desarrolladores | GNDX', body: 'Sesiones 1:1 para acelerar tu crecimiento profesional en tecnologia.' },
+  en: { title: 'Mentoring', seoTitle: 'Software Development Mentoring | GNDX', body: '1:1 sessions to accelerate your professional growth in technology.' },
+  pt: { title: 'Mentoria', seoTitle: 'Mentoria para desenvolvedores | GNDX', body: 'Sessoes 1:1 para acelerar seu crescimento profissional em tecnologia.' }
 }[locale];
 ---
 
-<Base locale={locale} meta_title={content.title}>
+<Base locale={locale} meta_title={content.seoTitle} description={content.body}>
   <Page title={content.title}>
     <p>{content.body}</p>
     <a

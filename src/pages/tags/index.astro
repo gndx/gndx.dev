@@ -4,8 +4,6 @@ import { getTaxonomy } from "@utils/getAllTags";
 
 const tags = await getTaxonomy("blogEs", "tags");
 
-console.log(tags)
-
 const textClasses: string[] = [
   "text-3xl text-cyan-400 capitalize",
   "text-xl text-teal-400 capitalize",
@@ -23,7 +21,11 @@ const getRandomClass = (classList: string[]): string => {
 };
 ---
 
-<Base>
+<Base
+  meta_title="Etiquetas del blog | GNDX"
+  description="Índice de etiquetas para navegar los artículos de GNDX por tecnología, tema y recurso."
+  noindex
+>
   <section class="grid grid-cols-1">
     <h1 class="text-2xl md:text-3xl font-bold mb-8">Tags:</h1>
     <ul class="flex justify-center flex-wrap align-center gap-3">

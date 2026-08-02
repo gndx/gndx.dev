@@ -1,7 +1,7 @@
 ---
 import Base from '@layouts/Base.astro';
 import TaxonomyPosts from '@components/TaxonomyPosts.astro';
-import { getPostsByLocale, filterByTaxonomy } from '@utils/i18nContent';
+import { getPostsByLocale, getTaxonomyByLocale, filterByTaxonomy } from '@utils/i18nContent';
 import { prefixedLocales, isLocale } from '@i18n/config';
 import { deslugify } from '@utils/slug';
 import { getUi } from '@i18n/ui';
@@ -9,10 +9,9 @@ import { getUi } from '@i18n/ui';
 export async function getStaticPaths() {
   const paths = [];
   for (const locale of prefixedLocales) {
-    const posts = await getPostsByLocale(locale);
-    const categories = new Set(posts.flatMap((post) => post.data.categories.map((item) => item.toLowerCase())));
+    const categories = await getTaxonomyByLocale(locale, 'categories');
     for (const category of categories) {
-      paths.push({ params: { locale, category: category.replaceAll(' ', '-') } });
+      paths.push({ params: { locale, category: category.slug } });
     }
   }
   return paths;
@@ -24,12 +23,32 @@ if (!isLocale(locale)) return Astro.redirect('/');
 const posts = await getPostsByLocale(locale);
 const filterByCategory = filterByTaxonomy(posts, 'categories', category as string);
 const copy = getUi(locale);
+const term = deslugify(category as string);
+const metadata = {
+  en: {
+    title: `Articles about ${term} | GNDX`,
+    description: `Articles and tutorials by Oscar Barajas about ${term}, web development, JavaScript and artificial intelligence.`
+  },
+  pt: {
+    title: `Artigos sobre ${term} | GNDX`,
+    description: `Artigos e tutoriais de Oscar Barajas sobre ${term}, desenvolvimento web, JavaScript e inteligência artificial.`
+  },
+  es: {
+    title: `Artículos de ${term} | GNDX`,
+    description: `Artículos y tutoriales de Oscar Barajas sobre ${term}, desarrollo web, JavaScript e inteligencia artificial.`
+  }
+}[locale];
 ---
 
-<Base locale={locale}>
+<Base
+  locale={locale}
+  meta_title={metadata.title}
+  description={metadata.description}
+  includeHreflang={false}
+>
   <TaxonomyPosts
     posts={filterByCategory}
-    term={deslugify(category as string)}
+    term={term}
     prefixLabel={copy.labels.categoryPrefix}
     subtitle={copy.labels.postsWithCategory}
     locale={locale}

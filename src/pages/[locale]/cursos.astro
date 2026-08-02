@@ -11,13 +11,13 @@ const { locale } = Astro.params;
 if (!isLocale(locale)) return Astro.redirect('/');
 
 const content = {
-  es: { title: 'Cursos', body: 'Cursos y recursos para aprender JavaScript y tecnologias web.' },
-  en: { title: 'Courses', body: 'Courses and resources to learn JavaScript and web technologies.' },
-  pt: { title: 'Cursos', body: 'Cursos e recursos para aprender JavaScript e tecnologias web.' }
+  es: { title: 'Cursos', seoTitle: 'Cursos de JavaScript, React e IA | GNDX', body: 'Cursos y recursos para aprender JavaScript y tecnologias web.' },
+  en: { title: 'Courses', seoTitle: 'JavaScript, React and AI Courses | GNDX', body: 'Courses and resources to learn JavaScript and web technologies.' },
+  pt: { title: 'Cursos', seoTitle: 'Cursos de JavaScript, React e IA em Português | GNDX', body: 'Cursos e recursos para aprender JavaScript e tecnologias web.' }
 }[locale];
 ---
 
-<Base locale={locale} meta_title={content.title}>
+<Base locale={locale} meta_title={content.seoTitle} description={content.body}>
   <Page title={content.title}>
     <p>{content.body}</p>
     <a href='https://platzi.com/conoceme/gndx' target='_blank' class='text-2xl font-bold mt-8'>Platzi</a>

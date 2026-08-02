@@ -8,7 +8,7 @@ tags: ['gemma4', 'edge-ai', 'iphone', 'android', 'google']
 author: ['"gndx"']
 ---
 
-# Gemma 4 en tu bolsillo: instalación rápida en iPhone y Android
+<h2 class="article-legacy-h1">Gemma 4 en tu bolsillo: instalación rápida en iPhone y Android</h2>
 
 Gemma 4 ya puede correr **offline** en teléfonos modernos gracias a la app oficial **Google AI Edge Gallery**. En esta guía aprenderás a ponerla a funcionar tanto en **iPhone** como en **Android**, sin cables ni pasos complejos.
 

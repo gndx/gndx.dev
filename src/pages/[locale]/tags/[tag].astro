@@ -1,7 +1,7 @@
 ---
 import Base from '@layouts/Base.astro';
 import TaxonomyPosts from '@components/TaxonomyPosts.astro';
-import { getPostsByLocale, filterByTaxonomy } from '@utils/i18nContent';
+import { getPostsByLocale, getTaxonomyByLocale, filterByTaxonomy } from '@utils/i18nContent';
 import { prefixedLocales, isLocale } from '@i18n/config';
 import { deslugify } from '@utils/slug';
 import { getUi } from '@i18n/ui';
@@ -9,10 +9,9 @@ import { getUi } from '@i18n/ui';
 export async function getStaticPaths() {
   const paths = [];
   for (const locale of prefixedLocales) {
-    const posts = await getPostsByLocale(locale);
-    const tags = new Set(posts.flatMap((post) => post.data.tags.map((item) => item.toLowerCase())));
+    const tags = await getTaxonomyByLocale(locale, 'tags');
     for (const tag of tags) {
-      paths.push({ params: { locale, tag: tag.replaceAll(' ', '-') } });
+      paths.push({ params: { locale, tag: tag.slug } });
     }
   }
   return paths;
@@ -24,12 +23,24 @@ if (!isLocale(locale)) return Astro.redirect('/');
 const posts = await getPostsByLocale(locale);
 const filterByTags = filterByTaxonomy(posts, 'tags', tag as string);
 const copy = getUi(locale);
+const term = deslugify(tag as string);
+const metadata = {
+  en: { title: `Posts tagged ${term} | GNDX`, description: `Archive of Oscar Barajas articles tagged with ${term}.` },
+  pt: { title: `Posts com a tag ${term} | GNDX`, description: `Arquivo de artigos de Oscar Barajas com a tag ${term}.` },
+  es: { title: `Posts sobre ${term} | GNDX`, description: `Archivo de artículos de Oscar Barajas etiquetados con ${term}.` }
+}[locale];
 ---
 
-<Base locale={locale}>
+<Base
+  locale={locale}
+  meta_title={metadata.title}
+  description={metadata.description}
+  noindex
+  includeHreflang={false}
+>
   <TaxonomyPosts
     posts={filterByTags}
-    term={deslugify(tag as string)}
+    term={term}
     prefixLabel={copy.labels.tagPrefix}
     subtitle={copy.labels.postsWithTag}
     locale={locale}

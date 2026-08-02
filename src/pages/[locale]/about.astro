@@ -13,20 +13,23 @@ if (!isLocale(locale)) return Astro.redirect('/');
 const content = {
   es: {
     title: 'Quien es Oscar Barajas Tavares',
+    seoTitle: 'Oscar Barajas: Software AI Engineer | GNDX',
     body: 'Learning Engineer, creador de contenido y desarrollador FrontEnd con mas de 22 anos de experiencia.'
   },
   en: {
     title: 'Who is Oscar Barajas Tavares',
+    seoTitle: 'Oscar Barajas: AI Engineer and Educator | GNDX',
     body: 'Learning Engineer, content creator, and Frontend developer with 22+ years of experience.'
   },
   pt: {
     title: 'Quem e Oscar Barajas Tavares',
+    seoTitle: 'Oscar Barajas: Engenheiro de IA e Educador | GNDX',
     body: 'Learning Engineer, criador de conteudo e desenvolvedor Frontend com mais de 22 anos de experiencia.'
   }
 }[locale];
 ---
 
-<Base locale={locale} meta_title={content.title}>
+<Base locale={locale} meta_title={content.seoTitle} description={content.body}>
   <Page title={content.title}>
     <p>{content.body}</p>
   </Page>

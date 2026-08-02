@@ -24,9 +24,14 @@ const textClasses = [
   'text-xs text-cyan-400 capitalize'
 ];
 const getRandomClass = (classList) => classList[Math.floor(Math.random() * classList.length)];
+const metadata = {
+  en: { title: 'Blog Tags | GNDX', description: 'Tag index for navigating GNDX articles by technology, topic and resource.' },
+  pt: { title: 'Tags do blog | GNDX', description: 'Índice de tags para navegar pelos artigos da GNDX por tecnologia, tema e recurso.' },
+  es: { title: 'Etiquetas del blog | GNDX', description: 'Índice de etiquetas para navegar los artículos de GNDX por tecnología, tema y recurso.' }
+}[locale];
 ---
 
-<Base locale={locale} meta_title={copy.labels.tags}>
+<Base locale={locale} meta_title={metadata.title} description={metadata.description} noindex>
   <section class='grid grid-cols-1'>
     <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.tags}:</h1>
     <ul class='flex justify-center flex-wrap align-center gap-3'>

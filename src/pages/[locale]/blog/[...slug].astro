@@ -1,5 +1,5 @@
 ---
-import { getPostsByLocale } from '@utils/i18nContent';
+import { getBlogAlternateUrls, getPostsByLocale } from '@utils/i18nContent';
 import { prefixedLocales, isLocale, withLocalePath } from '@i18n/config';
 import type { Locale } from '@i18n/config';
 import { render } from 'astro:content';
@@ -29,9 +29,15 @@ const post = posts.find(
 if (!post) return Astro.redirect(withLocalePath(locale as Locale, '/blog'));
 
 const postSlug = post.slug || post.id.replace(/\.(md|mdx)$/i, '');
+const alternateUrls = await getBlogAlternateUrls(postSlug, post.data.pubDate);
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} locale={locale as Locale} ogImage={`/og/${locale}/blog/${postSlug}.png`}>
+<BlogPost
+  {...post.data}
+  locale={locale as Locale}
+  ogImage={`/og/${locale}/blog/${postSlug}.png`}
+  alternateUrls={alternateUrls}
+>
   <Content components={{ pre: Code }} />
 </BlogPost>

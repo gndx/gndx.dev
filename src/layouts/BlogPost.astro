@@ -11,10 +11,21 @@ import { type Locale, withLocalePath } from '@i18n/config';
 interface Props extends CollectionEntry<'blogEs'>['data'] {
   locale?: Locale;
   ogImage?: string;
+  alternateUrls?: Partial<Record<Locale, string>>;
 }
 
-const { title, description, pubDate, updatedDate, heroImage, categories, tags, ogImage, locale = 'es' } =
-  Astro.props as Props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  categories,
+  tags,
+  ogImage,
+  alternateUrls,
+  locale = 'es'
+} = Astro.props as Props;
 const dateLocaleMap: Record<Locale, string> = {
   es: 'es-ES',
   en: 'en-US',
@@ -28,13 +39,21 @@ const imageUrl = articleImage
     ? articleImage
     : new URL(articleImage, config.site.base_url).toString()
   : undefined;
-const publisherLogo = config.site.logo.startsWith('http')
-  ? config.site.logo
-  : new URL(config.site.logo, config.site.base_url).toString();
+const authorUrl = new URL(withLocalePath(locale, '/about'), config.site.base_url).toString();
+const personId = `${config.site.base_url}/#person`;
+const websiteId = `${config.site.base_url}/#website`;
+const authorImage = new URL(config.author.avatar, config.site.base_url).toString();
+const breadcrumbLabels: Record<Locale, { home: string; blog: string }> = {
+  es: { home: 'Inicio', blog: 'Blog' },
+  en: { home: 'Home', blog: 'Blog' },
+  pt: { home: 'Início', blog: 'Blog' }
+};
 
 const blogPostingLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
+  '@id': `${articleUrl}#article`,
+  url: articleUrl,
   headline: title,
   description,
   datePublished: pubDate.toISOString(),
@@ -44,32 +63,75 @@ const blogPostingLd = {
     '@type': 'WebPage',
     '@id': articleUrl
   },
-  ...(imageUrl ? { image: [imageUrl] } : {}),
-  author: [
-    {
-      '@type': 'Person',
-      name: config.author.name
-    }
-  ],
+  ...(imageUrl
+    ? {
+        image: {
+          '@type': 'ImageObject',
+          url: imageUrl,
+          width: 1200,
+          height: 630
+        }
+      }
+    : {}),
+  author: {
+    '@type': 'Person',
+    '@id': personId,
+    name: config.author.name,
+    url: authorUrl,
+    image: authorImage
+  },
   publisher: {
-    '@type': 'Organization',
-    name: config.site.title,
-    logo: {
+    '@type': 'Person',
+    '@id': personId,
+    name: config.author.name,
+    url: `${config.site.base_url}/`,
+    image: {
       '@type': 'ImageObject',
-      url: publisherLogo
+      url: authorImage
     }
   },
+  isPartOf: { '@id': websiteId },
+  isAccessibleForFree: true,
   ...(categories?.length ? { articleSection: categories[0] } : {}),
-  ...(tags?.length ? { keywords: tags.join(', ') } : {})
+  ...(tags?.length ? { keywords: tags, about: tags.map((tag) => ({ '@type': 'Thing', name: tag })) } : {})
 };
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: breadcrumbLabels[locale].home,
+      item: new URL(withLocalePath(locale, '/'), config.site.base_url).toString()
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: breadcrumbLabels[locale].blog,
+      item: new URL(withLocalePath(locale, '/blog'), config.site.base_url).toString()
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: title,
+      item: articleUrl
+    }
+  ]
+};
+const serializedBlogPostingLd = JSON.stringify(blogPostingLd).replace(/</g, '\\u003c');
+const serializedBreadcrumbLd = JSON.stringify(breadcrumbLd).replace(/</g, '\\u003c');
 ---
 
 <Base
   meta_title={title}
+  socialTitle={title}
   description={description}
+  socialDescription={description}
   image={ogImage || heroImage}
   blogpost
   locale={locale}
+  alternateUrls={alternateUrls}
   articlePublishedTime={pubDate.toISOString()}
   articleModifiedTime={(updatedDate || pubDate).toISOString()}
   articleSection={categories?.[0]}
@@ -116,7 +178,8 @@ const blogPostingLd = {
         }
       </div>
     </header>
-    <script type='application/ld+json' set:html={JSON.stringify(blogPostingLd)} />
+    <script type='application/ld+json' set:html={serializedBlogPostingLd} />
+    <script type='application/ld+json' set:html={serializedBreadcrumbLd} />
     <div class='article-content prose mx-auto'>
       <slot />
     </div>

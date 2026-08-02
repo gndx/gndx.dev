@@ -11,13 +11,13 @@ const { locale } = Astro.params;
 if (!isLocale(locale)) return Astro.redirect('/');
 
 const content = {
-  es: { title: 'Stack 2024', body: 'Setup principal de trabajo, herramientas y dispositivos usados diariamente.' },
-  en: { title: 'Stack 2024', body: 'Main workspace setup, tools, and daily devices.' },
-  pt: { title: 'Stack 2024', body: 'Setup principal de trabalho, ferramentas e dispositivos usados diariamente.' }
+  es: { title: 'Stack 2024', seoTitle: 'Stack y setup de desarrollo | GNDX', body: 'Setup principal de trabajo, herramientas y dispositivos usados diariamente.' },
+  en: { title: 'Stack 2024', seoTitle: 'Development Stack and Setup | GNDX', body: 'Main workspace setup, tools, and daily devices.' },
+  pt: { title: 'Stack 2024', seoTitle: 'Stack e setup de desenvolvimento | GNDX', body: 'Setup principal de trabalho, ferramentas e dispositivos usados diariamente.' }
 }[locale];
 ---
 
-<Base locale={locale} meta_title={content.title}>
+<Base locale={locale} meta_title={content.seoTitle} description={content.body}>
   <Page title={content.title}>
     <p>{content.body}</p>
   </Page>

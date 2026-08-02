@@ -21,12 +21,18 @@ const { tag } = Astro.params;
 
 const posts = await getSinglePage("blogEs");
 const filterByTags = taxonomyFilter(posts, "tags", tag);
+const term = deslugify(tag as string);
 ---
 
-<Base>
+<Base
+  meta_title={`Posts sobre ${term} | GNDX`}
+  description={`Archivo de artículos de Oscar Barajas etiquetados con ${term}.`}
+  noindex
+  includeHreflang={false}
+>
   <TaxonomyPosts
     posts={filterByTags}
-    term={deslugify(tag as string)}
+    term={term}
     prefixLabel="Tag"
     subtitle="Ver posts con el tag"
     locale="es"

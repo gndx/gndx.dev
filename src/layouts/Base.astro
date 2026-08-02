@@ -6,6 +6,7 @@ import Footer from '@components/Footer.astro';
 import config from '@config/config.json';
 import social from '@config/social';
 import { locales, type Locale, stripLocaleFromPath, withLocalePath } from '@i18n/config';
+import { truncateSeoText } from '@utils/seo';
 
 import '@styles/global.css';
 
@@ -14,10 +15,17 @@ import { ClientRouter } from 'astro:transitions';
 export interface Props {
   title?: string;
   meta_title?: string;
+  socialTitle?: string;
   description?: string;
+  socialDescription?: string;
   image?: string;
   noindex?: boolean;
   canonical?: string;
+  alternateUrls?: Partial<Record<Locale, string>>;
+  includeHreflang?: boolean;
+  paginationPrev?: string;
+  paginationNext?: string;
+  heroPrimaryHeading?: boolean;
   blogpost?: boolean;
   locale?: Locale;
   articlePublishedTime?: string;
@@ -30,11 +38,18 @@ export interface Props {
 const {
   title,
   meta_title,
+  socialTitle,
   description,
+  socialDescription,
   image,
   noindex,
   blogpost,
   canonical,
+  alternateUrls,
+  includeHreflang = true,
+  paginationPrev,
+  paginationNext,
+  heroPrimaryHeading,
   locale = 'es',
   articlePublishedTime,
   articleModifiedTime,
@@ -48,8 +63,12 @@ const defaultDescriptions: Record<Locale, string> = {
   en: 'Software AI Engineer and tech educator specializing in JavaScript, React and AI. Platzi instructor, Microsoft MVP and content creator.',
   pt: 'Software AI Engineer e educador tech especializado em JavaScript, React e IA. Professor da Platzi, Microsoft MVP e criador de conteúdo.'
 };
-const pageTitle = meta_title || title || config.site.title;
-const pageDescription = description || defaultDescriptions[locale];
+const rawPageTitle = meta_title || title || config.site.title;
+const rawPageDescription = description || defaultDescriptions[locale];
+const pageTitle = truncateSeoText(rawPageTitle, 60);
+const pageDescription = truncateSeoText(rawPageDescription, 160);
+const shareTitle = socialTitle || rawPageTitle;
+const shareDescription = truncateSeoText(socialDescription || rawPageDescription, 200);
 const ogImage = image || 'https://s3.us-east-1.amazonaws.com/gndx.dev/gndx_og.jpg';
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, config.site.base_url).toString();
 const ogImageAlt = imageAlt || `${pageTitle} — ${config.author.name}`;
@@ -61,9 +80,20 @@ const ogImageType = ogImagePath.endsWith('.jpg') || ogImagePath.endsWith('.jpeg'
     : 'image/png';
 const canonicalUrl = canonical || new URL(Astro.url.pathname, config.site.base_url).toString();
 const pathWithoutLocale = stripLocaleFromPath(Astro.url.pathname);
+const alternateLinks = includeHreflang
+  ? locales.flatMap((lang) => {
+      const href = alternateUrls
+        ? alternateUrls[lang]
+        : new URL(withLocalePath(lang, pathWithoutLocale), config.site.base_url).toString();
+      return href ? [{ lang, href }] : [];
+    })
+  : [];
+const xDefaultUrl = alternateLinks.find((link) => link.lang === 'es')?.href;
+const rssPath = locale === 'es' ? '/rss.xml' : `/${locale}/rss.xml`;
+const jsonFeedPath = locale === 'es' ? '/feed.json' : `/${locale}/feed.json`;
 const isDev = import.meta.env.DEV;
 const robots = noindex
-  ? 'noindex,nofollow'
+  ? 'noindex,follow'
   : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
 
 const ogLocaleMap: Record<Locale, string> = {
@@ -76,6 +106,7 @@ const alternateOgLocales = locales.filter((lang) => lang !== locale).map((lang) 
 const ogType = blogpost ? 'article' : 'website';
 const personId = `${config.site.base_url}/#person`;
 const websiteId = `${config.site.base_url}/#website`;
+const isProfilePage = pathWithoutLocale === '/' || pathWithoutLocale === '/about/';
 const websiteLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -83,7 +114,8 @@ const websiteLd = {
       '@type': 'WebSite',
       '@id': websiteId,
       url: `${config.site.base_url}/`,
-      name: config.site.title,
+      name: config.site.name,
+      alternateName: [config.site.title, 'gndx.dev'],
       description: defaultDescriptions[locale],
       inLanguage: locale,
       publisher: { '@id': personId }
@@ -99,14 +131,20 @@ const websiteLd = {
       sameAs: social.networks.map((network) => network.url)
     },
     {
-      '@type': Astro.url.pathname === '/' ? 'ProfilePage' : 'WebPage',
+      '@type': isProfilePage ? 'ProfilePage' : 'WebPage',
       '@id': `${canonicalUrl}#webpage`,
       url: canonicalUrl,
       name: pageTitle,
-      description: pageDescription,
+      description: rawPageDescription,
       inLanguage: locale,
       isPartOf: { '@id': websiteId },
-      ...(Astro.url.pathname === '/' ? { mainEntity: { '@id': personId } } : {})
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: ogImageUrl,
+        width: 1200,
+        height: 630
+      },
+      ...(isProfilePage ? { mainEntity: { '@id': personId } } : {})
     }
   ]
 };
@@ -156,23 +194,25 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
     <meta name='robots' content={robots} />
 
     <link rel='canonical' href={canonicalUrl} item-prop='url' />
+    {paginationPrev && <link rel='prev' href={new URL(paginationPrev, config.site.base_url).toString()} />}
+    {paginationNext && <link rel='next' href={new URL(paginationNext, config.site.base_url).toString()} />}
+    <link rel='author' href={new URL(withLocalePath(locale, '/about'), config.site.base_url).toString()} />
     {
-      locales.map((lang) => (
+      alternateLinks.map(({ lang, href }) => (
         <link
           rel='alternate'
           hreflang={lang}
-          href={new URL(withLocalePath(lang, pathWithoutLocale), config.site.base_url).toString()}
+          href={href}
         />
       ))
     }
-    <link
-      rel='alternate'
-      hreflang='x-default'
-      href={new URL(withLocalePath('es', pathWithoutLocale), config.site.base_url).toString()}
-    />
+    {xDefaultUrl && <link rel='alternate' hreflang='x-default' href={xDefaultUrl} />}
+    <link rel='alternate' type='application/rss+xml' title={`${config.site.name} RSS (${locale})`} href={rssPath} />
+    <link rel='alternate' type='application/feed+json' title={`${config.site.name} JSON Feed (${locale})`} href={jsonFeedPath} />
+    <link rel='alternate' type='text/plain' title='GNDX content guide for AI agents' href='/llms.txt' />
 
-    <meta property='og:title' content={pageTitle} />
-    <meta property='og:description' content={pageDescription} />
+    <meta property='og:title' content={shareTitle} />
+    <meta property='og:description' content={shareDescription} />
     <meta property='og:type' content={ogType} />
     <meta property='og:url' content={canonicalUrl} />
     <meta property='og:image' content={ogImageUrl} />
@@ -181,7 +221,7 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
     <meta property='og:image:width' content='1200' />
     <meta property='og:image:height' content='630' />
     <meta property='og:image:alt' content={ogImageAlt} />
-    <meta property='og:site_name' content={config.site.title} />
+    <meta property='og:site_name' content={config.site.name} />
     <meta property='og:locale' content={ogLocale} />
     {alternateOgLocales.map((ogAltLocale) => <meta property='og:locale:alternate' content={ogAltLocale} />)}
 
@@ -191,9 +231,10 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
     {blogpost && articleModifiedTime && <meta property='article:modified_time' content={articleModifiedTime} />}
     {blogpost && articleSection && <meta property='article:section' content={articleSection} />}
     {blogpost && articleTags?.map((tag) => <meta property='article:tag' content={tag} />)}
+    {blogpost && <meta property='article:author' content={new URL(withLocalePath(locale, '/about'), config.site.base_url).toString()} />}
 
-    <meta name='twitter:title' content={pageTitle} />
-    <meta name='twitter:description' content={pageDescription} />
+    <meta name='twitter:title' content={shareTitle} />
+    <meta name='twitter:description' content={shareDescription} />
     <meta name='twitter:image' content={ogImageUrl} />
     <meta name='twitter:image:alt' content={ogImageAlt} />
     <meta name='twitter:card' content='summary_large_image' />
@@ -228,7 +269,7 @@ const serializedWebsiteLd = JSON.stringify(websiteLd).replace(/</g, '\\u003c');
       </div>
     )}
     <Header locale={locale} />
-    {!blogpost && <Hero />}
+    {!blogpost && <Hero isPrimaryHeading={heroPrimaryHeading ?? pathWithoutLocale === '/'} />}
     <main class='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8'>
       <slot />
     </main>

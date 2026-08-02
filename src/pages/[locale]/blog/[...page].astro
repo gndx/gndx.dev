@@ -24,9 +24,35 @@ const { page } = Astro.props;
 const { locale } = Astro.params;
 if (!isLocale(locale)) return Astro.redirect('/');
 const copy = getUi(locale);
+const metadata = {
+  en: {
+    title: 'JavaScript, React and AI Blog',
+    description: 'Articles and tutorials by Oscar Barajas about JavaScript, React, artificial intelligence, AI agents, web development and tech careers.',
+    page: 'Page'
+  },
+  pt: {
+    title: 'Blog sobre JavaScript, React e IA',
+    description: 'Artigos e tutoriais de Oscar Barajas sobre JavaScript, React, inteligência artificial, agentes de IA, desenvolvimento web e carreira.',
+    page: 'Página'
+  },
+  es: {
+    title: 'Blog de JavaScript, React e IA',
+    description: 'Artículos y tutoriales de Oscar Barajas sobre JavaScript, React, inteligencia artificial, agentes de IA y desarrollo web.',
+    page: 'Página'
+  }
+}[locale];
+const pageTitle = page.currentPage === 1
+  ? `${metadata.title} | GNDX`
+  : `${metadata.title} — ${metadata.page} ${page.currentPage} | GNDX`;
 ---
 
-<Base locale={locale} meta_title={copy.labels.blog}>
+<Base
+  locale={locale}
+  meta_title={pageTitle}
+  description={metadata.description}
+  paginationPrev={page.url.prev}
+  paginationNext={page.url.next}
+>
   <h1 class='text-2xl md:text-3xl font-bold mb-8'>{copy.labels.blog}</h1>
   <Posts posts={page.data} locale={locale} />
   <Pagination

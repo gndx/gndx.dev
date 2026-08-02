@@ -10,7 +10,10 @@ export interface SocialMedia {
 
 interface Props {
   socialItems?: SocialMedia[];
+  isPrimaryHeading?: boolean;
 }
+
+const { isPrimaryHeading = false } = Astro.props as Props;
 
 const socialItems = social.networks.map((item) => ({
   ...item,
@@ -34,7 +37,11 @@ const bioMain = config.author.bio
   <div class='mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8' style='padding-top: 32px; padding-bottom: 48px;'>
     <div class='flex items-start justify-between gap-8'>
       <div class='flex-1 min-w-0'>
-        <h1 class='nd-hero-name'>{config.author.name}</h1>
+        {
+          isPrimaryHeading
+            ? <h1 class='nd-hero-name'>{config.author.name}</h1>
+            : <p class='nd-hero-name'>{config.author.name}</p>
+        }
         <p class='nd-hero-bio'>{bioMain}</p>
         {
           hashtags.length > 0 && (
@@ -64,12 +71,13 @@ const bioMain = config.author.bio
         <figure class='nd-avatar-figure'>
           <img
             class='nd-avatar'
-            width={1080}
-            height={1640}
+            width={540}
+            height={820}
             src={config.author.avatar}
             alt={config.author.name}
             decoding='async'
             loading='eager'
+            fetchpriority='high'
           />
         </figure>
       </div>

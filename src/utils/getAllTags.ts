@@ -34,8 +34,7 @@ export const getTaxonomy = async (collection: string, name: string) => {
       });
     }
   }
-  const taxonomy = [...new Set(taxonomies)];
-  return taxonomy;
+  return [...new Map(taxonomies.map((item) => [item.slug, item])).values()];
 };
 
 export const getSinglePage = async (collection: any) => {

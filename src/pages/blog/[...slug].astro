@@ -1,11 +1,12 @@
 ---
-import { render, type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry } from "astro:content";
+import { getBlogAlternateUrls, getPostsByLocale } from '@utils/i18nContent';
 
 import BlogPost from "@layouts/BlogPost.astro";
 import Code from "@components/mdx/Code.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blogEs");
+  const posts = await getPostsByLocale('es');
   return posts.map((post) => ({
     params: { slug: post.slug || post.id.replace(/\.(md|mdx)$/i, '') },
   }));
@@ -13,15 +14,16 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blogEs">;
 
 const { slug } = Astro.params;
-const posts = await getCollection("blogEs");
+const posts = await getPostsByLocale('es');
 const post = posts.find((item) => (item.slug || item.id.replace(/\.(md|mdx)$/i, '')) === slug) as Props | undefined;
 if (!post) {
   return Astro.redirect('/blog/');
 }
 const postSlug = post.slug || post.id.replace(/\.(md|mdx)$/i, '');
+const alternateUrls = await getBlogAlternateUrls(postSlug, post.data.pubDate);
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} ogImage={`/og/blog/${postSlug}.png`}>
+<BlogPost {...post.data} ogImage={`/og/blog/${postSlug}.png`} alternateUrls={alternateUrls}>
   <Content components={{ pre: Code }} />
 </BlogPost>

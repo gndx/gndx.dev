@@ -13,13 +13,22 @@ export async function GET(context) {
     return new Response('Not found', { status: 404 });
   }
   const posts = await getPostsByLocale(locale);
+  const descriptions = {
+    es: config.site.description,
+    en: 'Articles by Oscar Barajas about JavaScript, React, artificial intelligence, AI agents, web development and tech careers.',
+    pt: 'Artigos de Oscar Barajas sobre JavaScript, React, inteligência artificial, agentes de IA, desenvolvimento web e carreira.'
+  };
 
   return rss({
     title: `${config.site.title} (${locale.toUpperCase()})`,
-    description: config.site.description,
+    description: descriptions[locale],
     site: context.site,
+    customData: `<language>${locale === 'pt' ? 'pt-BR' : locale}</language>`,
     items: posts.map((post) => ({
-      ...post.data,
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: post.data.pubDate,
+      categories: [...post.data.categories, ...post.data.tags],
       link: `/${locale}/blog/${post.slug || post.id.replace(/\.(md|mdx)$/i, '')}/`
     }))
   });

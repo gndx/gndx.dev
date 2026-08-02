@@ -3,12 +3,17 @@ import Base from '@layouts/Base.astro';
 import Page from '@layouts/Page.astro';
 
 const meta_title =
-  'Oscar Barajas Tavares | @gndx — Software AI Engineer, Educador Tech y Speaker';
+  'Oscar Barajas (@gndx): Software AI Engineer | GNDX';
 const description =
   'Conoce a Oscar Barajas Tavares, @gndx: Software AI Engineer, educador tech, Microsoft MVP, speaker internacional y experto en JavaScript, React, desarrollo web e inteligencia artificial.';
 ---
 
-<Base meta_title={meta_title} description={description}>
+<Base
+  meta_title={meta_title}
+  socialTitle='Oscar Barajas Tavares | @gndx — Software AI Engineer, Educador Tech y Speaker'
+  description={description}
+  heroPrimaryHeading
+>
   <Page>
     <p class='nd-about-lede'>
       Más de 25 años creando para la web, enseñando tecnología y construyendo comunidad en
