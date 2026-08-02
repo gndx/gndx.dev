@@ -56,6 +56,7 @@ const bioMain = config.author.bio
                 target='_blank'
                 rel='me noopener noreferrer'
                 class='nd-social-icon'
+                data-network={item.name}
                 aria-label={item.name}
               >
                 <figure>
@@ -168,6 +169,13 @@ const bioMain = config.author.bio
     width: 16px;
     height: 16px;
     fill: currentColor;
+  }
+
+  @media (max-width: 639px) {
+    .nd-social-icon[data-network='github'],
+    .nd-social-icon[data-network='twitch'] {
+      display: none;
+    }
   }
 
   /* Retrato recortado (fondo transparente) como en mentor.gndx.dev.
