@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "gndxdev-www-redirect",
+  "main": "./workers/www-redirect.js",
+  "compatibility_date": "2026-06-02",
+  "workers_dev": false,
+  "limits": {
+    "cpu_ms": 10
+  },
+  "routes": [
+    {
+      "pattern": "www.gndx.dev",
+      "custom_domain": true
+    }
+  ]
+}

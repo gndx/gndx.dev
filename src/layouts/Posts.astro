@@ -136,47 +136,50 @@ type PostType = {
       const primaryCategory = post.data.categories?.[0] || labels.uncategorized;
 
       return (
-        <article class={`nd-card group relative flex h-full flex-col overflow-hidden ${getBentoVariant(index)}`}>
-          <a href={withLocalePath(locale, `/blog/${postSlug}`)} class="absolute inset-0 z-10" aria-label={post.data.title} />
+        <article class={`group relative h-full ${getBentoVariant(index)}`}>
+          <a
+            href={withLocalePath(locale, `/blog/${postSlug}`)}
+            class="nd-card flex h-full flex-col overflow-hidden"
+            aria-label={post.data.title}
+          >
 
-          {/* Pattern image area */}
-          <div class={`nd-card-pattern relative overflow-hidden ${index === 0 ? 'h-44 md:h-52' : 'h-36'}`}
-               style={`background-color:${surfaceColor}; background-image:${patternImage};`}>
-            <div class="nd-pattern-overlay absolute inset-0" style="background: linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 100%);" />
-            <span class="nd-category-badge absolute left-4 top-4">
-              {primaryCategory}
-            </span>
-          </div>
-
-          {/* Card body */}
-          <div class="relative z-20 flex flex-1 flex-col gap-2.5 p-5">
-            <div class="nd-meta flex flex-wrap items-center gap-2">
-              <FormattedDate date={post.data.pubDate} locale={dateLocaleMap[locale]} />
-              <span class="nd-meta-dot">·</span>
-              <span>{authors}</span>
+            {/* Pattern image area */}
+            <div class={`nd-card-pattern relative overflow-hidden ${index === 0 ? 'h-44 md:h-52' : 'h-36'}`}
+                 style={`background-color:${surfaceColor}; background-image:${patternImage};`}>
+              <div class="nd-pattern-overlay absolute inset-0" style="background: linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 100%);" />
+              <span class="nd-category-badge absolute left-4 top-4">
+                {primaryCategory}
+              </span>
             </div>
 
-            <h2 class="nd-card-title">
-              <a href={withLocalePath(locale, `/blog/${postSlug}`)} class="relative z-20">
+            {/* Card body */}
+            <div class="flex flex-1 flex-col gap-2.5 p-5">
+              <div class="nd-meta flex flex-wrap items-center gap-2">
+                <FormattedDate date={post.data.pubDate} locale={dateLocaleMap[locale]} />
+                <span class="nd-meta-dot">·</span>
+                <span>{authors}</span>
+              </div>
+
+              <h2 class="nd-card-title">
                 {post.data.title}
-              </a>
-            </h2>
+              </h2>
 
-            <p class="nd-card-desc line-clamp-3">{post.data.description}</p>
+              <p class="nd-card-desc line-clamp-3">{post.data.description}</p>
 
-            <div class="flex flex-wrap items-center gap-2 pt-1">
-              <span class="nd-tags-label">{labels.tags}</span>
-              {
-                tags.length > 0 ? (
-                  tags.map((tag) => (
-                    <span class="nd-tag">#{tag}</span>
-                  ))
-                ) : (
-                  <span class="nd-tag">{labels.untagged}</span>
-                )
-              }
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <span class="nd-tags-label">{labels.tags}</span>
+                {
+                  tags.length > 0 ? (
+                    tags.map((tag) => (
+                      <span class="nd-tag">#{tag}</span>
+                    ))
+                  ) : (
+                    <span class="nd-tag">{labels.untagged}</span>
+                  )
+                }
+              </div>
             </div>
-          </div>
+          </a>
         </article>
       );
     })

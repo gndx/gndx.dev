@@ -5,13 +5,13 @@ pubDate: '2026-04-02T23:47:00.000Z'
 heroImage: 'https://s3.us-east-1.amazonaws.com/gndx.dev/fifa-copa-mundo.png'
 categories:
   - 'ia'
-  - 'imagenes'
+  - 'imágenes'
   - 'tutorial'
 authors:
   - 'gndx'
 tags:
   - 'ia'
-  - 'imagenes'
+  - 'imágenes'
   - 'lego'
   - 'copadelmundo'
   - 'tutorial'

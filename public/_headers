@@ -7,6 +7,47 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Signal: search=yes, ai-input=yes, ai-train=no, use=reference
 
+# Explicit UTF-8 for HTML documents. Trailing-slash patterns avoid matching
+# machine-readable .md, .json, .xml and image endpoints.
+/
+  Content-Type: text/html; charset=utf-8
+
+/about/
+  Content-Type: text/html; charset=utf-8
+
+/stack/
+  Content-Type: text/html; charset=utf-8
+
+/cursos/
+  Content-Type: text/html; charset=utf-8
+
+/mentoria/
+  Content-Type: text/html; charset=utf-8
+
+/mediakit/
+  Content-Type: text/html; charset=utf-8
+
+/blog/*/
+  Content-Type: text/html; charset=utf-8
+
+/categories/*/
+  Content-Type: text/html; charset=utf-8
+
+/tags/*/
+  Content-Type: text/html; charset=utf-8
+
+/en/
+  Content-Type: text/html; charset=utf-8
+
+/en/*/
+  Content-Type: text/html; charset=utf-8
+
+/pt/
+  Content-Type: text/html; charset=utf-8
+
+/pt/*/
+  Content-Type: text/html; charset=utf-8
+
 # Astro fingerprints these files, so they can be cached permanently.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
@@ -27,13 +68,16 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 /blog/*.md
+  Content-Type: text/markdown; charset=utf-8
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
   Link: <https://gndx.dev/blog/:splat/>; rel="canonical"
 
 /en/blog/*.md
+  Content-Type: text/markdown; charset=utf-8
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
   Link: <https://gndx.dev/en/blog/:splat/>; rel="canonical"
 
 /pt/blog/*.md
+  Content-Type: text/markdown; charset=utf-8
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
   Link: <https://gndx.dev/pt/blog/:splat/>; rel="canonical"
