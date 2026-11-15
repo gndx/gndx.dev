@@ -229,32 +229,45 @@ const serializedBreadcrumbLd = JSON.stringify(breadcrumbLd).replace(/</g, '\\u00
         });
       };
 
-      const ensureLanguageChip = (block) => {
-        let chip = block.querySelector('.code-language-chip');
+      // The toolbar, language chip and copy button live in a frame that does not scroll; only the <pre> scrolls.
+      // (Inside the scrolling <pre> they moved with the code and the toolbar was cut off on horizontal scroll.)
+      const ensureFrame = (block) => {
+        const parent = block.parentElement;
+        if (parent && parent.classList.contains('code-frame')) return parent;
+        const frame = document.createElement('div');
+        frame.className = 'code-frame';
+        block.parentNode.insertBefore(frame, block);
+        frame.append(block);
+        block.querySelectorAll(':scope > .code-language-chip, :scope > .copy-button, :scope > .check-span').forEach((el) => frame.append(el));
+        return frame;
+      };
+
+      const ensureLanguageChip = (block, frame) => {
+        let chip = frame.querySelector(':scope > .code-language-chip');
         if (!chip) {
           chip = document.createElement('span');
           chip.className = 'code-language-chip';
           chip.setAttribute('aria-hidden', 'true');
-          block.append(chip);
+          frame.append(chip);
         }
         chip.textContent = block.dataset.language || 'CODE';
       };
 
-      const ensureCopyControls = (block) => {
-        let button = block.querySelector('.copy-button');
+      const ensureCopyControls = (block, frame) => {
+        let button = frame.querySelector(':scope > .copy-button');
         if (!button) {
           button = document.createElement('button');
-          block.append(button);
+          frame.append(button);
         }
         button.type = 'button';
         button.className = 'copy-button';
         button.setAttribute('aria-label', COPY_LABEL);
         button.textContent = COPY_LABEL;
 
-        let check = block.querySelector('.check-span');
+        let check = frame.querySelector(':scope > .check-span');
         if (!check) {
           check = document.createElement('span');
-          block.append(check);
+          frame.append(check);
         }
         check.className = 'check-span';
         check.setAttribute('aria-hidden', 'true');
@@ -274,8 +287,9 @@ const serializedBreadcrumbLd = JSON.stringify(breadcrumbLd).replace(/</g, '\\u00
         document.querySelectorAll(CODE_BLOCK_SELECTOR).forEach((block) => {
           inferLanguage(block);
           normalizeLineDensity(block);
-          ensureLanguageChip(block);
-          ensureCopyControls(block);
+          const frame = ensureFrame(block);
+          ensureLanguageChip(block, frame);
+          ensureCopyControls(block, frame);
         });
       };
 
