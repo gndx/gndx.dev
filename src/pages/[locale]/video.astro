@@ -1,9 +1,0 @@
----
-import { prefixedLocales } from '@i18n/config';
-
-export async function getStaticPaths() {
-  return prefixedLocales.map((locale) => ({ params: { locale } }));
-}
-
-return Astro.redirect('https://mentor.gndx.dev/video', 302);
----
