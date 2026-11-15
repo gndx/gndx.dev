@@ -316,10 +316,52 @@
     content: none;
   }
 
+  /* Frame added by BlogPost.astro: it holds the toolbar, language chip and copy button so they stay put
+     while only the <pre> inside scrolls horizontally. */
+  .article-content .code-frame {
+    --toolbar-height: 2.35rem;
+    --editor-bg: #282a36;
+    --editor-border: #44475a;
+    position: relative;
+    margin-block: 1.05em;
+    margin-inline: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-top: var(--toolbar-height);
+    border: 1px solid var(--editor-border);
+    border-radius: 8px;
+    background: var(--editor-bg);
+    overflow: hidden;
+  }
+
+  .article-content .code-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--toolbar-height);
+    border-bottom: 1px solid var(--editor-border);
+    background: linear-gradient(180deg, #34394d 0%, #2b2f3f 100%);
+  }
+
+  .article-content .code-frame > :where(pre.astro-code, pre.gndx) {
+    margin: 0;
+    border: 0;
+    border-radius: 0 0 7px 7px;
+    padding-top: 0.28rem !important;
+    padding-left: 0 !important; /* the gutter starts at the edge: sticky line numbers stick there */
+    padding-right: 0 !important;
+  }
+
+  .article-content .code-frame > :where(pre.astro-code, pre.gndx)::before {
+    content: none;
+  }
+
   .article-content :where(pre.astro-code > code, pre.gndx > code) {
     display: block;
-    min-width: 100%;
-    width: max-content;
+    width: 100%; /* word wrap: the code fits the block width instead of scrolling sideways */
+    min-width: 0;
     margin: 0;
     padding: 0.14rem 0 0.26rem !important;
     font-family: var(--font-jetbrains-mono);
@@ -353,8 +395,8 @@
     position: relative;
     margin: 0 !important;
     line-height: 1.18 !important;
-    white-space: pre !important;
-    overflow-wrap: normal;
+    white-space: pre-wrap !important; /* wraps long lines; continuation lines start under the text, not under the number */
+    overflow-wrap: anywhere;
     word-break: normal;
   }
 
@@ -373,16 +415,23 @@
   .article-content :where(pre.gndx > code > span.line)::before {
     counter-increment: code-line;
     content: counter(code-line);
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    /* sticky: the numbers stay visible while the code scrolls sideways */
+    position: sticky;
     left: 0;
+    display: inline-block;
+    box-sizing: border-box;
     width: var(--gutter-width);
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
+    margin-left: -3.72rem;
+    margin-right: calc(3.72rem - var(--gutter-width));
     padding-right: 0.58rem;
+    text-align: right;
+    vertical-align: top;
     color: var(--editor-muted);
+    background: #24252f;
+    border-right: 1px solid rgba(98, 114, 164, 0.35);
+    /* taller box than the glyph so the gutter has no gaps between lines (same net height in the line box) */
+    padding-block: 0.6em;
+    margin-block: -0.6em;
     user-select: none;
     z-index: 1;
   }
@@ -395,7 +444,7 @@
     background: transparent !important;
   }
 
-  .article-content :where(pre.astro-code .code-language-chip, pre.gndx .code-language-chip) {
+  .article-content :where(pre.astro-code .code-language-chip, pre.gndx .code-language-chip, .code-frame > .code-language-chip) {
     position: absolute;
     top: 0.58rem;
     left: 0.95rem;
@@ -426,7 +475,9 @@
       pre.astro-code .copy-button,
       pre.astro-code .check-span,
       pre.gndx .copy-button,
-      pre.gndx .check-span
+      pre.gndx .check-span,
+      .code-frame > .copy-button,
+      .code-frame > .check-span
     ) {
     position: absolute;
     top: 0.58rem;
@@ -448,20 +499,20 @@
     transition: opacity 0.18s ease, color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
   }
 
-  .article-content :where(pre.astro-code .copy-button, pre.gndx .copy-button) {
+  .article-content :where(pre.astro-code .copy-button, pre.gndx .copy-button, .code-frame > .copy-button) {
     color: #f1f4ff;
     background: linear-gradient(180deg, rgba(81, 87, 116, 0.9) 0%, rgba(65, 70, 95, 0.95) 100%);
     border: 1px solid rgba(103, 116, 171, 0.65);
     cursor: pointer;
   }
 
-  .article-content :where(pre.astro-code .copy-button:hover, pre.gndx .copy-button:hover) {
+  .article-content :where(pre.astro-code .copy-button:hover, pre.gndx .copy-button:hover, .code-frame > .copy-button:hover) {
     color: #c8f8ff !important;
     background: linear-gradient(180deg, rgba(86, 92, 124, 0.96) 0%, rgba(69, 74, 101, 0.98) 100%);
     border-color: rgba(116, 130, 189, 0.78);
   }
 
-  .article-content :where(pre.astro-code .check-span, pre.gndx .check-span) {
+  .article-content :where(pre.astro-code .check-span, pre.gndx .check-span, .code-frame > .check-span) {
     color: #50fa7b;
     background: linear-gradient(180deg, rgba(72, 77, 102, 0.95) 0%, rgba(62, 67, 89, 0.98) 100%);
     border: 1px solid rgba(103, 116, 171, 0.65);
@@ -469,11 +520,11 @@
     pointer-events: none;
   }
 
-  .article-content :where(pre.astro-code .check-span.is-visible, pre.gndx .check-span.is-visible) {
+  .article-content :where(pre.astro-code .check-span.is-visible, pre.gndx .check-span.is-visible, .code-frame > .check-span.is-visible) {
     opacity: 1;
   }
 
-  .article-content :where(pre.astro-code .copy-button.is-hidden, pre.gndx .copy-button.is-hidden) {
+  .article-content :where(pre.astro-code .copy-button.is-hidden, pre.gndx .copy-button.is-hidden, .code-frame > .copy-button.is-hidden) {
     opacity: 0;
     pointer-events: none;
   }
@@ -639,4 +690,132 @@ input#nav-toggle:checked ~ #nav-menu {
 .article-content p code::before,
 .article-content p code::after {
   content: none !important;
+}
+
+/* ─── Banner de mentoría dentro del artículo (<aside class="promo-mentor not-prose">) ─── */
+.article-content .promo-mentor {
+  position: relative;
+  margin: 2.75em 0;
+  padding: 28px 28px 26px;
+  border: 1px solid var(--nd-border-visible);
+  border-radius: 12px;
+  background: var(--nd-surface);
+  overflow: hidden;
+  font-family: var(--font-space-grotesk);
+}
+
+.article-content .promo-mentor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--nd-border-visible) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.article-content .promo-mentor > * {
+  position: relative;
+}
+
+.article-content .promo-mentor__eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--font-space-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nd-warning);
+}
+
+.article-content .promo-mentor__title {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--nd-text-display);
+  text-wrap: balance;
+}
+
+.article-content .promo-mentor__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.article-content .promo-mentor__option {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--nd-border-visible);
+  border-radius: 8px;
+  background: var(--nd-surface-raised);
+}
+
+.article-content .promo-mentor__option--featured {
+  border-color: var(--nd-warning);
+  background: var(--nd-warning-subtle);
+}
+
+.article-content .promo-mentor__price {
+  display: block;
+  font-family: var(--font-space-mono);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--nd-text-display);
+}
+
+.article-content .promo-mentor__detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--nd-text-secondary);
+}
+
+.article-content .promo-mentor__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--nd-warning);
+  color: var(--nd-black);
+  font-family: var(--font-space-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.article-content .promo-mentor__cta:hover {
+  opacity: 0.88;
+}
+
+.article-content .promo-mentor__cta:focus-visible {
+  outline: 2px solid var(--nd-text-display);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .article-content .promo-mentor {
+    padding: 22px 18px 20px;
+  }
+
+  .article-content .promo-mentor__title {
+    font-size: 1.3rem;
+  }
+
+  .article-content .promo-mentor__options {
+    grid-template-columns: 1fr;
+  }
+
+  .article-content .promo-mentor__cta {
+    display: flex;
+    justify-content: center;
+  }
 }
