@@ -54,3 +54,4 @@ Categories and tags are derived at build time from post frontmatter via `src/uti
 - Components are `.astro` first; reach for TS only for utilities under `src/utils/`. There is no React/Vue/Svelte integration despite the `react` keyword in `package.json` (legacy from the EV0 template).
 - Posts use frontmatter `authors: ["gndx"]` (array). Older posts may use a single-author shape — prefer the array form when editing.
 - Hero images in posts are paths into `public/` (e.g. `/blog-placeholder.jpg`).
+- Post images (the cover/`heroImage`, which is also the Open Graph image, and the in-article images, in es/en/pt) are made with the project skill `/blog-imagenes` (`.claude/skills/blog-imagenes/`, HyperFrames + WebP). Each post's source lives in `imagenes/<slug>/`; the WebP files go to `public/blog/<slug>/`.

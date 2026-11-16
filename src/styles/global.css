@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 @source "../**/*.{astro,html,js,ts,jsx,tsx,md,mdx}";
+/* Las imágenes de los posts se hacen con HyperFrames, fuera de la web: Tailwind no tiene que leerlas */
+@source not "../../imagenes";
+@source not "../../.claude";
 @plugin "@tailwindcss/typography";
 
 /* ─── Nothing Design System — Color Tokens ───────────────────────────── */

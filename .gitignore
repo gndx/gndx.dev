@@ -19,3 +19,13 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Imágenes de los posts (skill blog-imagenes): se suben imagenes.py, post.json y los logos y capturas del post;
+# lo demás lo regenera exportar.py
+imagenes/*/index.html
+imagenes/*/orden.json
+imagenes/*/meta.json
+imagenes/*/hyperframes.json
+imagenes/*/assets/marca/
+.hyperframes/
+__pycache__/
