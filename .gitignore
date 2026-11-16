@@ -28,4 +28,5 @@ imagenes/*/meta.json
 imagenes/*/hyperframes.json
 imagenes/*/assets/marca/
 .hyperframes/
+.wrangler/
 __pycache__/
