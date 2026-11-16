@@ -1,0 +1,13 @@
+{
+  "slug": "260406-instalar-gemma-4-en-tu-telefono",
+  "idiomas": [
+    "es",
+    "en",
+    "pt"
+  ],
+  "posts": {
+    "es": "src/content/blog/es/260406-instalar-gemma-4-en-tu-telefono.md",
+    "en": "src/content/blog/en/260406-instalar-gemma-4-en-tu-telefono.md",
+    "pt": "src/content/blog/pt/260406-instalar-gemma-4-en-tu-telefono.md"
+  }
+}

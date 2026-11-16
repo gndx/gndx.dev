@@ -35,6 +35,16 @@ const getPostMarkdownUrl = (locale: Locale, slug: string) =>
 const getAuthorUrl = (locale: Locale) =>
   `${config.site.base_url}${getLocalePrefix(locale)}/about/`;
 
+const getPostImageUrl = (heroImage: string | undefined, locale: Locale, slug: string) => {
+  if (heroImage) {
+    return heroImage.startsWith('http')
+      ? heroImage
+      : new URL(heroImage, config.site.base_url).toString();
+  }
+  const prefix = getLocalePrefix(locale);
+  return `${config.site.base_url}/og${prefix}/blog/${slug}.png`;
+};
+
 const markdownToText = (markdown: string): string =>
   markdown
     .replace(/^\s*(?:import|export)\s.+$/gm, '')
@@ -83,7 +93,7 @@ export const createJsonFeed = async (locale: Locale) => {
         ...(post.data.updatedDate ? { date_modified: post.data.updatedDate.toISOString() } : {}),
         authors: [{ name: config.author.name, url: getAuthorUrl(locale) }],
         tags: [...new Set([...post.data.categories, ...post.data.tags])],
-        image: `${config.site.base_url}/og${prefix}/blog/${slug}.png`,
+        image: getPostImageUrl(post.data.heroImage, locale, slug),
         language: metadata.language,
         _markdown_url: getPostMarkdownUrl(locale, slug)
       };

@@ -8,6 +8,7 @@ Las imágenes de un post: la portada, que también es la imagen de Open Graph, y
 sh .claude/skills/blog-imagenes/plantilla/nuevo.sh <slug>                        # → imagenes/<slug>/ (imagenes.py de ejemplo + post.json)
 python3 -I .claude/skills/blog-imagenes/plantilla/exportar.py <slug>             # check + capturas + hojas de contacto (no toca el blog)
 python3 -I .claude/skills/blog-imagenes/plantilla/exportar.py <slug> --al-blog   # WebP en public/blog/<slug>/ + el Markdown de cada idioma
+python3 -I .claude/skills/blog-imagenes/plantilla/exportar.py <slug> --publicar  # TinyPNG + raíz de S3 + Markdown con URLs públicas
 ```
 
 `<slug>` es el nombre del archivo del post en español, sin extensión. `nuevo.sh` busca el post en los tres idiomas; si en otro idioma tiene otro nombre, lo encuentra por la fecha (`pubDate`). La carpeta de imágenes del blog siempre usa el slug en español.
@@ -17,7 +18,7 @@ python3 -I .claude/skills/blog-imagenes/plantilla/exportar.py <slug> --al-blog  
 | Dónde | Qué | ¿Se sube a git? |
 |---|---|---|
 | `plantilla/marca.py` | La marca (CSS), las piezas y `escribir()`, que genera `index.html` y `orden.json`. La usan todos los posts. | Sí |
-| `plantilla/exportar.py` | Hace el check (texto que se sale, contraste, errores), las capturas, una hoja de contacto por idioma y, con `--al-blog`, los WebP y el Markdown. | Sí |
+| `plantilla/exportar.py` | Hace el check, las capturas y las hojas; con `--publicar`, optimiza mediante TinyPNG, publica en S3 y entrega el Markdown. | Sí |
 | `plantilla/ejemplo.py` | El `imagenes.py` con el que empieza cada post: un ejemplo que explica la plantilla. | Sí |
 | `plantilla/assets/` | Las fuentes, el logo GNDX y logos comunes: Claude, ElevenLabs, FFmpeg, HyperFrames, OpenAI y Three.js. | Sí |
 | `imagenes/<slug>/imagenes.py` | Los textos de cada idioma (`T`, con el `alt` de cada imagen) y qué dibuja cada imagen (`IMAGENES`). | Sí |

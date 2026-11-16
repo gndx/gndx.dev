@@ -24,6 +24,6 @@ const alternateUrls = await getBlogAlternateUrls(postSlug, post.data.pubDate);
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data} ogImage={`/og/blog/${postSlug}.png`} alternateUrls={alternateUrls}>
+<BlogPost {...post.data} alternateUrls={alternateUrls}>
   <Content components={{ pre: Code }} />
 </BlogPost>

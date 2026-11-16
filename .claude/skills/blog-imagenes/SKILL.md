@@ -1,6 +1,6 @@
 ---
 name: blog-imagenes
-description: Hace las imágenes de un post de gndx.dev, en es / en / pt, a 1600×900 y en WebP, con la marca GNDX y HyperFrames, y las pone en el post. Son la portada, que también es la imagen de Open Graph, y las imágenes de dentro del artículo (una por cada sección que lo necesite). Úsala cuando Oscar escriba o termine un post, pida imágenes, una portada o ilustraciones para un artículo, quiera cambiar el blog-placeholder de un post viejo, o escriba /blog-imagenes.
+description: Hace las imágenes de un post de gndx.dev, en es / en / pt, a 1600×900 y en WebP, con la marca GNDX y HyperFrames; las optimiza con TinyPNG, las publica en S3 y las enlaza en el post. Son la portada, que también es la imagen de Open Graph, y las imágenes de dentro del artículo. Úsala cuando Oscar escriba o termine un post, pida imágenes, una portada o ilustraciones para un artículo, quiera cambiar el blog-placeholder de un post viejo, o escriba /blog-imagenes.
 ---
 
 # Imágenes de un post · gndx.dev
@@ -13,7 +13,7 @@ Mismo método que las imágenes del post «Aprende a crear videos con Inteligenc
 Todo se ejecuta desde la raíz de gndx.dev:
 - La plantilla: `.claude/skills/blog-imagenes/plantilla/`.
   - `marca.py`: la marca y las piezas, común a todos los posts.
-  - `exportar.py`: revisa las imágenes y las lleva al blog.
+- `exportar.py`: revisa las imágenes y, al publicar, las optimiza con `~/dotfiles/tinypng.sh` y las sube con `~/dotfiles/upload.sh`.
   - `nuevo.sh`: empieza un post nuevo.
   - `ejemplo.py`.
   - `README.md`: las piezas.
@@ -60,34 +60,36 @@ Antes de empezar:
    - `python3 -I .claude/skills/blog-imagenes/plantilla/exportar.py <slug>` tiene que dar **«check: 0 problemas»**, que quiere decir que no hay texto fuera de su caja ni fuera de la imagen, y que el contraste está bien.
    - Mira las hojas `imagenes/<slug>/.hyperframes/capturas/hoja-{es,en,pt}.jpg` con Read. Abre una captura entera si algo se ve raro.
    - Corrige y repite hasta que estén bien en los tres idiomas.
-4. **Al blog.**
-   - Repite con `--al-blog`: guarda los WebP en `public/blog/<slug>/` e imprime el Markdown de cada idioma.
+4. **Publicación.**
+   - Solo después de revisar las hojas, repite con `--publicar`. Es una operación externa: optimiza los WebP con TinyPNG, los sube a la raíz como `s3://gndx.dev/<slug>-<imagen>.webp` y devuelve el Markdown de cada idioma.
+   - Requiere `TINYPNG_API_KEY` en el entorno y un perfil AWS con acceso al bucket. `~/dotfiles/upload.sh` usa `AWS_PROFILE` o, si no está definido, `gndx`. Nunca escribas credenciales en la skill ni en el repositorio.
+   - Los WebP son temporales: no se guardan en `public/` ni se suben a git. `--al-blog` queda solo para compatibilidad con posts antiguos.
    - En cada post:
-     - en el frontmatter, `heroImage: '/blog/<slug>/portada-<idioma>.webp'`;
+     - en el frontmatter, `heroImage` usa la URL S3 que imprime el exportador;
      - la portada, tras la introducción (antes del primer H2);
      - cada `![alt](…)`, justo debajo del H2 que ilustra.
    - Las rutas usan el slug en español en los tres idiomas.
 5. **Comprobación.**
    - `npm run dev` y abre el post en los tres idiomas en el Chrome de Oscar (`/blog/<slug>`, `/en/blog/…`, `/pt/blog/…`).
-   - Comprueba que cargan todas las imágenes y que la portada aparece arriba.
+   - Comprueba que cargan todas las URLs remotas y que la portada aparece arriba.
    - `npm run dev` necesita `API_KEY` y `CHANNEL_ID` en `.env`; ver `CLAUDE.md`.
 6. **Git.**
    - Trabaja en una rama: la del post si existe, o si no `feat/imagenes-<slug>`.
-   - Se suben `imagenes/<slug>/` y `public/blog/<slug>/`.
+   - Solo se sube `imagenes/<slug>/`; las imágenes publicadas viven en S3.
    - Haz commit o push solo si Oscar lo pide. **Nunca hagas push a `main`**: publica la web.
 7. **Entrega en español.**
-   - Las rutas de las hojas y de la carpeta en `public/blog/`.
+   - Las rutas de las hojas y los objetos publicados en la raíz de S3.
    - La lista de imágenes, cada una con la sección que ilustra.
    - El resultado del check y el peso total.
    - Lo que quedó más flojo.
-   - Que puede pedir cambios imagen a imagen: se edita `imagenes.py` y se repiten los pasos 3 y 4, que sobrescriben los WebP.
+   - Que puede pedir cambios imagen a imagen: se edita `imagenes.py` y se repiten los pasos 3 y 4, que sobrescriben los objetos S3 con la misma URL.
 
 ## Si cambia la marca
 Se cambia `plantilla/marca.py`, que usan todos los posts. Para que un post viejo tome el cambio, se repiten los pasos 3 y 4 de ese post.
 
 ## Antes de entregar
 - [ ] «check: 0 problemas» y las tres hojas revisadas.
-- [ ] Portada en `heroImage` en los tres idiomas y cada imagen bajo su sección, con su `alt`.
+- [ ] Portada remota en `heroImage` en los tres idiomas y cada imagen bajo su sección, con su `alt`.
 - [ ] Ningún dato que no esté en el post; logos y capturas de su fuente.
 - [ ] El post se ve en los tres idiomas con todas sus imágenes.
 - [ ] Nada en `main` y nada subido sin que Oscar lo pida.

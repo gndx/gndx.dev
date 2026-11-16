@@ -2,7 +2,7 @@
 title: 'Cómo instalar Gemma 4 en tu teléfono (iPhone y Android)'
 description: 'Guía paso a paso para descargar y correr Gemma 4 de forma local en tu iPhone o teléfono Android usando Google AI Edge Gallery.'
 pubDate: '2026-04-06T15:33:00.000Z'
-heroImage: ''
+heroImage: 'https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-portada-es.webp'
 categories: ['IA']
 tags: ['gemma4', 'edge-ai', 'iphone', 'android', 'google']
 author: ['"gndx"']
@@ -14,9 +14,13 @@ Gemma 4 ya puede correr **offline** en teléfonos modernos gracias a la app ofic
 
 > 🧠 ¿Por qué importa? Entrenar y ejecutar modelos localmente te da **privacidad total**, cero costos por token y la libertad de usar IA incluso sin señal.
 
+![Gemma 4 funcionando sin conexión en iPhone y Android](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-portada-es.webp)
+
 ---
 
 ## Requisitos rápidos
+
+![Requisitos para ejecutar Gemma 4 en un teléfono](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-requisitos-es.webp)
 
 - **iPhone** con iOS 17 o superior, chip A16 o Apple Silicon para el mejor desempeño.
 - **Android** con Android 14, procesador Tensor, Snapdragon 8 Gen 2 o equivalente.
@@ -27,6 +31,8 @@ Gemma 4 ya puede correr **offline** en teléfonos modernos gracias a la app ofic
 ---
 
 ## iPhone: Gemma 4 en Google AI Edge Gallery
+
+![Pasos para instalar Gemma 4 en iPhone](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-iphone-es.webp)
 
 1. Abre la **App Store** desde tu iPhone.
 2. Busca **Google AI Edge Gallery** y toca **Obtener**.
@@ -41,6 +47,8 @@ Gemma 4 ya puede correr **offline** en teléfonos modernos gracias a la app ofic
 
 ## Android: activar Gemma 4 paso a paso
 
+![Pasos para instalar Gemma 4 en Android](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-android-es.webp)
+
 1. Abre **Google Play** y descarga **Google AI Edge Gallery** (requiere Google Play Services actualizado).
 2. Concede permisos de almacenamiento para guardar modelos.
 3. Inicia la app, acepta permisos locales y entra en la pestaña **AI Chat**.
@@ -53,6 +61,8 @@ Gemma 4 ya puede correr **offline** en teléfonos modernos gracias a la app ofic
 ---
 
 ## Tips para obtener la mejor experiencia
+
+![Consejos para mejorar el rendimiento de Gemma 4 en el teléfono](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-rendimiento-es.webp)
 
 - **Actualiza** la app cuando recibas nuevas optimizaciones de Gemma 4.
 - Carga el teléfono por encima del 40% antes de sesiones prolongadas.

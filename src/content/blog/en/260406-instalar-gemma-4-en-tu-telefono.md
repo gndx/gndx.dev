@@ -2,7 +2,7 @@
 title: 'How to install Gemma 4 on your phone (iPhone & Android)'
 description: 'Step-by-step guide to download and run Gemma 4 locally on your iPhone or Android device using Google AI Edge Gallery.'
 pubDate: '2026-04-06T15:33:00.000Z'
-heroImage: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=1600&q=80'
+heroImage: 'https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-portada-en.webp'
 categories: ["ai", "mobile"]
 tags: ["gemma", "edge-ai", "guide"]
 author: '["gndx"]'
@@ -14,9 +14,13 @@ Gemma 4 now runs **offline** on modern phones thanks to the official **Google AI
 
 > 🧠 Why it matters: Running models locally gives you **full privacy**, no per-token fees, and the freedom to use AI even when you have no signal.
 
+![Gemma 4 running offline on iPhone and Android](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-portada-en.webp)
+
 ---
 
 ## Quick requirements
+
+![Phone requirements for running Gemma 4](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-requisitos-en.webp)
 
 - **iPhone** on iOS 17 or newer, ideally with an A16 chip or Apple Silicon for best performance.
 - **Android** on Android 14, powered by a Tensor, Snapdragon 8 Gen 2, or similar flagship SoC.
@@ -25,6 +29,8 @@ Gemma 4 now runs **offline** on modern phones thanks to the official **Google AI
 ---
 
 ## iPhone: Gemma 4 inside Google AI Edge Gallery
+
+![Steps to install Gemma 4 on iPhone](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-iphone-en.webp)
 
 1. Open the **App Store** on your iPhone.
 2. Search for **Google AI Edge Gallery** and tap **Get**.
@@ -39,6 +45,8 @@ Gemma 4 now runs **offline** on modern phones thanks to the official **Google AI
 ---
 
 ## Android: enable Gemma 4 in minutes
+
+![Steps to install Gemma 4 on Android](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-android-en.webp)
 
 1. Head to **Google Play** and install **Google AI Edge Gallery** (requires up-to-date Play Services).
 2. Allow storage permissions so models can be stored locally.
@@ -65,6 +73,8 @@ Gemma 4 now runs **offline** on modern phones thanks to the official **Google AI
 ---
 
 ## Tips to get the best experience
+
+![Tips to improve Gemma 4 performance on a phone](https://s3.us-east-1.amazonaws.com/gndx.dev/260406-instalar-gemma-4-en-tu-telefono-rendimiento-en.webp)
 
 - **Update** the app whenever new Gemma 4 optimizations drop.
 - Use Bluetooth headphones for long audio interactions (Audio Scribe).

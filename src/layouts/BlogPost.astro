@@ -68,8 +68,8 @@ const blogPostingLd = {
         image: {
           '@type': 'ImageObject',
           url: imageUrl,
-          width: 1200,
-          height: 630
+          width: 1600,
+          height: 900
         }
       }
     : {}),
@@ -129,6 +129,8 @@ const serializedBreadcrumbLd = JSON.stringify(breadcrumbLd).replace(/</g, '\\u00
   description={description}
   socialDescription={description}
   image={ogImage || heroImage}
+  imageWidth={1600}
+  imageHeight={900}
   blogpost
   locale={locale}
   alternateUrls={alternateUrls}
