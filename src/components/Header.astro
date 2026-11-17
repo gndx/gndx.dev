@@ -3,6 +3,7 @@ import config from '@config/config.json';
 import HamburgerIcon from '@icons/HamburgerIcon.astro';
 import CloseIcon from '@icons/CloseIcon.astro';
 import HomeIcon from '@icons/HomeIcon.astro';
+import BlogSearch from '@components/BlogSearch.astro';
 import LanguageSwitcher from '@components/LanguageSwitcher.astro';
 import { type Locale, withLocalePath } from '@i18n/config';
 import { getUi } from '@i18n/ui';
@@ -64,9 +65,13 @@ const isHome = Astro.url.pathname === homeUrl;
             </a>
           ))
         }
-        <LanguageSwitcher locale={locale} className='hidden md:block' />
-        <!-- Theme toggle desktop -->
-        <button id='theme-toggle' class='nd-theme-btn' aria-label='Toggle theme' title='Toggle dark/light mode'>
+      </nav>
+
+      <div class='ml-auto flex items-center gap-2 md:ml-0'>
+        <LanguageSwitcher locale={locale} />
+        <BlogSearch locale={locale} />
+
+        <button id='theme-toggle' class='nd-theme-btn hidden md:flex' aria-label='Toggle theme' title='Toggle dark/light mode'>
           <span class='nd-icon-sun' aria-hidden='true'>
             <svg viewBox='0 0 24 24' width='15' height='15' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
               <circle cx='12' cy='12' r='4'/>
@@ -82,12 +87,8 @@ const isHome = Astro.url.pathname === homeUrl;
             </svg>
           </span>
         </button>
-      </nav>
-
-      <!-- Mobile controls -->
-      <div class='flex items-center gap-2 md:hidden'>
         <!-- Hamburger -->
-        <div class='relative'>
+        <div class='relative md:hidden'>
           <input id='nav-toggle' type='checkbox' class='hidden' />
           <label
             id='show-button'
@@ -117,9 +118,6 @@ const isHome = Astro.url.pathname === homeUrl;
                 ))
               }
             </ul>
-            <div class='nd-mobile-lang-divider'>
-              <LanguageSwitcher locale={locale} variant='list' />
-            </div>
             <div class='nd-mobile-theme-divider'>
               <button id='theme-toggle-mobile' class='nd-mobile-theme-btn' aria-label='Toggle theme'>
                 <span class='nd-icon-sun nd-mobile-theme-label' aria-hidden='true'>
@@ -179,12 +177,10 @@ const isHome = Astro.url.pathname === homeUrl;
 
   /* ─── Theme toggle button ─── */
   .nd-theme-btn {
-    display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    margin-left: 8px;
     border: 1px solid var(--nd-border-visible);
     border-radius: 6px;
     background: transparent;
@@ -245,10 +241,6 @@ const isHome = Astro.url.pathname === homeUrl;
 
   .nd-mobile-link:hover {
     color: var(--nd-text-display);
-  }
-
-  .nd-mobile-lang-divider {
-    border-top: 1px solid var(--nd-border);
   }
 
   .nd-mobile-theme-divider {

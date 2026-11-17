@@ -45,7 +45,7 @@ const getPostImageUrl = (heroImage: string | undefined, locale: Locale, slug: st
   return `${config.site.base_url}/og${prefix}/blog/${slug}.png`;
 };
 
-const markdownToText = (markdown: string): string =>
+export const markdownToText = (markdown: string): string =>
   markdown
     .replace(/^\s*(?:import|export)\s.+$/gm, '')
     .replace(/```[^\n]*\n?/g, '')

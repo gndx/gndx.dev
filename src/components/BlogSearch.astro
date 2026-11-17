@@ -1,0 +1,263 @@
+---
+import type { Locale } from '@i18n/config';
+import CloseIcon from '@icons/CloseIcon.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = {
+  es: {
+    title: 'Buscar artículos',
+    placeholder: 'Escribe una palabra o tema',
+    close: 'Cerrar búsqueda',
+    loading: 'Cargando artículos…',
+    empty: 'No encontramos artículos con esa búsqueda.',
+    error: 'No se pudo cargar la búsqueda. Vuelve a abrirla para reintentar.'
+  },
+  en: {
+    title: 'Search articles',
+    placeholder: 'Enter a keyword or topic',
+    close: 'Close search',
+    loading: 'Loading articles…',
+    empty: 'No articles match your search.',
+    error: 'Search could not load. Reopen it to try again.'
+  },
+  pt: {
+    title: 'Buscar artigos',
+    placeholder: 'Digite uma palavra ou tema',
+    close: 'Fechar busca',
+    loading: 'Carregando artigos…',
+    empty: 'Nenhum artigo corresponde à sua busca.',
+    error: 'Não foi possível carregar a busca. Abra novamente para tentar de novo.'
+  }
+}[locale];
+---
+
+<blog-search data-locale={locale} data-loading={copy.loading} data-empty={copy.empty} data-error={copy.error}>
+  <button class='search-button' type='button' aria-label={copy.title} title={copy.title} aria-haspopup='dialog' aria-controls='blog-search-dialog'>
+    <svg aria-hidden='true' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'>
+      <circle cx='10.5' cy='10.5' r='6.5' />
+      <path d='m16 16 4 4' />
+    </svg>
+  </button>
+
+  <dialog id='blog-search-dialog' aria-labelledby='blog-search-title'>
+    <div class='search-panel'>
+      <div class='search-heading'>
+        <h2 id='blog-search-title'>{copy.title}</h2>
+        <form method='dialog'>
+          <button class='search-button' type='submit' aria-label={copy.close}><CloseIcon /></button>
+        </form>
+      </div>
+      <input type='search' aria-labelledby='blog-search-title' placeholder={copy.placeholder} autocomplete='off' autofocus />
+      <p role='status'></p>
+      <ul></ul>
+    </div>
+  </dialog>
+</blog-search>
+
+<style>
+  .search-button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 6px;
+    color: var(--nd-text-secondary);
+    cursor: pointer;
+  }
+
+  .search-button:hover {
+    color: var(--nd-text-display);
+    border-color: var(--nd-text-disabled);
+  }
+
+  dialog {
+    position: fixed;
+    inset: min(10vh, 5rem) 0 auto;
+    margin: 0 auto;
+    width: min(38rem, calc(100% - 2rem));
+    max-height: calc(100dvh - min(10vh, 5rem) - 1rem);
+    overflow-y: auto;
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 12px;
+    background: var(--nd-surface-raised);
+    color: var(--nd-text-display);
+  }
+
+  dialog::backdrop {
+    background: rgb(0 0 0 / 65%);
+  }
+
+  .search-panel {
+    padding: 1rem;
+  }
+
+  .search-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font: 600 1.125rem var(--font-space-grotesk);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--nd-border-visible);
+    border-radius: 6px;
+    background: var(--nd-surface);
+    font-size: 1rem;
+  }
+
+  input::placeholder {
+    color: var(--nd-text-secondary);
+  }
+
+  :is(input, button, :global(.blog-search-result)):focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  [role='status']:not(:empty) {
+    margin-top: 0.75rem;
+    color: var(--nd-text-secondary);
+  }
+
+  ul:not(:empty) {
+    margin-top: 0.75rem;
+  }
+
+  ul :global(.blog-search-result) {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 6px;
+  }
+
+  ul :global(.blog-search-result:hover) {
+    background: var(--nd-surface);
+  }
+
+  ul :global(.blog-search-description) {
+    color: var(--nd-text-secondary);
+    font-size: 0.875rem;
+  }
+</style>
+
+<script>
+  type Post = {
+    url: string;
+    locale: string;
+    title: string;
+    description: string;
+    keywords: string;
+    body: string;
+  };
+
+  const normalize = (text: string) => text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+
+  const indexPost = (post: Post) => ({
+    ...post,
+    titleText: normalize(post.title),
+    summaryText: normalize(`${post.title} ${post.description} ${post.keywords}`),
+    fullText: normalize(`${post.title} ${post.description} ${post.keywords} ${post.body}`)
+  });
+
+  let indexPromise: Promise<ReturnType<typeof indexPost>[]> | undefined;
+
+  function loadIndex() {
+    return indexPromise ??= fetch('/api/blog-search.json')
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Search index unavailable');
+        const posts: Post[] = await response.json();
+        return posts.map(indexPost);
+      })
+      .catch((error) => {
+        indexPromise = undefined;
+        throw error;
+      });
+  }
+
+  class BlogSearch extends HTMLElement {
+    connectedCallback() {
+      const dialog = this.querySelector('dialog')!;
+      const input = this.querySelector('input')!;
+      const status = this.querySelector('p')!;
+      const results = this.querySelector('ul')!;
+      let posts: Awaited<ReturnType<typeof loadIndex>> | undefined;
+
+      const render = () => {
+        const query = normalize(input.value.trim());
+        results.replaceChildren();
+        if (!posts) return;
+
+        status.textContent = '';
+        if (!query) return;
+
+        const terms = query.split(/\s+/);
+        const matches = posts
+          .filter((post) => terms.every((term) => post.fullText.includes(term)))
+          .map((post) => ({
+            post,
+            score: (post.titleText.includes(query) ? 4 : 0)
+              + (terms.every((term) => post.summaryText.includes(term)) ? 2 : 0)
+              + Number(post.locale === this.dataset.locale)
+          }))
+          .sort((a, b) => b.score - a.score);
+
+        if (!matches.length) status.textContent = this.dataset.empty ?? '';
+        for (const { post } of matches) {
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = post.url;
+          link.lang = post.locale;
+          link.hreflang = post.locale;
+          link.className = 'blog-search-result';
+
+          const title = document.createElement('strong');
+          title.textContent = post.title;
+          const description = document.createElement('span');
+          description.className = 'blog-search-description';
+          description.textContent = post.description;
+
+          link.append(title, description);
+          item.append(link);
+          results.append(item);
+        }
+      };
+
+      this.querySelector('button')!.addEventListener('click', async () => {
+        dialog.showModal();
+        if (posts) return;
+
+        status.textContent = this.dataset.loading ?? '';
+        try {
+          posts = await loadIndex();
+          render();
+        } catch {
+          status.textContent = this.dataset.error ?? '';
+        }
+      });
+
+      input.addEventListener('input', render);
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        event.preventDefault();
+        dialog.close();
+      });
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    }
+  }
+
+  customElements.define('blog-search', BlogSearch);
+</script>
